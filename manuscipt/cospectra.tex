@@ -1,0 +1,230 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PREAMBLE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% The following two commands will generate a PDF that follows all the requirements for submission
+% and peer review.  Uncomment these commands to generate this output (and comment out the two lines below.)
+%
+% DOUBLE SPACE VERSION FOR SUBMISSION TO THE AMS
+%\documentclass[12pt]{article}
+\documentclass[10pt]{article}
+\usepackage{ametsoc}
+%\usepackage{ametsoc2col}
+\linenumbers
+
+% Ryan's custom commands
+\newcommand{\pd}[2]{ \frac{\partial #1}{\partial #2} }
+\newcommand{\od}[2]{\ensuremath{\frac{d #1}{d #2}}}
+\newcommand{\td}[2]{\ensuremath{\frac{D #1}{D #2}}}
+\newcommand{\ab}[1]{\ensuremath{\langle #1 \rangle}}
+\newcommand{\bss}[1]{\textsf{\textbf{#1}}}
+\newcommand{\ol}{\ensuremath{\overline}}
+\newcommand{\olx}[1]{\ensuremath{\overline{#1}^x}}
+\newcommand{\nms}{\ensuremath{\mbox{ N m}^{-2}}}
+\newcommand{\wmm}{\ensuremath{\mbox{ W m}^{-2}}}
+\newcommand{\mms}{\ensuremath{\mbox{ m}^2 \mbox{ s}^{-1}}}
+\newcommand{\mss}{\ensuremath{\mbox{ m s}^{-2}}}
+\newcommand{\ihat}{\hat{\textbf{\i}}}
+\newcommand{\jhat}{\hat{\textbf{\j}}}
+\newcommand{\orho}{\frac{1}{\rho_0}}
+
+%
+% The following two commands will generate a single space, double column paper that closely
+% matches an AMS journal page.  Uncomment these commands to generate this output (and comment
+% out the two lines above. FOR AUTHOR USE ONLY. PAPERS SUBMITTED IN THIS FORMAT WILL BE RETURNED
+% TO THE AUTHOR for submission with the correct formatting.
+%
+% TWO COLUMN JOURNAL PAGE LAYOUT FOR AUTHOR USE ONLY
+%%%%\documentclass[10pt]{article}
+%%%%\usepackage{ametsoc2col}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ABSTRACT
+%
+% Enter your Abstract here
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\myabstract}{Blah.}
+%
+\begin{document}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TITLE
+%
+% Enter your TITLE here
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{\textbf{\large{Satellite-Derived Eddy Heat Flux Cospectra for the Pacific}}}
+%
+% Author names, with corresponding author information. 
+% [Update and move the \thanks{...} block as appropriate.]
+%
+\author{\textsc{Ryan Abernathey}
+				\thanks{\textit{Corresponding author address:} 
+				Ryan Abernathey, Lamont-Doherty Earth Observatory, 
+				Palisades, NY. 
+				\newline{E-mail: rpa@ldeo.columbia.edu}}\\
+\textit{\footnotesize{Columbia University, New York, New York}}
+\and 
+\centerline{\textsc{Cimmaron Wortham}}\\% Add additional authors, different institution
+\centerline{\textit{\footnotesize{University of Washington, Seattle, Washington}}}
+}
+%
+% Formatting done here...Authors should skip over this.  See above for abstract.
+\ifthenelse{\boolean{dc}}
+{
+\twocolumn[
+\begin{@twocolumnfalse}
+\amstitle
+
+% Start Abstract (Enter your Abstract above.  Do not enter any text here)
+\begin{center}
+\begin{minipage}{13.0cm}
+\begin{abstract}
+	\myabstract
+	\newline
+	\begin{center}
+		\rule{38mm}{0.2mm}
+	\end{center}
+\end{abstract}
+\end{minipage}
+\end{center}
+\end{@twocolumnfalse}
+]
+}
+{
+\amstitle
+
+\begin{abstract}
+\myabstract
+\end{abstract}
+
+\newpage
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAIN BODY OF PAPER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+Transient motions (a.k.a.~``eddies'') in the ocean and atmosphere lead to significant material transport. Of particular importance is the meridional eddy heat transport, which contributes to the maintenance of the pole-to-equator temperature gradient \citep{TrenberthCaron2001,Wunsch2005}. Although eddy heat fluxes in the ocean are relatively less significant than in the atmosphere, they are still an important part of the ocean heat budget, particularly at regional scales and in the Southern Ocean \citep{JayneMarotzke2002,WhatElse?}. Because of their small spatial scales, ocean eddy fluxes are more difficult or observe than those in the atmosphere, and their statistical properties are less well characterized. Satellites provide a uniquely powerful tool for observing these scales at the ocean surface.
+
+The goal of this paper is to use satellite observations to describe the spectral character of ocean eddy fluxes on a global scale. This is achieved through the calculation of wavenumer-frequency spectra and cospectra for sea-surface temperature (SST) and surface geostrophic velocity. Other studies have computed such spectra at a few locations in the ocean \citep{JayneMarotzke2002,ThosePapersCimGaveMe}. The uniqueness of our study is its global scope; we calculate the cospectra at every latitude in the Pacific. Integrating these cospectra in wavenumber, frequency, or phase speed leads to a systematic view of how the spectral distribution of the eddy flux varies across the globe. This presentation demonstrates the link between observed mesoscale eddy properties \citep[e.g.][]{CheltonEtAl2011} and the eddy flux itself.
+
+Inspired by the atmospheric study of \citet{RandellHeld}, we pay particular attention to how the eddy flux is distributed in phase-speed space. Atmospheric waves propagate meridionally, but this propagation is constrained by their phase speed: they break when they encounter ``critical latitudes'' at which their phase speed matches the background mean flow. These dynamics leave a clear signature in atmospheric phase-speed cospecta \citep{ChenHeld2007}. Ocean eddies, in contrast, do not propagate far in latitude. However, we argue that the phase phase speed is still an important factor in understanding ocean eddy fluxes, since it plays a significant role in determining the eddy diffusivity \citep{AbernatheyEtAl2010,FerrariNikurashin2010}. In this study we show that the surface eddy heat flux at each latitude is relatively concentrated around the long-wave Rossby wave phase speed.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Data
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Satellite Data Sources}
+
+Describe the data.
+
+Issues
+\begin{itemize}
+\item Aliasing: by sampling the data every 7 days, we are potentially aliasing high frequency signals. How can this be minimized?
+\item Windowing: should we be using a window in space or in time?
+\item Errors: how do we propagate / estimate errors in these spectra.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DFT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Analysis Method}
+
+He we describe the calculation of wavenumber-frequency spectra for $\theta$, the SST. An identical procedure applies to $v$, the meridional velocity. In principle, $\theta$ at each latitude in the sector is a continuous function of $x$, zonal distance, and $t$, time: $\theta = \theta(x,t)$. However, our observations are discrete, with $N$ spatial points in latitude (spaced by $\Delta x$) and $M$ points in time (spaced by $\Delta t$) such that the total zonal length of the sector is $L = N \Delta x$ and the total temporal length of the record is $T = M \Delta t$. The discrete space and time coordinates are denoted as $x_n = n \Delta x$, $t_m = m \Delta t$. We then write the discreet SST as
+\begin{equation}
+\theta_{mn} = \theta( x_n, t_m ) \ \ \{n: 0, ..., N-1\} \ \ \{m: 0, ..., M-1\} \ .
+\end{equation}
+We can express $\theta_{mn}$ using a discrete Fourier transform as
+\begin{equation}
+\theta_{mn} = 2 \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} \Theta_{jk} \exp[ i (\kappa_k x_n - \omega_j t_m ) ] 
+\label{eq:ift}
+\end{equation}
+where $\Theta_{jk}$ are the complex Fourier components, $\kappa_k = 2 \pi k / L$ is the wavenumber, and $\omega_j = 2 \pi j / T$ is the   angular frequency. % that is actually wrong--the frequencies only go to 2/N (Nyquist freq.) but they are positive and negative
+Equation \eqref{eq:ift} summarizes the normalization and unit conventions in our Fourier-transform definitions.
+We use the convention of \citet{RandelHeld1991} in which all wave numbers are positive while frequencies take both positive and negative values.  
+The values of $\Theta_{jk}$ are computed numerically from $\theta_{mn}$ using the fast-Fourier-transform (FFT) algorithm. From the surface meridional velocity data, we define $v_{mn}$ and $V_{jk}$ analogously.
+
+Parseval's theorem states that the total power of the signal is the same in either basis, i.e.
+\begin{align}
+\sum_{m=0}^{M-1} \sum_{n=0}^{N-1} \theta_{mn}^2 =& \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} \Theta_{jk}  \Theta_{jk}^\ast \ , \\ 
+\sum_{m=0}^{M-1} \sum_{n=0}^{N-1} v_{mn}^2 =& \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} V_{jk}  V_{jk}^\ast \\
+\sum_{m=0}^{M-1} \sum_{n=0}^{N-1} v_{mn} \theta_{mn} =& \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} \Re \{ V_{jk}  \Theta_{jk}^\ast \} \\
+\end{align}
+where the asterisk denotes the complex conjugate.
+
+We define the total power per wavenumber as the sum over all frequencies
+\begin{equation}
+\ol{|\Theta|^2}(\kappa_k) = \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \Theta_{jk}  \Theta_{jk}^\ast \ , \ \ \ \ \ol{|V|^2}(\kappa_k) =  \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} V_{jk}  V_{jk}^\ast
+\end{equation}
+and the power per frequency as the sum over wavenumbers
+\begin{equation}
+\ol{|\Theta|^2}(\omega_j) = \sum_{k=0}^{N-1} \Theta_{jk}  \Theta_{jk}^\ast  \ , \ \ \ \ \ol{|V|^2}(\omega_j) = \sum_{k=0}^{N-1} V_{jk}  V_{jk}^\ast
+\end{equation}
+
+To look at the variability in phase-speed space, we define the phase speed at each point in wavenumber / frequency space as
+\begin{equation}
+c_{jk} = \frac{\omega_j}{\kappa_k}
+\end{equation}
+We then bin
+
+% to normalize or not normalize the phase speed spectra?
+% better *NOT* to normalize: gives a better impression of how much energy in each mode
+% this is a separate question from how to display, i.e. whether the scale magnitude according to grid spacing (dk, dom, dc)
+
+
+\section{Wavenumber, Frequency and Phase Speed Spectra}
+
+
+
+% a low frequency cutoff doesn't necessarily filter out non-mesoscale motions. Consider a stationary eddy in the ACC, propagating upstream but locked in place
+
+\begin{figure*}[t!]
+  \noindent %\includegraphics{theta_spinup_new.pdf}\\
+  \caption{Blah.}
+  \label{fig:a}
+\end{figure*}
+
+% Use appendix}[A], {appendix}[B], etc. etc. in place of appendix if you have multiple appendixes.
+\ifthenelse{\boolean{dc}}
+{}
+{\clearpage}
+
+% Create a bibliography directory and place your .bib file there.
+% -REMOVE ALL DIRECTORY PATHS TO REFERENCE FILES BEFORE SUBMITTING TO THE AMS FOR PEER REVIEW
+\ifthenelse{\boolean{dc}}
+{}
+{\clearpage}
+\bibliographystyle{ametsoc}
+\bibliography{references}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FIGURES-REMOVE ALL DIRECTORY PATHS TO FIGURE FILES BEFORE SUBMITTING TO THE AMS FOR PEER REVIEW
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{figure}[t]
+%  \noindent\includegraphics[width=19pc,angle=0]{figure01.pdf}\\
+%  \caption{Enter the caption for your figure here.  Repeat as
+%  necessary for each of your figures. Figure from \protect\cite{Knutti2008}.}\label{f1}
+%\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TABLES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{table}[t]
+%\caption{This is a sample table caption and table layout.  Enter as many tables as
+%  necessary at the end of your manuscript. Table from Lorenz (1963).}\label{t1}
+%\begin{center}
+%\begin{tabular}{ccccrrcrc}
+%\hline\hline
+%$N$ & $X$ & $Y$ & $Z$\\
+%\hline
+% 0000 & 0000 & 0010 & 0000 \\
+% 0005 & 0004 & 0012 & 0000 \\
+% 0010 & 0009 & 0020 & 0000 \\
+% 0015 & 0016 & 0036 & 0002 \\
+% 0020 & 0030 & 0066 & 0007 \\
+% 0025 & 0054 & 0115 & 0024 \\
+%\hline
+%\end{tabular}
+%\end{center}
+%\end{table}
+%
+\end{document}

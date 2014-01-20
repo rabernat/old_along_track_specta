@@ -1,0 +1,3 @@
+[submodule "bibliography"]
+	path = bibliography
+	url = https://ryanaberanthey@bitbucket.org/ryanaberanthey/bibliography.git

@@ -1,0 +1,44 @@
+\begin{thebibliography}{7}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+\providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem[{Abernathey et~al.(2010)Abernathey, Marshall, Shuckburgh, and
+  Mazloff}]{AbernatheyEtAl2010}
+Abernathey, R., J.~Marshall, E.~Shuckburgh, and M.~Mazloff, 2010: Enhancement
+  of mesoscale eddy stirring at steering levels in the {Southern Ocean}.
+  \textit{J. Phys. Oceanogr.}, \textbf{40}, 170--185.
+
+\bibitem[{Chelton et~al.(2011)Chelton, Schlax, and Samelson}]{CheltonEtAl2011}
+Chelton, D.~B., M.~G. Schlax, and R.~M. Samelson, 2011: Global observations of
+  nonlinear mesoscale eddies. \textit{Progress in Oceanography}, \textbf{91},
+  167--216.
+
+\bibitem[{Chen and Held(2007)}]{ChenHeld2007}
+Chen, G. and I.~Held, 2007: Phase speed spectra and the recent poleward shift
+  of southern hemisphere surface westerlies. \textit{Geophys. Res. Lett.},
+  \textbf{34}, K21\,805.
+
+\bibitem[{Ferrari and Nikurashin(2010)}]{FerrariNikurashin2010}
+Ferrari, R. and M.~Nikurashin, 2010: Suppression of eddy diffusivity across
+  jets in the {Southern Ocean}. \textit{J. Phys. Oceanogr.}, \textbf{40},
+  1501--1519.
+
+\bibitem[{Jayne and Marotzke(2002)}]{JayneMarotzke2002}
+Jayne, S.~R. and J.~Marotzke, 2002: The oceanic eddy heat transport. \textit{J.
+  Phys. Oceanogr.}, \textbf{32}, 3328--3345.
+
+\bibitem[{Trenberth and Caron(2001)}]{TrenberthCaron2001}
+Trenberth, K.~E. and J.~M. Caron, 2001: Estimates of meridional atmosphere and
+  ocean heat transports. \textit{J. Climate}, \textbf{14}, 3433--3443.
+
+\bibitem[{Wunsch(2005)}]{Wunsch2005}
+Wunsch, C., 2005: The total meridional heat flux and its oceanic and
+  atmospheric partition. \textit{J. Climate}, \textbf{18}, 4378--4384.
+
+\end{thebibliography}
