@@ -1,4 +1,4 @@
-\begin{thebibliography}{7}
+\begin{thebibliography}{8}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
@@ -32,6 +32,11 @@ Ferrari, R. and M.~Nikurashin, 2010: Suppression of eddy diffusivity across
 \bibitem[{Jayne and Marotzke(2002)}]{JayneMarotzke2002}
 Jayne, S.~R. and J.~Marotzke, 2002: The oceanic eddy heat transport. \textit{J.
   Phys. Oceanogr.}, \textbf{32}, 3328--3345.
+
+\bibitem[{Randel and Held(1991)}]{RandelHeld1991}
+Randel, W.~J. and I.~M. Held, 1991: Phase speed spectra of transient eddy
+  fluxes and critical layer absorption. \textit{J. Atmos. Sci.}, \textbf{48},
+  688--697.
 
 \bibitem[{Trenberth and Caron(2001)}]{TrenberthCaron2001}
 Trenberth, K.~E. and J.~M. Caron, 2001: Estimates of meridional atmosphere and

@@ -1,6 +1,9 @@
 from pylab import *
 import mycolors
 import sector_analyzer
+import os
+import h5py
+from scipy.ndimage.filters import gaussian_filter1d
 
 s = sector_analyzer.Sector()
 s.search_for_timeseries_data()
@@ -10,6 +13,24 @@ dsets = ['AVISO_dt_ref_global_merged_msla_v-20020605_7day',
 Nc = 101
 Nt = 486
 Nk = s.Nk
+
+# other datasets
+andreas_data_dir = os.path.join(os.environ['D'], 'DATASTORE.RPA','projects','aviso_mixing','andreas')
+cdat = np.load(os.path.join(andreas_data_dir, 'c.npz'))
+clat = linspace(-80,80,160)
+Udat = np.load(os.path.join(andreas_data_dir, 'Umean_ECCO_patch.npz'))
+rdat = np.load(os.path.join(andreas_data_dir, 'r.npz'))
+
+# Holt & Talley MLD
+mld_data_dir =  os.path.join(os.environ['D'], 'mixedlayer')
+mld_hdf_file = h5py.File(os.path.join(mld_data_dir, 'climatology.nc'),'r')
+# smooth data with gaussian filter
+mld = gaussian_filter1d(
+        ma.masked_invalid(mld_hdf_file.get('dt_mld_mean')[:,:30]).mean(axis=1), 2)
+mld_lat = ma.masked_invalid(mld_hdf_file.get('latgrid')[:,0])
+# a few other constants
+rho0 = 1027.
+cp = 4186.
 
 # initialize results matrix
 # fourier transform data
@@ -34,37 +55,53 @@ lens =  array([1000,500,200,100,50])
 omtick = 2*pi*(day * days.astype('f4'))**-1
 ktick = 2*pi*(1000. * lens.astype('f4'))**-1
 
-
+sstmask = zeros(s.Ny,bool)
+sshmask = zeros(s.Ny,bool)
 for j in arange(s.Ny):
     print(j)
     SSH = s.timeseries_sets[dsets[0]].load(j, remove_zonal_mean=True)
     SST = s.timeseries_sets[dsets[1]].load(j, remove_zonal_mean=True)
+    myfields = []
+    if any(SST.ts_data.sum(axis=0)==0.):
+        sstmask[j] = True
+    else:
+        myfields.append(('T',  real(SST.ft_data*SST.ft_data.conj()) ))
+    if any(SSH.ts_data.sum(axis=0)>1e10):
+        sshmask[j] = True
+    else:
+        myfields.append(('V',  real(SSH.ft_data*SSH.ft_data.conj()) ))
+    if (not sstmask[j]) and (not sshmask[j]):
+        myfields.append(('VT', 2*real(SSH.ft_data*SST.ft_data.conj())))
     VTf = 2 * real( SSH.ft_data * SST.ft_data.conj() )
-    for (v, field) in [ ('V',  real(SSH.ft_data*SSH.ft_data.conj()) ),
-                     ('T',  real(SST.ft_data*SST.ft_data.conj()) ),
-                     ('VT', 2*real(SSH.ft_data*SST.ft_data.conj())) ]:
+    for (v, field) in myfields:
         data[v]['pow_k'][j] = SSH.sum_over_om(field * mask)
         data[v]['pow_om'][j] = SSH.sum_over_k(field * mask)
         data[v]['pow_c'][j], c[j], dc[j], data[v]['cpts'][j] = SSH.sum_in_c(field * mask, Nc)
-    Vp = SSH.ts_data - SSH.ts_data.mean()      
-    Tbar = SST.ts_data.mean()
-    Tp = SST.ts_data - Tbar
+    Tbar = ma.masked_equal(SST.ts_data.mean(),0.)
+    # need to be careful how we define these
+    # discard zero wavenumber, not zero frequency
+    Vp = SSH.ts_data - SSH.ts_data.mean(axis=1)[:,newaxis]      
+    Tp = SST.ts_data - SST.ts_data.mean(axis=1)[:,newaxis]
     # zonal and time mean
     za_data['Tbar'][j] = Tbar
     za_data['Vp2'][j] = mean(Vp**2)
     za_data['Tp2'][j] = mean(Tp**2)
     za_data['VpTp'][j] = mean(Vp*Tp)
 
+MHT = rho0*cp*s.L*interp(s.lat,mld_lat,mld) * ma.masked_array(
+            za_data['VpTp'], sstmask | sshmask) 
+DY = (s.lat[1] - s.lat[0])*110e3
+# 2nd order centered difference
+heating_rate = hstack([0, (MHT[2:] - MHT[:-2]), 0]) / s.L / (2*DY)
+
+# output Tbar for advection/diffusion calc
+Tbar_fine = interp(arange(-80,80,0.1)+0.5, s.lat, )
+
 alpha_c = - data['VT']['pow_c']/(data['V']['pow_c']**0.5 * data['T']['pow_c']**0.5)
 
 lat_k = tile(s.lat[:,newaxis], (1, s.Nk))    
 lat_c = tile(s.lat[:,newaxis], (1, Nc))
 lat_om = s.lat
-
-cdat = np.load('../aviso_mixing/data/andreas/c.npz')
-clat = linspace(-80,80,160)
-Udat = np.load('../aviso_mixing/data/andreas/Umean_ECCO_patch.npz')
-rdat = np.load('../aviso_mixing/data/andreas/r.npz')
 
 # put clim info into the array
 data['V']['pow_k_clim'] = [2,4.2]
