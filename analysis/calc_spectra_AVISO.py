@@ -77,7 +77,7 @@ for j in arange(s.Ny):
         data[v]['pow_k'][j] = SSH.sum_over_om(field * mask)
         data[v]['pow_om'][j] = SSH.sum_over_k(field * mask)
         data[v]['pow_c'][j], c[j], dc[j], data[v]['cpts'][j] = SSH.sum_in_c(field * mask, Nc)
-    Tbar = ma.masked_equal(SST.ts_data.mean(),0.)
+    Tbar = ma.masked_equal(SST.ts_data,0.).mean()
     # need to be careful how we define these
     # discard zero wavenumber, not zero frequency
     Vp = SSH.ts_data - SSH.ts_data.mean(axis=1)[:,newaxis]      
@@ -95,7 +95,8 @@ DY = (s.lat[1] - s.lat[0])*110e3
 heating_rate = hstack([0, (MHT[2:] - MHT[:-2]), 0]) / s.L / (2*DY)
 
 # output Tbar for advection/diffusion calc
-Tbar_fine = interp(arange(-80,80,0.1)+0.5, s.lat, )
+Tbar_fine = tile( interp(arange(-80,80,0.1)+0.5, s.lat, za_data['Tbar'])[:,newaxis],[1,500] )
+Tbar_fine.astype(dtype('>f4')).tofile('../data/PACE_SST.bin')
 
 alpha_c = - data['VT']['pow_c']/(data['V']['pow_c']**0.5 * data['T']['pow_c']**0.5)
 
