@@ -16,7 +16,8 @@ Nt = 486
 
 # latitude from the GHRSST 0.25 deg dataset
 Ny = 460
-Nx = 120
+#Nx = 120
+Nx = 200
 lat = -64.875 + 0.25*arange(Ny)
 lon = -179.875 + 0.25*arange(Nx)
 

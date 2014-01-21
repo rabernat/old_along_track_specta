@@ -8,9 +8,9 @@ dsuf = 'NCDC-L4LRblend-GLOB-v01-fv02_0-AVHRR_AMSR_OI.nc'
 year = 2009
 day = 1
 
-DT = 1
+#DT = 1
 # AVISO frequency
-#DT = 7 
+DT = 7 
 
 # get dates in sync with AVISO timing
 mydate = datetime.datetime(2002,6,5) 
