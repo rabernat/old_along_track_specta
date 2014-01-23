@@ -20,7 +20,7 @@ import re
 
 class Sector:
     
-    def __init__(self, Nx=120, Ny=460, dlon=0.25, dlat=0.25,
+    def __init__(self, Nx=200, Ny=460, dlon=0.25, dlat=0.25,
             lonmin=-179.875, latmin=-64.875):
         
         self.Nx = Nx
@@ -57,6 +57,7 @@ class Sector:
                                 os.path.join(base_dir,ddir,secdir,tsdir))
     
     def add_timeseries_set(self, dset_name, tsdir):
+        print('dset_name: %s | tsdir: %s' % (dset_name, tsdir))
         tsstr = os.path.basename(tsdir)
         crap,datestr,daystr = tsstr.split('_')
         tsname = dset_name + '-' + datestr + '_' + daystr
@@ -75,6 +76,7 @@ class TimeSeriesSet:
         self.dTday = dTday
         # figure out prefix
         data_fname = os.listdir(data_dir)[0]
+        print data_fname
         var_str,dtype_str,suf = data_fname.split('.')
         if not dtype_str in ['f4', 'f8']:
             raise ValueError('Did not find properly formatted data files in ' + data_dir)
@@ -87,7 +89,7 @@ class TimeSeriesSet:
         
 class TimeSeries:
     
-    def __init__(self, filename, dtype, sector, j, dTday, Nt=None, remove_zonal_mean=False):
+    def __init__(self, filename, dtype, sector, j, dTday, Nt=None, remove_zonal_mean=False, ft_normfac=1):
         
         self.sector = sector
         self.dTday = dTday
@@ -120,7 +122,7 @@ class TimeSeries:
             # the data minus the zonal and temporal mean
             Tp = self.ts_data - self.ts_data.mean()
         # calculate wavenumber frequency spectrum
-        self.ft_data = fftshift(fftn(Tp))[:,self.sector.Nk:]
+        self.ft_data = ft_normfac * fftshift(fftn(Tp))[:,self.sector.Nk:]
         # parseval's theorem: the integral of the square in x,t = integral of the square in k,om
         #self.intTp2 = sum(Tp**2 * self.sector.dX[j] * self.dT)
         # normalize

@@ -136,7 +136,7 @@ He we describe the calculation of wavenumber-frequency spectra for $\theta$, the
 \end{equation}
 We can express $\theta_{mn}$ using a discrete Fourier transform as
 \begin{equation}
-\theta_{mn} = 2 \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} \Theta_{jk} \exp[ i (\kappa_k x_n - \omega_j t_m ) ] 
+\theta_{mn} = \frac{\sqrt{2}}{M^2 N^2} \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} \Theta_{jk} \exp[ i (\kappa_k x_n - \omega_j t_m ) ] 
 \label{eq:ift}
 \end{equation}
 where $\Theta_{jk}$ are the complex Fourier components, $\kappa_k = 2 \pi k / L$ is the wavenumber, and $\omega_j = 2 \pi j / T$ is the   angular frequency. % that is actually wrong--the frequencies only go to 2/N (Nyquist freq.) but they are positive and negative
@@ -144,21 +144,21 @@ Equation \eqref{eq:ift} summarizes the normalization and unit conventions in our
 We use the convention of \citet{RandelHeld1991} in which all wave numbers are positive while frequencies take both positive and negative values.  
 The values of $\Theta_{jk}$ are computed numerically from $\theta_{mn}$ using the fast-Fourier-transform (FFT) algorithm. From the surface meridional velocity data, we define $v_{mn}$ and $V_{jk}$ analogously.
 
-Parseval's theorem states that the total power of the signal is the same in either basis, i.e.
+Parseval's theorem states that the total power of the signal is the same in either basis. The normalization condition chosen in \eqref{eq:ift} means that each Fourier component represents a fraction of the variance, i.e. 
 \begin{align}
-\sum_{m=0}^{M-1} \sum_{n=0}^{N-1} \theta_{mn}^2 =& \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} \Theta_{jk}  \Theta_{jk}^\ast \ , \\ 
-\sum_{m=0}^{M-1} \sum_{n=0}^{N-1} v_{mn}^2 =& \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} V_{jk}  V_{jk}^\ast \\
-\sum_{m=0}^{M-1} \sum_{n=0}^{N-1} v_{mn} \theta_{mn} =& \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} \Re \{ V_{jk}  \Theta_{jk}^\ast \} \\
+\ol{|\Theta|^2} = \frac{1}{MN} \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} \theta_{mn}^2 =& \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} \Theta_{jk}  \Theta_{jk}^\ast \ , \\ 
+\ol{|V|^2} = \frac{1}{MN} \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} v_{mn}^2 =& \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} V_{jk}  V_{jk}^\ast \\
+\ol{V\Theta} = \frac{1}{MN} \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} v_{mn} \theta_{mn} =& \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} \Re \{ V_{jk}  \Theta_{jk}^\ast \} \\
 \end{align}
 where the asterisk denotes the complex conjugate.
 
 We define the total power per wavenumber as the sum over all frequencies
 \begin{equation}
-\ol{|\Theta|^2}(\kappa_k) = \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \Theta_{jk}  \Theta_{jk}^\ast \ , \ \ \ \ \ol{|V|^2}(\kappa_k) =  \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} V_{jk}  V_{jk}^\ast
+\ol{|\Theta|^2}(\kappa_k) = \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \Theta_{jk}^\ast  \Theta_{jk} \ , \ \ \ \ \ol{|V|^2}(\kappa_k) =  \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} V_{jk}^\ast  V_{jk}
 \end{equation}
 and the power per frequency as the sum over wavenumbers
 \begin{equation}
-\ol{|\Theta|^2}(\omega_j) = \sum_{k=0}^{N-1} \Theta_{jk}  \Theta_{jk}^\ast  \ , \ \ \ \ \ol{|V|^2}(\omega_j) = \sum_{k=0}^{N-1} V_{jk}  V_{jk}^\ast
+\ol{|\Theta|^2}(\omega_j) = \sum_{k=0}^{N-1} \Theta_{jk}^\ast   \Theta_{jk} \ , \ \ \ \ \ol{|V|^2}(\omega_j) = \sum_{k=0}^{N-1} V_{jk}^\ast  V_{jk}
 \end{equation}
 
 To look at the variability in phase-speed space, we define the phase speed at each point in wavenumber / frequency space as
