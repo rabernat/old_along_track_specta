@@ -175,6 +175,7 @@ savefig('../figures/%s/MHT_and_heating.pdf' % secname)
 # output Tbar for advection/diffusion calc
 Tbar_fine = tile( interp(arange(-80,80,0.1)+0.5, s.lat, za_data['Tbar'])[:,newaxis],[1,500] )
 #Tbar_fine.astype(dtype('>f4')).tofile('../data/PACE_SST.bin')
+dTdy = (za_data['Tbar'][2:]-za_data['Tbar'][:-2]) / (2*DY)
 
 alpha_c = - data['VT']['pow_c']/(data['V']['pow_c']**0.5 * data['T']['pow_c']**0.5)
 
