@@ -8,7 +8,9 @@ from scipy.ndimage.filters import gaussian_filter1d
 # the wide sector
 #Nx = 200; secname = '50degwide'
 # the narrow sector
-Nx = 120; secname = '30degwide'
+#Nx = 120; secname = '30degwide'
+# should be the same
+Nx = 120; Nxdata=200; secname='30degwide'
 
 s = sector_analyzer.Sector(Nx=Nx)
 s.search_for_timeseries_data()
