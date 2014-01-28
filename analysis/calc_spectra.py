@@ -5,19 +5,20 @@ import os
 import h5py
 from scipy.ndimage.filters import gaussian_filter1d
 
-# the wide sector
-#Nx = 200; secname = '50degwide'
 # the narrow sector
 #Nx = 120; secname = '30degwide'
 # should be the same
 Nx = 120; Nxdata=200; secname='30degwide'
+# the wide sector
+#Nx = 200; Nxdata=None; secname = '50degwide'
 
-s = sector_analyzer.Sector(Nx=Nx)
+s = sector_analyzer.Sector(Nx=Nx, Nxdata=Nxdata)
 s.search_for_timeseries_data()
 dsets = ['AVISO_dt_ref_global_merged_msla_v-20020605_7day',
+         'AVISO_dt_ref_global_merged_msla_u-20020605_7day',
          'NCDC_AVHRR_AMSR_OI-20020605_7day']
 
-Nc = 101
+Nc = 121
 Nt = 486
 Nk = s.Nk
 
@@ -41,13 +42,14 @@ cp = 4186.
 
 # initialize results matrix
 # fourier transform data
-data = {'V':[],'T':[],'VT':[]}
+data = {'V':[],'U':[],'T':[],'VT':[],'VU':[]}
 for v in data.keys():
     data[v] = {'pow_k': ma.masked_array(zeros((s.Ny, Nk)),True),
                'pow_om':  ma.masked_array(zeros((s.Ny, Nt)),True),
                'pow_c':  ma.masked_array(zeros((s.Ny, Nc+2)),True),
                'cpts':  ma.masked_array(zeros((s.Ny, Nc+2)),True) }
-za_data = {'Vp2':zeros(s.Ny),'Tp2':zeros(s.Ny), 'Tbar':zeros(s.Ny), 'VpTp':zeros(s.Ny)}
+za_data = {'Vp2':zeros(s.Ny),'Tp2':zeros(s.Ny), 'Tbar':zeros(s.Ny),
+            'VpTp':zeros(s.Ny), 'VpUp':zeros(s.Ny)}
 
 c = zeros((s.Ny, Nc+2))
 dc = zeros((s.Ny, Nc+2))
@@ -65,11 +67,11 @@ ktick = (1000. * lens.astype('f4') / 2 / pi)**-1
 
 rcParams['font.size'] = 8
 rcParams['axes.formatter.limits'] = [-3, 3]
-def spectral_plot(SST,SSH):
+def spectral_plot(SST,SSH_V):
     figure(figsize=(6.5,7.5))
 
     subplot(311)
-    pcolormesh(SSH.om, SSH.k, log10(real(SSH.ft_data*conj(SSH.ft_data)).T), rasterized=True)
+    pcolormesh(SSH_V.om, SSH_V.k, log10(real(SSH_V.ft_data*conj(SSH_V.ft_data)).T), rasterized=True)
     clim([-9,-5])
     xticks(omtick,days)
     yticks(ktick,lens)
@@ -89,7 +91,7 @@ def spectral_plot(SST,SSH):
     colorbar()
     
     subplot(313)
-    pcolormesh(SST.om, SST.k, real(SSH.ft_data*conj(SST.ft_data)).T, 
+    pcolormesh(SST.om, SST.k, real(SSH_V.ft_data*conj(SST.ft_data)).T, 
         cmap=get_cmap('bwr'), rasterized=True)
     xticks(omtick,days)
     yticks(ktick,lens)
@@ -111,38 +113,43 @@ sshmask = zeros(s.Ny,bool)
 for j in arange(s.Ny):
     print(j)
     
-    SSH = s.timeseries_sets[dsets[0]].load(j, remove_zonal_mean=True, Nt=Nt, ft_normfac=sqrt(2)/(Nt*s.Nx))
-    SST = s.timeseries_sets[dsets[1]].load(j, remove_zonal_mean=True, Nt=Nt, ft_normfac=sqrt(2)/(Nt*s.Nx))
+    SSH_V = s.timeseries_sets[dsets[0]].load(j, remove_zonal_mean=True, Nt=Nt, ft_normfac=sqrt(2)/(Nt*s.Nx))
+    SSH_U = s.timeseries_sets[dsets[1]].load(j, remove_zonal_mean=True, Nt=Nt, ft_normfac=sqrt(2)/(Nt*s.Nx))
+    SST = s.timeseries_sets[dsets[2]].load(j, remove_zonal_mean=True, Nt=Nt, ft_normfac=sqrt(2)/(Nt*s.Nx))
     
     if any(plot_js==j):
-        spectral_plot(SST,SSH)
+        spectral_plot(SST,SSH_V)
     
     myfields = []
     if any(SST.ts_data.sum(axis=0)==0.):
         sstmask[j] = True
     else:
         myfields.append(('T',  real(SST.ft_data*SST.ft_data.conj()) ))
-    if any(SSH.ts_data.sum(axis=0)>1e10):
+    if any(SSH_V.ts_data.sum(axis=0)>1e10):
         sshmask[j] = True
     else:
-        myfields.append(('V',  real(SSH.ft_data*SSH.ft_data.conj()) ))
+        myfields.append(('V',  real(SSH_V.ft_data*SSH_V.ft_data.conj()) ))
+        myfields.append(('U',  real(SSH_U.ft_data*SSH_U.ft_data.conj()) ))
+        myfields.append(('VU',  real(SSH_U.ft_data*SSH_V.ft_data.conj()) ))
     if (not sstmask[j]) and (not sshmask[j]):
-        myfields.append(('VT', 2*real(SSH.ft_data*SST.ft_data.conj())))
-    VTf = 2 * real( SSH.ft_data * SST.ft_data.conj() )
+        myfields.append(('VT', 2*real(SSH_V.ft_data*SST.ft_data.conj())))
+    VTf = 2 * real( SSH_V.ft_data * SST.ft_data.conj() )
     for (v, field) in myfields:
-        data[v]['pow_k'][j] = SSH.sum_over_om(field * mask)
-        data[v]['pow_om'][j] = SSH.sum_over_k(field * mask)
-        data[v]['pow_c'][j], c[j], dc[j], data[v]['cpts'][j] = SSH.sum_in_c(field * mask, Nc)
+        data[v]['pow_k'][j] = SSH_V.sum_over_om(field * mask)
+        data[v]['pow_om'][j] = SSH_V.sum_over_k(field * mask)
+        data[v]['pow_c'][j], c[j], dc[j], data[v]['cpts'][j] = SSH_V.sum_in_c(field * mask, Nc)
     Tbar = ma.masked_equal(SST.ts_data,0.).mean()
     # need to be careful how we define these
     # discard zero wavenumber, not zero frequency
-    Vp = SSH.ts_data - SSH.ts_data.mean(axis=1)[:,newaxis]      
+    Vp = SSH_V.ts_data - SSH_V.ts_data.mean(axis=1)[:,newaxis]      
+    Up = SSH_U.ts_data - SSH_U.ts_data.mean(axis=1)[:,newaxis]      
     Tp = SST.ts_data - SST.ts_data.mean(axis=1)[:,newaxis]
     # zonal and time mean
     za_data['Tbar'][j] = Tbar
     za_data['Vp2'][j] = mean(Vp**2)
     za_data['Tp2'][j] = mean(Tp**2)
     za_data['VpTp'][j] = mean(Vp*Tp)
+    za_data['VpUp'][j] = mean(Vp*Up)
     
 mask = (sstmask | sshmask)
 MHT = rho0*cp*s.L*interp(s.lat,mld_lat,mld) * ma.masked_array(
@@ -192,6 +199,12 @@ data['V']['pow_c_clim'] = [-3,0]
 data['V']['log'] = True
 data['V']['cmap'] = get_cmap('CMRmap_r')
 data['V']['title'] = r'$\overline{|V^\ast V|}$'
+data['U']['pow_k_clim'] = [-2,1]
+data['U']['pow_om_clim'] = [-0.5,2.5]
+data['U']['pow_c_clim'] = [-3,0]
+data['U']['log'] = True
+data['U']['cmap'] = get_cmap('CMRmap_r')
+data['U']['title'] = r'$\overline{|U^\ast U|}$'
 data['T']['pow_k_clim'] = [0,2]
 data['T']['pow_om_clim'] = [2,4]
 data['T']['pow_c_clim'] = [-2,0]
@@ -205,6 +218,15 @@ data['VT']['log'] = False
 #data['VT']['cmap'] = get_cmap('coolwarm')
 data['VT']['cmap'] = get_cmap('posneg')
 data['VT']['title'] = r'$\overline{|V^\ast \Theta|}$'
+data['VU']['pow_k_clim'] = array([-1,1])*3e-1
+data['VU']['pow_om_clim'] = array([-1,1])*1e2
+data['VU']['pow_c_clim'] = array([-1,1])*5e-2
+data['VU']['log'] = False
+#data['VT']['cmap'] = get_cmap('coolwarm')
+data['VU']['cmap'] = get_cmap('posneg')
+data['VU']['title'] = r'$\overline{|V^\ast U|}$'
+
+
 
 close('all')
 #for (pow_k,pow_om,pow_c) in [(V_pow_k,V_pow_om,V_pow_c),

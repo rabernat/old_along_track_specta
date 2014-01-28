@@ -20,14 +20,19 @@ import re
 
 class Sector:
     
-    def __init__(self, Nx=200, Ny=460, dlon=0.25, dlat=0.25,
+    def __init__(self, Nx=200, Nxdata=None, Ny=460, dlon=0.25, dlat=0.25,
             lonmin=-179.875, latmin=-64.875):
         
+        if Nxdata is None:
+            Nxdata = Nx
+        
         self.Nx = Nx
+        self.Nxdata = Nxdata # the actual size of the file
         self.Ny = Ny
         # coordinates
         self.lat = latmin + dlat*arange(Ny)
         self.lon = lonmin + dlon*arange(Nx)
+        self.londata = lonmin + dlon*arange(Nxdata)
         # physical dimensions
         A = 6371 * 1000. # earth radius
         self.dX = (self.lon[1] - self.lon[0])* cos(self.lat*pi/180.) * 2*pi*A / 360
@@ -47,7 +52,7 @@ class Sector:
     def search_for_timeseries_data(self):
         base_dir = self.base_dir
         sector_prefix = 'lon%6.3fto%6.3f_lat%6.3fto%6.3f' % (
-                            self.lon.min(),self.lon.max(),self.lat.min(),self.lat.max())
+                            self.londata.min(),self.londata.max(),self.lat.min(),self.lat.max())
         for ddir in os.listdir(base_dir):
             for secdir in os.listdir(os.path.join(base_dir,ddir)):
                 if secdir==sector_prefix:
@@ -101,8 +106,11 @@ class TimeSeries:
         self.dX = self.sector.dX[j]
         
         self.ts_data = fromfile(filename, dtype=dtype)
-        Ntreal = len(self.ts_data) / self.sector.Nx
-        self.ts_data.shape = (Ntreal,self.sector.Nx)
+        Ntreal = len(self.ts_data) / self.sector.Nxdata
+        self.ts_data.shape = (Ntreal,self.sector.Nxdata)
+        # truncate in longitude if necessary
+        self.ts_data = self.ts_data[:,:self.sector.Nx]
+        
         if Nt is None:
             self.Nt = Ntreal
         else:
@@ -163,7 +171,7 @@ class TimeSeries:
         self.C = C
         
         # minimum phase speed is a wave that will cross the sector over the period
-        Cmin = self.L / self.per / 2
+        Cmin = self.L / self.per / 10
         Cmax = abs(ma.masked_invalid(C)).max()
         
         if not mod(Nc,2):
