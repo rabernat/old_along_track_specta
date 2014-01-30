@@ -94,7 +94,8 @@ class TimeSeriesSet:
         
 class TimeSeries:
     
-    def __init__(self, filename, dtype, sector, j, dTday, Nt=None, remove_zonal_mean=False, ft_normfac=1):
+    def __init__(self, filename, dtype, sector, j, dTday, Nt=None,
+            remove_temporal_mean=True, remove_zonal_mean=False, ft_normfac=1):
         
         self.sector = sector
         self.dTday = dTday
@@ -129,6 +130,11 @@ class TimeSeries:
         else:
             # the data minus the zonal and temporal mean
             Tp = self.ts_data - self.ts_data.mean()
+        
+        if remove_temporal_mean:
+            Tp = Tp - Tp.mean(axis=0)[newaxis,:]
+        
+        
         # calculate wavenumber frequency spectrum
         self.ft_data = ft_normfac * fftshift(fftn(Tp))[:,self.sector.Nk:]
         # parseval's theorem: the integral of the square in x,t = integral of the square in k,om
@@ -177,20 +183,26 @@ class TimeSeries:
         if not mod(Nc,2):
             raise ValueError('Nc should be an odd number')
 
-        c = hstack( [-inf,
-                -logspace(log2(Cmin),log2(Cmax),(Nc+1)/2,base=2)[::-1],
-                logspace(log2(Cmin),log2(Cmax),(Nc+1)/2,base=2), inf ] )
+        # old method based on log spacing (ad hoc, incorrect)
+        #c = hstack( [-inf,
+        #        -logspace(log2(Cmin),log2(Cmax),(Nc+1)/2,base=2)[::-1],
+        #        logspace(log2(Cmin),log2(Cmax),(Nc+1)/2,base=2), inf ] )
+        
+        # new method based on equal angle spacing
+        cstar = self.om.max() / self.k.max()
+        c = -cstar/tan(linspace(self.sector.Nk**-1,pi-self.sector.Nk**-1,Nc+1))
+        c = hstack( [-inf, c, inf] )
+
         dc = diff(c)
         T2f_c = zeros(Nc+2)
         Cpts = zeros(Nc+2)
         
         # need to account for the weird k stuff
         kmask = ones(field.shape, dtype='float')
-        kmask[:,0] = 0.5
-        
+   
         Cpts_prev = 0
         T2f_c_prev = 0
-        for i in arange(Nc+2):        
+        for i in arange(Nc+1):        
             #idx = ( C >= c[i] ) & ( C < c[i+1] )
             #Cpts[i] = idx.sum()
             #T2f_c[i] = (kmask*field)[idx].sum()

@@ -115,7 +115,8 @@ for j in arange(s.Ny):
     
     SSH_V = s.timeseries_sets[dsets[0]].load(j, remove_zonal_mean=True, Nt=Nt, ft_normfac=sqrt(2)/(Nt*s.Nx))
     SSH_U = s.timeseries_sets[dsets[1]].load(j, remove_zonal_mean=True, Nt=Nt, ft_normfac=sqrt(2)/(Nt*s.Nx))
-    SST = s.timeseries_sets[dsets[2]].load(j, remove_zonal_mean=True, Nt=Nt, ft_normfac=sqrt(2)/(Nt*s.Nx))
+    SST = s.timeseries_sets[dsets[2]].load(j, Nt=Nt, 
+        remove_temporal_mean=True, remove_zonal_mean=True, ft_normfac=sqrt(2)/(Nt*s.Nx))
     
     if any(plot_js==j):
         spectral_plot(SST,SSH_V)
