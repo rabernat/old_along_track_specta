@@ -134,6 +134,8 @@ class TimeSeries:
         if remove_temporal_mean:
             Tp = Tp - Tp.mean(axis=0)[newaxis,:]
         
+        # this sends the filtered data back to the parent
+        self.ts_data_filtered = Tp
         
         # calculate wavenumber frequency spectrum
         self.ft_data = ft_normfac * fftshift(fftn(Tp))[:,self.sector.Nk:]
