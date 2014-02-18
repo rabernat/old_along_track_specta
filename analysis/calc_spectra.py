@@ -8,9 +8,9 @@ from scipy.ndimage.filters import gaussian_filter1d
 # the narrow sector
 #Nx = 120; secname = '30degwide'
 # should be the same
-Nx = 120; Nxdata=200; secname='30degwide'
+#Nx = 120; Nxdata=200; secname='30degwide'
 # the wide sector
-#Nx = 200; Nxdata=None; secname = '50degwide'
+Nx = 200; Nxdata=None; secname = '50degwide'
 
 s = sector_analyzer.Sector(Nx=Nx, Nxdata=Nxdata)
 s.search_for_timeseries_data()
@@ -48,8 +48,8 @@ for v in data.keys():
                'pow_om':  ma.masked_array(zeros((s.Ny, Nt)),True),
                'pow_c':  ma.masked_array(zeros((s.Ny, Nc+2)),True),
                'cpts':  ma.masked_array(zeros((s.Ny, Nc+2)),True) }
-za_data = {'Vp2':zeros(s.Ny),'Tp2':zeros(s.Ny), 'Tbar':zeros(s.Ny),
-            'VpTp':zeros(s.Ny), 'VpUp':zeros(s.Ny)}
+za_data = {'Vp2':zeros(s.Ny),'Tp2':zeros(s.Ny), 'Up2': zeros(s.Ny),
+            'Tbar':zeros(s.Ny),'VpTp':zeros(s.Ny), 'VpUp':zeros(s.Ny)}
 
 c = zeros((s.Ny, Nc+2))
 dc = zeros((s.Ny, Nc+2))
@@ -139,18 +139,18 @@ for j in arange(s.Ny):
         data[v]['pow_k'][j] = SSH_V.sum_over_om(field * mask)
         data[v]['pow_om'][j] = SSH_V.sum_over_k(field * mask)
         data[v]['pow_c'][j], c[j], dc[j], data[v]['cpts'][j] = SSH_V.sum_in_c(field * mask, Nc)
-    Tbar = ma.masked_equal(SST.ts_data,0.).mean()
-    # need to be careful how we define these
-    # discard zero wavenumber, not zero frequency
-    Vp = SSH_V.ts_data - SSH_V.ts_data.mean(axis=1)[:,newaxis]      
-    Up = SSH_U.ts_data - SSH_U.ts_data.mean(axis=1)[:,newaxis]      
-    Tp = SST.ts_data - SST.ts_data.mean(axis=1)[:,newaxis]
+    # zero wavenumber and frequency are already removed
+    #Vp = SSH_V.ts_data - SSH_V.ts_data.mean(axis=1)[:,newaxis]      
+    #Up = SSH_U.ts_data - SSH_U.ts_data.mean(axis=1)[:,newaxis]      
+    #Tp = SST.ts_data - SST.ts_data.mean(axis=1)[:,newaxis]
     # zonal and time mean
+    Tbar = ma.masked_equal(SST.ts_data,0.).mean()
     za_data['Tbar'][j] = Tbar
-    za_data['Vp2'][j] = mean(Vp**2)
-    za_data['Tp2'][j] = mean(Tp**2)
-    za_data['VpTp'][j] = mean(Vp*Tp)
-    za_data['VpUp'][j] = mean(Vp*Up)
+    za_data['Vp2'][j] = mean(SSH_V.ts_data_filtered**2)
+    za_data['Up2'][j] = mean(SSH_U.ts_data_filtered**2)
+    za_data['Tp2'][j] = mean(SST.ts_data_filtered**2)
+    za_data['VpTp'][j] = mean(SSH_V.ts_data_filtered*SST.ts_data_filtered)
+    za_data['VpUp'][j] = mean(SSH_V.ts_data_filtered*SSH_U.ts_data_filtered)
     
 mask = (sstmask | sshmask)
 MHT = rho0*cp*s.L*interp(s.lat,mld_lat,mld) * ma.masked_array(
@@ -160,27 +160,41 @@ DY = (s.lat[1] - s.lat[0])*110e3
 MHT_smooth = MHT.filled(0.)
 MHT_smooth[mask] = interp(s.lat[mask],s.lat[~mask],MHT[~mask])
 MHT_smooth = gaussian_filter1d(MHT_smooth,1.5)
-heating_rate = hstack([0, (MHT_smooth[2:] - MHT_smooth[:-2]), 0]) / s.L / (2*DY)
+heating_rate = -hstack([0, (MHT_smooth[2:] - MHT_smooth[:-2]), 0]) / s.L / (2*DY)
 
+Tbar = za_data['Tbar']
+dTbar_dy = hstack([0, Tbar[2:] - Tbar[:-2] ,0]) / (2*DY)
+K = ma.masked_array(-za_data['VpTp']/dTbar_dy, abs(dTbar_dy) < 1e-6)
+
+ 
 close('all')
 
 # mht
 figure(figsize=(6.5,5.5))
 subplot(211)
 plot(s.lat, MHT,'k',linewidth=2)
-grid(); xlim([-50,50]); ylim(array([-1,1])*1.1e13)
+grid(); xlim([-60,50]); ylim(array([-1,1])*1.3e13)
 xlabel('lat'); ylabel(r'MHT (W)')
 title('Meridional Heat Transport')
 
 # heating
 subplot(212)
 plot(s.lat, ma.masked_array(heating_rate, mask), 'k', linewidth=2)
-grid(); xlim([-50,50]); ylim([-15,15])
+grid(); xlim([-60,50]); ylim([-15,15])
 xlabel('lat'); ylabel(r'Q (W m$^{-2}$)')
 title('Heating Rate')
 tight_layout()
 
 savefig('../figures/%s/MHT_and_heating.pdf' % secname)
+
+figure(figsize=(6.5,2.25))
+plot(s.lat, K,'k',linewidth=2)
+grid(); xlim([-60,50]); ylim(array([0,5000]))
+xlabel('lat'); ylabel(r'K (m$^2$ s$^{-1}$)')
+title('Meridional Eddy Diffusivity')
+tight_layout()
+savefig('../figures/%s/diffusivity.pdf' % secname)
+
 
 # output Tbar for advection/diffusion calc
 Tbar_fine = tile( interp(arange(-80,80,0.1)+0.5, s.lat, za_data['Tbar'])[:,newaxis],[1,500] )
