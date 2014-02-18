@@ -1,4 +1,4 @@
-\begin{thebibliography}{18}
+\begin{thebibliography}{19}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
@@ -81,6 +81,10 @@ Smith, K.~S. and J.~Marshall, 2009: Evidence for enhanced eddy mixing at
 \bibitem[{Stammer(1998)}]{Stammer1998}
 Stammer, D., 1998: On eddy characteristics, eddy transports, and mean flow
   properties. \textit{J. Phys. Oceanogr.}, \textbf{28}, 727--739.
+
+\bibitem[{Taylor(1915)}]{Taylor1915}
+Taylor, G.~I., 1915: Eddy motion in the atmosphere. \textit{Philosophical
+  Transactions of the Royal Society A}, \textbf{215}, 1--26.
 
 \bibitem[{Trenberth and Caron(2001)}]{TrenberthCaron2001}
 Trenberth, K.~E. and J.~M. Caron, 2001: Estimates of meridional atmosphere and
