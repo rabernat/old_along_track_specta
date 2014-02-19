@@ -1,4 +1,4 @@
-\begin{thebibliography}{19}
+\begin{thebibliography}{31}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
@@ -19,20 +19,54 @@ Abernathey, R. and J.~C. Marshall, 2013: Global surface eddy diffusivities
   derived from satellite altimetry. \textit{J. Geophys. Res.}, \textbf{118},
   901--916.
 
+\bibitem[{Chelton and Schlax(1996)}]{CheltonSchalx1996}
+Chelton, D.~B. and M.~G. Schlax, 1996: Global observations of oceanic rossby
+  waves. \textit{Sceince}, \textbf{272~(5259)}, 234--238.
+
 \bibitem[{Chelton et~al.(2011)Chelton, Schlax, and Samelson}]{CheltonEtAl2011}
 Chelton, D.~B., M.~G. Schlax, and R.~M. Samelson, 2011: Global observations of
   nonlinear mesoscale eddies. \textit{Progress in Oceanography}, \textbf{91},
   167--216.
+
+\bibitem[{Chelton et~al.(2000)Chelton, Wentz, Gentemann, {de Szoeke}, and
+  Schlax}]{CheltonEtAl2000}
+Chelton, D.~B., F.~J. Wentz, C.~L. Gentemann, R.~A. {de Szoeke}, and M.~G.
+  Schlax, 2000: Satellite microwave {SST} observations of transequatorial
+  tropical instability waves. \textit{Geophys. Res. Lett.}, \textbf{27~(9)},
+  1239--1242.
 
 \bibitem[{Chen and Held(2007)}]{ChenHeld2007}
 Chen, G. and I.~Held, 2007: Phase speed spectra and the recent poleward shift
   of southern hemisphere surface westerlies. \textit{Geophys. Res. Lett.},
   \textbf{34}, K21\,805.
 
+\bibitem[{Cipollini et~al.(2001)Cipollini, Cromwell, Challenor, and
+  Raffaglio}]{CipolliniEtAl2001}
+Cipollini, P., D.~Cromwell, P.~G. Challenor, and S.~Raffaglio, 2001: {Rossby}
+  waves detected in global ocean colour data. \textit{Geophys. Res. Lett.},
+  \textbf{28~(2)}, 323--326.
+
+\bibitem[{Cipollini et~al.(1997)Cipollini, Cromwell, Jones, Quartly, and
+  Challenor}]{CipolliniEtAl1997}
+Cipollini, P., D.~Cromwell, M.~S. Jones, G.~D. Quartly, and P.~G. Challenor,
+  1997: Concurrent altimeter and infrared observationsof {Rossby} wave
+  propagatiom near 34n in the northeast {Atlantic}. \textit{Geophys. Res.
+  Lett.}, \textbf{24~(8)}, 889--892.
+
+\bibitem[{Contreras(2002)}]{Contreras2002}
+Contreras, R.~F., 2002: Long-term observations of tropical instability waves.
+  \textit{J. Phys. Oceanogr.}, \textbf{32}, 2715--2722.
+
 \bibitem[{Ferrari and Nikurashin(2010)}]{FerrariNikurashin2010}
 Ferrari, R. and M.~Nikurashin, 2010: Suppression of eddy diffusivity across
   jets in the {Southern Ocean}. \textit{J. Phys. Oceanogr.}, \textbf{40},
   1501--1519.
+
+\bibitem[{Hill et~al.(2000)Hill, Robinson, and Cipollini}]{HillEtAl2000}
+Hill, K.~L., I.~S. Robinson, and P.~Cipollini, 2000: Propagation
+  characteristics of extratropical planetary waves observed in the atsr global
+  sea surface temperature record. \textit{J. Geophys. Res.}, \textbf{105~(C9)},
+  21\,927--21\,945.
 
 \bibitem[{Holloway(1986)}]{Holloway1986}
 Holloway, G., 1986: Estimation of oceanic eddy transports from satellite
@@ -46,6 +80,12 @@ Jayne, S.~R. and J.~Marotzke, 2002: The oceanic eddy heat transport. \textit{J.
 Keffer, T. and G.~Holloway, 1988: Estimating {Southern Ocean} eddy flux of heat
   and salt from satellite altimetry. \textit{Nature}, \textbf{332}, 624 -- 626.
 
+\bibitem[{Killworth et~al.(2004)Killworth, Cipollini, Uz, and
+  Blundell}]{KillworthEtAl2004}
+Killworth, P.~D., P.~Cipollini, B.~M. Uz, and J.~R. Blundell, 2004: Physical
+  and biological mechanisms for planetary waves observed in satellite-derived
+  chlorophyll. \textit{J. Geophys. Res.}, \textbf{109}, C07\,002.
+
 \bibitem[{Klocker et~al.(2012{\natexlab{a}})Klocker, Ferrari, and
   LaCasce}]{KlockerEtAl2012a}
 Klocker, A., R.~Ferrari, and J.~H. LaCasce, 2012{\natexlab{a}}: Estimating
@@ -58,11 +98,36 @@ Klocker, A., R.~Ferrari, J.~H. LaCasce, and S.~T. Merrifield,
   2012{\natexlab{b}}: Reconciling float-based and tracer-based estimates of
   eddy diffusivities. \textit{J. Marine Res.}, \textbf{70~(4)}, 569--602.
 
+\bibitem[{Lee et~al.(2012)Lee, Lagerloef, Gierach, Kao, Yueh, and
+  Dohan}]{LeeEtAl2012}
+Lee, T., G.~Lagerloef, M.~M. Gierach, H.-Y. Kao, S.~Yueh, and K.~Dohan, 2012:
+  Aquarius reveals salinity struture of tropical instability waves.
+  \textit{Geophys. Res. Lett.}, \textbf{39}, L12\,610.
+
 \bibitem[{Marshall et~al.(2006)Marshall, Shuckburgh, Jones, and
   Hill}]{MarshallEtAl2006}
 Marshall, J., E.~Shuckburgh, H.~Jones, and C.~Hill, 2006: Estimates and
   implications of surface eddy diffusivity in the {Southern Ocean} derived from
   tracer transport. \textit{J. Phys. Oceanogr.}, \textbf{36}, 1806--1821.
+
+\bibitem[{{O'Brien} et~al.(2013){O'Brien}, Cipollini, and
+  Blundell}]{OBrienEtAl2013}
+{O'Brien}, R.~C., P.~Cipollini, and J.~R. Blundell, 2013: Manifestation of
+  oceanic rossby waves in long-term multiparametric satellite datasets.
+  \textit{Remote Sensing of Environment}, \textbf{129}, 111--121.
+
+\bibitem[{Polito and Cornillon(1997)}]{PolitoCornillon1997}
+Polito, P.~S. and P.~Cornillon, 1997: Long baroclinic rossby waves detected by
+  topex/poseidon. \textit{J. Geophys. Res.}, \textbf{102~(C2)}, 3215--3235.
+
+\bibitem[{Polito and Liu(2003)}]{PolitoLiu2003}
+Polito, P.~S. and W.~T. Liu, 2003: Global characterization of {Rossby} waves at
+  several spectral bands. \textit{J. Geophys. Res.}, \textbf{108~(C1)}, 3018.
+
+\bibitem[{Polito et~al.(2001)Polito, Ryand, Liu, and Chavez}]{PolitoEtAl2001}
+Polito, P.~S., J.~P. Ryand, W.~T. Liu, and F.~P. Chavez, 2001: Oceanic and
+  atmospheric anomalies of tropical instability waves. \textit{Geophys. Res.
+  Lett.}, \textbf{28~(11)}, 2233--2236.
 
 \bibitem[{Prandtl(1925)}]{Prandtl1925}
 Prandtl, L., 1925: Bericht untersuchungen zur ausgebildeten turbulenz.
