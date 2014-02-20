@@ -20,14 +20,19 @@ import re
 
 class Sector:
     
-    def __init__(self, Nx=120, Ny=460, dlon=0.25, dlat=0.25,
+    def __init__(self, Nx=200, Nxdata=None, Ny=460, dlon=0.25, dlat=0.25,
             lonmin=-179.875, latmin=-64.875):
         
+        if Nxdata is None:
+            Nxdata = Nx
+        
         self.Nx = Nx
+        self.Nxdata = Nxdata # the actual size of the file
         self.Ny = Ny
         # coordinates
         self.lat = latmin + dlat*arange(Ny)
         self.lon = lonmin + dlon*arange(Nx)
+        self.londata = lonmin + dlon*arange(Nxdata)
         # physical dimensions
         A = 6371 * 1000. # earth radius
         self.dX = (self.lon[1] - self.lon[0])* cos(self.lat*pi/180.) * 2*pi*A / 360
@@ -47,7 +52,7 @@ class Sector:
     def search_for_timeseries_data(self):
         base_dir = self.base_dir
         sector_prefix = 'lon%6.3fto%6.3f_lat%6.3fto%6.3f' % (
-                            self.lon.min(),self.lon.max(),self.lat.min(),self.lat.max())
+                            self.londata.min(),self.londata.max(),self.lat.min(),self.lat.max())
         for ddir in os.listdir(base_dir):
             for secdir in os.listdir(os.path.join(base_dir,ddir)):
                 if secdir==sector_prefix:
@@ -57,6 +62,7 @@ class Sector:
                                 os.path.join(base_dir,ddir,secdir,tsdir))
     
     def add_timeseries_set(self, dset_name, tsdir):
+        print('dset_name: %s | tsdir: %s' % (dset_name, tsdir))
         tsstr = os.path.basename(tsdir)
         crap,datestr,daystr = tsstr.split('_')
         tsname = dset_name + '-' + datestr + '_' + daystr
@@ -75,6 +81,7 @@ class TimeSeriesSet:
         self.dTday = dTday
         # figure out prefix
         data_fname = os.listdir(data_dir)[0]
+        print data_fname
         var_str,dtype_str,suf = data_fname.split('.')
         if not dtype_str in ['f4', 'f8']:
             raise ValueError('Did not find properly formatted data files in ' + data_dir)
@@ -87,7 +94,8 @@ class TimeSeriesSet:
         
 class TimeSeries:
     
-    def __init__(self, filename, dtype, sector, j, dTday, Nt=None, remove_zonal_mean=False):
+    def __init__(self, filename, dtype, sector, j, dTday, Nt=None,
+            remove_temporal_mean=True, remove_zonal_mean=False, ft_normfac=1):
         
         self.sector = sector
         self.dTday = dTday
@@ -99,8 +107,11 @@ class TimeSeries:
         self.dX = self.sector.dX[j]
         
         self.ts_data = fromfile(filename, dtype=dtype)
-        Ntreal = len(self.ts_data) / self.sector.Nx
-        self.ts_data.shape = (Ntreal,self.sector.Nx)
+        Ntreal = len(self.ts_data) / self.sector.Nxdata
+        self.ts_data.shape = (Ntreal,self.sector.Nxdata)
+        # truncate in longitude if necessary
+        self.ts_data = self.ts_data[:,:self.sector.Nx]
+        
         if Nt is None:
             self.Nt = Ntreal
         else:
@@ -119,8 +130,15 @@ class TimeSeries:
         else:
             # the data minus the zonal and temporal mean
             Tp = self.ts_data - self.ts_data.mean()
+        
+        if remove_temporal_mean:
+            Tp = Tp - Tp.mean(axis=0)[newaxis,:]
+        
+        # this sends the filtered data back to the parent
+        self.ts_data_filtered = Tp
+        
         # calculate wavenumber frequency spectrum
-        self.ft_data = fftshift(fftn(Tp))[:,self.sector.Nk:]
+        self.ft_data = ft_normfac * fftshift(fftn(Tp))[:,self.sector.Nk:]
         # parseval's theorem: the integral of the square in x,t = integral of the square in k,om
         #self.intTp2 = sum(Tp**2 * self.sector.dX[j] * self.dT)
         # normalize
@@ -161,26 +179,32 @@ class TimeSeries:
         self.C = C
         
         # minimum phase speed is a wave that will cross the sector over the period
-        Cmin = self.L / self.per / 2
+        Cmin = self.L / self.per / 10
         Cmax = abs(ma.masked_invalid(C)).max()
         
         if not mod(Nc,2):
             raise ValueError('Nc should be an odd number')
 
-        c = hstack( [-inf,
-                -logspace(log2(Cmin),log2(Cmax),(Nc+1)/2,base=2)[::-1],
-                logspace(log2(Cmin),log2(Cmax),(Nc+1)/2,base=2), inf ] )
+        # old method based on log spacing (ad hoc, incorrect)
+        #c = hstack( [-inf,
+        #        -logspace(log2(Cmin),log2(Cmax),(Nc+1)/2,base=2)[::-1],
+        #        logspace(log2(Cmin),log2(Cmax),(Nc+1)/2,base=2), inf ] )
+        
+        # new method based on equal angle spacing
+        cstar = self.om.max() / self.k.max()
+        c = -cstar/tan(linspace(self.sector.Nk**-1,pi-self.sector.Nk**-1,Nc+1))
+        c = hstack( [-inf, c, inf] )
+
         dc = diff(c)
         T2f_c = zeros(Nc+2)
         Cpts = zeros(Nc+2)
         
         # need to account for the weird k stuff
         kmask = ones(field.shape, dtype='float')
-        kmask[:,0] = 0.5
-        
+   
         Cpts_prev = 0
         T2f_c_prev = 0
-        for i in arange(Nc+2):        
+        for i in arange(Nc+1):        
             #idx = ( C >= c[i] ) & ( C < c[i+1] )
             #Cpts[i] = idx.sum()
             #T2f_c[i] = (kmask*field)[idx].sum()
