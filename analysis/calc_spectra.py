@@ -68,7 +68,7 @@ ktick = (1000. * lens.astype('f4') / 2 / pi)**-1
 rcParams['font.size'] = 8
 rcParams['axes.formatter.limits'] = [-3, 3]
 def spectral_plot(SST,SSH_V):
-    figure(figsize=(6.5,7.5))
+    fig=figure(figsize=(6.5,7.5))
 
     subplot(311)
     pcolormesh(SSH_V.om, SSH_V.k, log10(real(SSH_V.ft_data*conj(SSH_V.ft_data)).T), rasterized=True)
@@ -76,9 +76,9 @@ def spectral_plot(SST,SSH_V):
     xticks(omtick,days)
     yticks(ktick,lens)
     ylim([0,6.5e-5]); xlim(array([-1,1])*5e-6)
-    xlabel(r'$(2 \pi \omega)^{-1}$ (days)'); ylabel(r'$(2 \pi \kappa)^{-1}$ (km)')
+    xlabel(r'$2 \pi / \omega$ (days)'); ylabel(r'$2 \pi / \kappa)$ (km)')
     title(r'log$_{10}$ $|V|^2(\kappa,\omega)$ (m$^2$ s$^{-2}$)')
-    legend([''])
+    colorbar()
     
     subplot(312)
     pcolormesh(SST.om, SST.k, log10(real(SST.ft_data*conj(SST.ft_data)).T), rasterized=True)
@@ -86,7 +86,7 @@ def spectral_plot(SST,SSH_V):
     yticks(ktick,lens)
     ylim([0,6.5e-5]); xlim(array([-1,1])*5e-6)
     clim([-7,-3])
-    xlabel(r'$(2 \pi \omega)^{-1}$ (days)'); ylabel(r'$(2 \pi \kappa)^{-1}$ (km)')
+    xlabel(r'$2 \pi / \omega$ (days)'); ylabel(r'$2 \pi / \kappa)$ (km)')
     title(r'log$_{10}$ $|\Theta|^2(\kappa,\omega)$ (K$^2$)')
     colorbar()
     
@@ -97,16 +97,16 @@ def spectral_plot(SST,SSH_V):
     yticks(ktick,lens)
     ylim([0,6.5e-5]); xlim(array([-1,1])*5e-6)
     clim(array([-1,1])*1e-5)
-    xlabel(r'$(2 \pi \omega)^{-1}$ (days)'); ylabel(r'$(2 \pi \kappa)^{-1}$ (km)')
+    xlabel(r'$2 \pi / \omega$ (days)'); ylabel(r'$2 \pi / \kappa)$ (km)')
     title(r'Re$(V \Theta^\ast)$ (K m s$^{-1}$)')
     colorbar()
     
-    tight_layout()
+    fig.tight_layout()
     
-    savefig('../figures/individual_spectra/SST_SST_wavefreq_spectra_%g.pdf' % int(round(SST.lat)) )
+    savefig('../figures/%s/individual_spectra/SST_SST_wavefreq_spectra_%g.pdf' % (secname, int(round(SST.lat))) )
     
-#plot_js = arange(79,s.Ny,40)
-plot_js = array([])
+plot_js = arange(79,s.Ny,40)
+#plot_js = array([])
 
 sstmask = zeros(s.Ny,bool)
 sshmask = zeros(s.Ny,bool)

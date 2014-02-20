@@ -219,3 +219,24 @@ class TimeSeries:
         # need to divide by Cpts to get proper normalization?
         return T2f_c, 0.5*(c[1:]+c[:-1]), dc, Cpts
         
+        
+    def convert_om_to_c(self, field, Nc=101):
+        # should automatically mask the zero wavenumber
+        #C = ma.masked_invalid(self.om[:,newaxis] / self.k[newaxis,:])
+        C = self.om[:,newaxis] / self.k[newaxis,:]
+        self.C = C
+        
+        # minimum phase speed is a wave that will cross the sector over the period
+        Cmin = self.L / self.per / 10
+        Cmax = abs(ma.masked_invalid(C)).max()
+        
+        # new method based on equal angle spacing
+        cstar = self.om.max() / self.k.max()
+        c = -cstar/tan(linspace(self.sector.Nk**-1,pi-self.sector.Nk**-1,Nc))
+
+        field_c = zeros((Nc, self.sector.Nk))
+        for i in range(self.sector.Nk):
+            field_c[:,i] = interp(c, C[:,i][::-1], field[:,i][::-1],
+                            left=nan, right=nan)
+
+        return field_c, c
