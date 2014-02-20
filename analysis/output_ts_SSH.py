@@ -13,6 +13,7 @@ mydate = datetime.datetime(2002,6,5)
 #Nt = 52*3
 # the number of weeks in the NCDC data
 Nt = 486
+DT = 7
 
 # latitude from the GHRSST 0.25 deg dataset
 Ny = 460
@@ -41,21 +42,32 @@ lat_idx = zeros(Ny, dtype('int'))
 for j in arange(Ny):
     lat_idx[j] = argmin((ncf.variables['NbLatitudes'][:]-lat[j])**2)
 # AVISO lons are 1/3 degree, need to interplotate
-ir = r_[540:540+90]
+ir = r_[540:540+160]
 alon = ncf.variables['NbLongitudes'][ir] - 360
 
-output_dir = os.path.join(os.environ['D'], 'DATASTORE.RPA','projects','cospectra',
-                'AVISO_dt_ref_global_merged_msla_v','timeseries_%s' % mydate.strftime('%Y%m%d'),
-                'lon%6.3fto%6.3f_lat%6.3fto%6.3f' % (lon.min(),lon.max(),lat.min(),lat.max()))
+#output_dir = os.path.join(os.environ['D'], 'DATASTORE.RPA','projects','cospectra',
+#                'AVISO_dt_ref_global_merged_msla_v','timeseries_%s' % mydate.strftime('%Y%m%d'),
+#                'lon%6.3fto%6.3f_lat%6.3fto%6.3f' % (lon.min(),lon.max(),lat.min(),lat.max()))
 
-try:
-    print('Using output directory:')
-    print(output_dir)
-    os.makedirs(output_dir)
-    #for j in arange(Ny):
-    #    os.makedirs(os.path.join(output_dir, 'j%03d' % j))
-except OSError:
-    print('output directory present')
+output_dir_u = os.path.join(os.environ['D'], 'DATASTORE.RPA','projects','cospectra',
+                'AVISO_dt_ref_global_merged_msla_u',
+                'lon%6.3fto%6.3f_lat%6.3fto%6.3f' % (lon.min(),lon.max(),lat.min(),lat.max()),
+                'timeseries_%s_%1dday' % (mydate.strftime('%Y%m%d'), DT))
+
+output_dir_v = os.path.join(os.environ['D'], 'DATASTORE.RPA','projects','cospectra',
+                'AVISO_dt_ref_global_merged_msla_v',
+                'lon%6.3fto%6.3f_lat%6.3fto%6.3f' % (lon.min(),lon.max(),lat.min(),lat.max()),
+                'timeseries_%s_%1dday' % (mydate.strftime('%Y%m%d'), DT))
+
+for output_dir in [output_dir_u, output_dir_v]:
+    try:
+        print('Using output directory:')
+        print(output_dir)
+        os.makedirs(output_dir)
+        #for j in arange(Ny):
+        #    os.makedirs(os.path.join(output_dir, 'j%03d' % j))
+    except OSError:
+        print('output directory present')
 
 for n in arange(Nt):
     ncf = get_netcdf_file(mydate)
@@ -69,17 +81,20 @@ for n in arange(Nt):
     # if ncf is False:
     #     raise IOError('No netcdf file found')
     # 
+    u = ncf.variables['Grid_0001']
     v = ncf.variables['Grid_0002']
+    U = ma.masked_array(u[ir], u[ir]>1e18).T[lat_idx] / 100.
     V = ma.masked_array(v[ir], v[ir]>1e18).T[lat_idx] / 100.
 
     print mydate
     for j in arange(Ny):
         # interpolate 1/3 to 1/4 grid
-        Vi = interp(lon,alon,V[j])
-        fname = os.path.join(output_dir, 'V_j%03d.bin' % j)
-        f = file(fname, 'a')
-        #np.save(f, SST[j].filled(0.))
-        Vi.tofile(f)
-        f.close()
+        for myvar,output_dir,varname in [(U[j], output_dir_u,'U'),
+                                         (V[j], output_dir_v,'V')]:
+            Vi = interp(lon,alon,myvar)
+            fname = os.path.join(output_dir, '%s_j%03d.f4.bin' % (varname,j))
+            f = file(fname, 'a')
+            Vi.astype('f4').tofile(f)
+            f.close()
         
     mydate += datetime.timedelta(7)

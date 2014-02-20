@@ -55,13 +55,13 @@ for n in arange(Nt):
 
     print mydate
     for j in arange(Ny):
-        fname = os.path.join(output_dir, 'SST_j%03d.bin' % j)
+        fname = os.path.join(output_dir, 'SST_j%03d.f4.bin' % j)
         if n==0:
             f = file(fname, 'w')
         else:
             f = file(fname, 'a')
         #np.save(f, SST[j].filled(0.))
-        SST[j].filled(0.).tofile(f)
+        SST[j].filled(0.).astype('f4').tofile(f)
         f.close()
         
     mydate += datetime.timedelta(DT)
