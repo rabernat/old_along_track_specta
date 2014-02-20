@@ -236,7 +236,7 @@ class TimeSeries:
 
         field_c = zeros((Nc, self.sector.Nk))
         for i in range(self.sector.Nk):
-            field_c[:,i] = interp(c, C[:,i][::-1], field[:,i][::-1]
+            field_c[:,i] = interp(c, C[:,i][::-1], field[:,i][::-1],
                             left=nan, right=nan)
 
         return field_c, c
