@@ -3,7 +3,7 @@ import mycolors
 import sector_analyzer
 import os
 import h5py
-from scipy.ndimage.filters import gaussian_filter1d
+from scipy.ndimage.filters import gaussian_filter1d, gaussian_filter
 
 # the narrow sector
 #Nx = 120; secname = '30degwide'
@@ -11,6 +11,9 @@ from scipy.ndimage.filters import gaussian_filter1d
 #Nx = 120; Nxdata=200; secname='30degwide'
 # the wide sector
 Nx = 200; Nxdata=None; secname = '50degwide'
+
+do_smoothing=True
+sm_sig = 1.
 
 s = sector_analyzer.Sector(Nx=Nx, Nxdata=Nxdata)
 s.search_for_timeseries_data()
@@ -136,6 +139,8 @@ for j in arange(s.Ny):
         myfields.append(('VT', 2*real(SSH_V.ft_data*SST.ft_data.conj())))
     VTf = 2 * real( SSH_V.ft_data * SST.ft_data.conj() )
     for (v, field) in myfields:
+        if do_smoothing:
+            field = gaussian_filter(field, sm_sig)
         data[v]['pow_k'][j] = SSH_V.sum_over_om(field * mask)
         data[v]['pow_om'][j] = SSH_V.sum_over_k(field * mask)
         data[v]['pow_c'][j], c[j], dc[j], data[v]['cpts'][j] = SSH_V.sum_in_c(field * mask, Nc)
@@ -276,6 +281,7 @@ for dname, d in data.iteritems():
     pcolormesh(SST.om, lat_om, pow_om, cmap=d['cmap'], rasterized=True)
     clim(d['pow_om_clim'])
     xticks(omtick,days)
+    xlim([ -(25*day/(2*pi))**-1, (60*day/(2*pi))**-1])
     ylim([-60,50])
     grid()
     title(d['title'] + r'$(\omega)$')
@@ -289,7 +295,7 @@ for dname, d in data.iteritems():
     clim(d['pow_c_clim'])
     plot(-cdat['c_dudley'], clat, 'k-', cdat['c_doppler'], clat, 'k--', Udat['Umean_ECCO_patch'], clat, 'k:')
     ylim([-60,50])
-    xlim([-1,0.5])
+    xlim([-0.5,0.2])
     grid()
     title(d['title'] + r'$(c)$')
     xlabel(r'$c$ (m/s)')
