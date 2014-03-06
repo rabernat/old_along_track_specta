@@ -52,7 +52,7 @@
 %
 % Enter your TITLE here
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{\textbf{\large{The Phase Speed of Eddy Heat Fluxes in the Pacific}}}
+\title{\textbf{\large{Phase Speed Cross Spectra of Eddy Heat Fluxes in the Pacific}}}
 %
 % Author names, with corresponding author information. 
 % [Update and move the \thanks{...} block as appropriate.]
@@ -176,35 +176,28 @@ where the asterisk denotes the complex conjugate and the overbar a time and zona
 
 We define the power density as a function of wavenumber as the sum over all frequencies:
 \begin{equation}
-\ol{|\Theta|^2}(\kappa_k) = (\Delta \kappa)^{-1} \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \Theta_{jk}^\ast  \Theta_{jk} \ .
+\ol{|\Theta|^2}(\kappa) = (\Delta \kappa)^{-1} \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \Theta_{jk}^\ast  \Theta_{jk} \ .
 \end{equation}
-The normalization by $\Delta \kappa$, the spacing of the discrete wavenumbers, approximates a continuous power density function, giving results are independent of $N$.  
+The normalization by $\Delta \kappa$, the spacing of the discrete wavenumbers, approximates a continuous power density function, giving results which are independent of $N$.  
 Similarly, we define the power density as a function of frequency as the sum over wavenumbers,
 \begin{equation}
-\ol{|\Theta|^2}(\omega_j) = (\Delta \omega)^{-1} \sum_{k=0}^{N-1} \Theta_{jk}^\ast   \Theta_{jk} 
+\ol{|\Theta|^2}(\omega) = (\Delta \omega)^{-1} \sum_{k=0}^{N-1} \Theta_{jk}^\ast   \Theta_{jk} 
 \end{equation}
-where $\Delta \omega$ is the spacing of the discrete frequencies.
-
-From the surface meridional velocity data, we define $v_{mn}$ and $V_{jk}$ analogously.
-
-\begin{align}
-\ol{|\Theta|^2} = \frac{1}{MN} \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} \theta_{mn}^2 =& \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} \Theta_{jk}  \Theta_{jk}^\ast \ , \\ 
-\ol{|V|^2} = \frac{1}{MN} \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} v_{mn}^2 =& \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} V_{jk}  V_{jk}^\ast \\
-\ol{V\Theta} = \frac{1}{MN} \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} v_{mn} \theta_{mn} =& \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} \Re \{ V_{jk}  \Theta_{jk}^\ast \} \\
-\end{align}
-
-To look at the variability in phase-speed space, we define the phase speed at each point in wavenumber / frequency space as
+where $\Delta \omega$ is the spacing of the discrete frequencies. Finally, we can bin and sum the $\Theta_{jk}$ values according to phase speed to give $\ol{|\Theta|^2}(c)$. The phase speed at each $(j,k)$ point is
 \begin{equation}
-c_{jk} = \frac{\omega_j}{\kappa_k}
+c_{jk} = \frac{\omega_j}{\kappa_k} \ .
 \end{equation}
-We then bin
+We must exclude $\kappa = 0$, but, as discussed in Sec. 2c, the preprocessing removed all power from this wavenumber.
+We define the $c$ bins such that they contain approximately the same number of $(j,k)$ points. This amounts to sweeping through angles in the $\omega, \kappa$ plane. As a result, the bins are not evenly spaced in $c$. We use 121 bins, a number that provides good resolution in phase speed space while minimizing noise.
+
+In Fig.~\ref{fig:integrated_spectra_T} we plot $\ol{|\Theta|^2}(\varphi, \kappa)$, $\ol{|\Theta|^2}(\varphi, \omega)$, and $\ol{|\Theta|^2}(\varphi, c)$, using a logarithmic color scale. This figure reveals the distribution of SST variance by wavenumber, frequency, and phase speed as a function of latitude. From the surface meridional velocity data, we define $v_{mn}$ (the space/time data) and $V_{jk}$ (the Fourier transform) in the same way just described, and in Fig.~\ref{fig:integrated_spectra_V} we plot
+$\ol{|V|^2}(\varphi, \kappa)$, $\ol{|V|^2}(\varphi, \omega)$, and $\ol{|V|^2}(\varphi, c)$.
 
 \subsection{Eddy Heat Flux Cross Spectra}
 
-% to normalize or not normalize the phase speed spectra?
-% better *NOT* to normalize: gives a better impression of how much energy in each mode
-% this is a separate question from how to display, i.e. whether the scale magnitude according to grid spacing (dk, dom, dc)
-
+\begin{equation}
+\ol{V\Theta} = \frac{1}{MN} \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} v_{mn} \theta_{mn} = \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} \Re \{ V_{jk}  \Theta_{jk}^\ast \} 
+\end{equation}
 
 \section{Wavenumber, Frequency and Phase Speed Spectra}
 
