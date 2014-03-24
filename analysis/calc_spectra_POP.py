@@ -113,6 +113,14 @@ for j in arange(s.Ny):
     SSH_U = s.timeseries_sets[dsets[1]].load(j, remove_zonal_mean=True, Nt=Nt, ft_normfac=sqrt(2)/(Nt*s.Nx))
     SST = s.timeseries_sets[dsets[2]].load(j, Nt=Nt, 
         remove_temporal_mean=True, remove_zonal_mean=True, ft_normfac=sqrt(2)/(Nt*s.Nx))
+
+    # remove wavenumber 1 as well
+    # there are two reasons for this
+    # - it doesn't represent eddies, too large scale
+    # - it is creating artifcats when we bin in c-space because the c bins are too fine for
+    SSH_V.ft_data[:,1] = 0
+    SSH_U.ft_data[:,1] = 0
+    SST.ft_data[:,1] = 0
     
     if any(plot_js==j):
         spectral_plot(SST,SSH_V)
@@ -134,7 +142,8 @@ for j in arange(s.Ny):
     for (v, field) in myfields:
         data[v]['pow_k'][j] = SSH_V.sum_over_om(field * mask)
         data[v]['pow_om'][j] = SSH_V.sum_over_k(field * mask)
-        data[v]['pow_c'][j], c[j], dc[j], data[v]['cpts'][j] = SSH_V.sum_in_c(field * mask, Nc)
+        #data[v]['pow_c'][j], c[j], dc[j], data[v]['cpts'][j] = SSH_V.sum_in_c(field * mask, Nc)
+        data[v]['pow_c'][j], c[j], dc[j], data[v]['cpts'][j] = SSH_V.sum_in_c_interp(field * mask, Nc=Nc)
     # zero wavenumber and frequency are already removed
     #Vp = SSH_V.ts_data - SSH_V.ts_data.mean(axis=1)[:,newaxis]      
     #Up = SSH_U.ts_data - SSH_U.ts_data.mean(axis=1)[:,newaxis]      
