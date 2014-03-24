@@ -2,6 +2,7 @@ from pylab import *
 import os
 import fnmatch 
 import re
+from scipy.ndimage.filters import gaussian_filter1d
 
 # how should this work?
 # sec = Sector()
@@ -219,24 +220,37 @@ class TimeSeries:
         # need to divide by Cpts to get proper normalization?
         return T2f_c, 0.5*(c[1:]+c[:-1]), dc, Cpts
         
-        
-    def convert_om_to_c(self, field, Nc=101):
+    def sum_in_c_interp(self, field, **kwargs):
+        field_c, c, dc = self.convert_om_to_c(field, **kwargs)
+        Cpts = ones(len(c))
+        return field_c.sum(axis=1), c, dc, Cpts 
+            
+    def convert_om_to_c(self, field, Nc=101, sig=2):
         # should automatically mask the zero wavenumber
         #C = ma.masked_invalid(self.om[:,newaxis] / self.k[newaxis,:])
         C = self.om[:,newaxis] / self.k[newaxis,:]
         self.C = C
+
+        # smooth field in frequency
+        if sig>0:
+            field_sm = gaussian_filter1d(field, sig, axis=0)
+        else:
+            field_sm = field
         
         # minimum phase speed is a wave that will cross the sector over the period
         Cmin = self.L / self.per / 10
         Cmax = abs(ma.masked_invalid(C)).max()
         
         # new method based on equal angle spacing
-        cstar = self.om.max() / self.k.max()
-        c = -cstar/tan(linspace(self.sector.Nk**-1,pi-self.sector.Nk**-1,Nc))
-
-        field_c = zeros((Nc, self.sector.Nk))
+        cstar = self.om.max() / self.k.max()        
+        c = -cstar/tan(linspace(self.sector.Nk**-1,pi-self.sector.Nk**-1,Nc+1))
+        c = hstack( [-inf, c, inf] )
+        ci = 0.5*(c[1:]+c[:-1])
+        dc = diff(c)
+        
+        field_c = zeros((Nc+2, self.sector.Nk))
         for i in range(self.sector.Nk):
-            field_c[:,i] = interp(c, C[:,i][::-1], field[:,i][::-1],
-                            left=nan, right=nan)
+            field_c[:,i] = interp(ci, C[:,i][::-1], field_sm[:,i][::-1],
+                            left=nan, right=nan) * self.k[i]
 
-        return field_c, c
+        return ma.masked_invalid(field_c), ci, dc
