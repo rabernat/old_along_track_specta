@@ -115,14 +115,14 @@ The framework of FN10 was recently tested by \citet[][henceforth KA15]{KlockerAb
 
 To answer this question, we employ satellite observations to investigate the spectral character of surface eddy meridional heat fluxes over a wide range of latitudes. This is achieved by calculating wavenumber-frequency cross-spectra for sea-surface temperature (SST) and the geostrophic velocity derived from sea-surface height (SSH). There is an extensive literature on the analysis of spatiotemporal variance and covariance in different remotely sensed ocean surface datasets such as SSH, SST, and color-derived chlorophyl \citep[see review by][]{OBrienEtAl2013}. Many of these past studies focus on characterizing the propagation behavior of Rossby waves \citep{CheltonSchalx1996,PolitoCornillon1997,CipolliniEtAl1997,HillEtAl2000,CipolliniEtAl2001,PolitoLiu2003,KillworthEtAl2004} and tropical instability waves \citep{PolitoEtAl2001,Contreras2002,CheltonEtAl2000,LeeEtAl2012}. The paper by \citet{KillworthEtAl2004} is particularly comprehensive and makes a convincing case that a large fraction of of the variance in SST and surface chlorophyl arises by advective stirring by the surface geostrophic flow.
 
-Being interested in the wave dynamics themselves, the studies cited above generally employed filters to isolate the spectral bands of interest. Here the approach is slightly different: we consider the total, unfiltered eddy flux and examine its spectral density in wavenumber, frequency, and phase-speed space. This perspective is inspired by the atmospheric study of \citet{RandelHeld1991}, who made such a diagnosis for the eddy fluxes of heat and momentum in the troposphere. In particular, their way of plotting the results of the cross-spectral analysis, as 2D contour plot as a function of latitude and phase speed (or latitude and wavenumber), provides an especially insightful view of the oceanographic data as well. Our results indicate the the extratropical meridional eddy heat flux in phase-speed space is indeed concentrated around the longwave Rossby wave phase speed, which is equal to the observed propagation speed of mesoscale eddies. The dominant length scale is larger than the observed mesoscale eddy diameter; however, the two quantities are consistently proportional. The magnitude of the observed heat flux is also found to be consistent with, but somewhat greater than, the flux predicted by the FN10 theory.
+Being interested in the wave dynamics themselves, the studies cited above generally employed filters to isolate the spectral bands of interest. Here the approach is slightly different: we consider the total, unfiltered eddy flux and examine its spectral density in wavenumber, frequency, and phase-speed space. This perspective is inspired by the atmospheric study of \citet[][henceforth RH91]{RandelHeld1991}, who made such a diagnosis for the eddy fluxes of heat and momentum in the troposphere. In particular, their way of plotting the results of the cross-spectral analysis, as 2D contour plot as a function of latitude and phase speed (or latitude and wavenumber), provides an especially insightful view of the oceanographic data as well. Our results indicate the the extratropical meridional eddy heat flux in phase-speed space is indeed concentrated around the longwave Rossby wave phase speed, which is equal to the observed propagation speed of mesoscale eddies. The dominant length scale is larger than the observed mesoscale eddy diameter; however, the two quantities are consistently proportional. The magnitude of the observed heat flux is also found to be consistent with, but somewhat greater than, the flux predicted by the FN10 theory.
 
 Our paper is organized as follows. Sec.~2 describes the satellite data sources used for SST and SSH. The basic results of the cross-spectral analysis are presented in Sec.~3 as function of latitude and wavenumber, latitude and frequency, and latitude and phase speed. In Sec.~4, we diagnose the moments of the flux and its ``breadth'' in wavenumber and phase-speed space. We also compare the total flux to the prediction of the FN10 model. Discussion and conclusions are given in Sec.~5.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Data
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Satellite Data Sources}
+\section{Data Sources}
 
 \subsection{Sea-Surface Height (SSH)}
 The altimeter products were produced by Ssalto/Duacs and distributed by Aviso, with support from Cnes (\url{http://www.aviso.oceanobs.com/duacs/}). For this study we use the pre-computed geostrophic velocities derived from the delayed-time, merged sea-level anomaly fields. In these pre-computed velocities, the method of \citet{Lagerloef1999} is applied in the equatorial band ($\pm 5^\circ$). This method, based on the ``equatorial geostrophic'' vorticity balance, has been validated with {\em in situ} current meters and allows us to obtain velocity estimates in this region. Nevertheless, we must maintain some skepticism of the results in the equatorial band.
@@ -134,6 +134,10 @@ Aviso produces a map every 7 days which represents a best estimate of the SSH fi
 \subsection{Sea-Surface Temperature (SST)}
 
 The SST data is the Group for High Resolution Sea Surface Temperature (GHRSST) global Level 4 sea surface temperature analysis produced by the NOAA National Climatic Data Center \citep{ReynoldsEtAl2007}. An SST map is produced daily on a 1/4$^\circ$ grid. We selected the version of the product that blends data from the 4 km Advanced Very High Resolution Radiometer (AVHRR), the Advanced Microwave Scanning Radiometer-EOS (AMSR-E), and {\em in situ} ship and buoy observations using optimal interpolation. The SST value represents the temperature at approx.~0.3 m depth. The data coverage for this product begins in June 2002 and ends in Oct. 2011, the period of operation of the AMSR-E instrument. In order to match the temporal resolution of the SSH data, we subsample the SST data on the same days as the Aviso output.
+
+\subsection{1/10$^\circ$ POP Model}
+
+What to cite here?
 
 \subsection{Pre-Processing}
 
@@ -154,7 +158,7 @@ Relatively little processing is applied to the data, since the products we have 
 
 \subsection{Univariate Power Spectra for SST and SSH}
 
-He we describe the calculation of wavenumber-frequency spectra for $\theta$, the SST. (An identical procedure applies to $v$, the meridional velocity.) In principle, $\theta$ at each latitude in the sector is a continuous function of $x$, zonal coordinate, and $t$, time: $\theta = \theta(x,t)$. However, our observations are discrete, with $N$ spatial points in latitude (spaced by $\Delta x$) and $M$ points in time (spaced by $\Delta t$) such that the total zonal length of the sector is $L = N \Delta x$ and the total temporal length of the record is $T = M \Delta t$. The discrete space and time coordinates are denoted as $x_n = n \Delta x$, $t_m = m \Delta t$. For the data used here, $L(\varphi) = 2 \pi a \cos(\varphi) / 50$ where $\varphi$ is latitude, $N = 200$, $T = 3402$ days, and $M = 486$.
+He we describe the calculation of wavenumber-frequency spectra for $\theta$, the SST. (An identical procedure applies to $v$, the meridional velocity.) In principle, $\theta$ is a continuous function of $x$, zonal coordinate, and $t$, time: $\theta = \theta(x,t)$ at each latitude $\varphi$ in the sector. However, our observations are discrete, with $N$ spatial points in longitude (spaced by $\Delta x$) and $M$ points in time (spaced by $\Delta t$) such that the total zonal length of the sector is $L = N \Delta x$ and the total temporal length of the record is $T = M \Delta t$. The discrete space and time coordinates are denoted as $x_n = n \Delta x$, $t_m = m \Delta t$. For the data used here, $L(\varphi) = 2 \pi a \cos(\varphi) / 50$ where $\varphi$ is latitude, $N = 200$, $T = 3402$ days, and $M = 486$.
 
 We write the discreet SST as
 \begin{equation}
@@ -167,7 +171,7 @@ We can express $\theta_{mn}$ using a discrete Fourier transform as
 \end{equation}
 where $\Theta_{jk}$ are the complex Fourier components, $\kappa_k = 2 \pi k / L$ is the wavenumber, and $\omega_j = 2 \pi j / T$ is the   angular frequency. % that is actually wrong--the frequencies only go to 2/N (Nyquist freq.) but they are positive and negative
 Equation \eqref{eq:ift} summarizes the normalization and unit conventions in our Fourier-transform definitions.
-We adopt the convention of \citet{RandelHeld1991} in which all wavenumbers are positive while frequencies take both positive and negative values. The values of $\Theta_{jk}$ are computed numerically from $\theta_{mn}$ using the NumPy implementation of the fast-Fourier-transform (FFT) algorithm. {\em [[[ Should we be smoothing $\Theta_{jk}$ at this point? ]]]}
+We adopt the convention of RH91 in which all wavenumbers are positive while frequencies take both positive and negative values. The values of $\Theta_{jk}$ are computed numerically from $\theta_{mn}$ using the NumPy implementation of the fast-Fourier-transform (FFT) algorithm. {\em [[[ Should we be smoothing $\Theta_{jk}$ at this point? ]]]}
 
 Parseval's theorem states that the total power of the signal is the same in either basis. The normalization condition chosen in \eqref{eq:ift} means that each Fourier component represents a fraction of the variance, such that 
 \begin{equation}
@@ -184,16 +188,12 @@ Similarly, we define the power density as a function of frequency as the sum ove
 \begin{equation}
 \ol{|\Theta|^2}(\omega) = (\Delta \omega)^{-1} \sum_{k=0}^{N-1} \Theta_{jk}^\ast   \Theta_{jk} 
 \end{equation}
-where $\Delta \omega$ is the spacing of the discrete frequencies. Finally, we can bin and sum the $\Theta_{jk}$ values according to phase speed to give $\ol{|\Theta|^2}(c)$. The phase speed at each $(j,k)$ point is
-\begin{equation}
-c_{jk} = \frac{\omega_j}{\kappa_k} \ .
-\end{equation}
-We must exclude $\kappa = 0$, but, as discussed in Sec. 2c, the preprocessing removed all power from this wavenumber.
-We define the $c$ bins such that they contain approximately the same number of $(j,k)$ points. This amounts to sweeping through angles in the $\omega, \kappa$ plane. As a result, the bins are not evenly spaced in $c$. We use 121 bins, a number that provides good resolution in phase speed space while minimizing noise.
+where $\Delta \omega$ is the spacing of the discrete frequencies.
+
+As in RH91, we construct phase speed spectra by interpolating the spectral density in $(\kappa, \omega)$ space into $(\kappa, c)$ space, where $c = \omega / \kappa$ is the phase speed. Before interpolating, the density $(\Delta \omega)^{-1}\Theta_{jk}^\ast   \Theta_{jk}$ must be multiplied by $\kappa$; this transformation ensures that the total power is the same whether integrating over $\omega$ or $c$. We choose the $c$ values by evenly spaced angles in the $\omega, \kappa$ plane; as a result, the bins are not evenly spaced in $c$. We use 121 bins, a number that provides good resolution in phase speed space while minimizing noise. After summing over wavenumbers, we obtain the power density as a function of phase speed, $\ol{|\Theta|^2}(c)$.
 
 In Fig.~\ref{fig:integrated_spectra_T} we plot $\ol{|\Theta|^2}(\varphi, \kappa)$, $\ol{|\Theta|^2}(\varphi, \omega)$, and $\ol{|\Theta|^2}(\varphi, c)$, using a logarithmic color scale. This figure reveals the distribution of SST variance by wavenumber, frequency, and phase speed as a function of latitude. From the surface meridional velocity data, we define $v_{mn}$ (the space/time data) and $V_{jk}$ (the Fourier transform) in the same way just described, and in Fig.~\ref{fig:integrated_spectra_V} we plot
-$\ol{|V|^2}(\varphi, \kappa)$, $\ol{|V|^2}(\varphi, \omega)$, and $\ol{|V|^2}(\varphi, c)$.
-
+$\ol{|V|^2}(\varphi, \kappa)$, $\ol{|V|^2}(\varphi, \omega)$, and $\ol{|V|^2}(\varphi, c)$. 
 \begin{figure}[t]
   \noindent\includegraphics{../figures/50degwide/integrated_spectra_T.pdf}\\
   \caption{Power spectral density of SST variance as a function of latitude and wavenumber (left), frequency (center), and phase speed(right). All color scales are logarithmic. In the left panel, the Rossby deformation radius ($L_d$, from \citealt{TullochEtAl2011}) and the average nonlinear eddy diameter ($L_{eddy}$, from \citealt{CheltonEtAl2011}) are also plotted. In the right panel, the longwave linear Rossby wave phase speed ($c_R$, from \citealt{TullochEtAl2011}), the speed of tracked nonlinear eddies ($c_{eddy}$, from \citealt{CheltonEtAl2011}) and the surface zonal mean flow speed are also plotted.}
@@ -208,7 +208,7 @@ $\ol{|V|^2}(\varphi, \kappa)$, $\ol{|V|^2}(\varphi, \omega)$, and $\ol{|V|^2}(\v
 
 \subsection{Eddy Heat Flux Cross Spectra}
 
-Parseval's theorem also applies to the product of $\theta$ and $v$; the eddy heat flux is the same whether expressed as an average of space / time components or a sum of Fourier components. We express this mathematically in our chosen notation as
+Parseval's theorem also applies to the product of $\theta$ and $v$; the eddy heat flux is the same whether expressed as an average of space / time components or a sum of Fourier components. We express this mathematically as
 \begin{equation}
 \ol{V\Theta} = \frac{1}{MN} \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} v_{mn} \theta_{mn} = \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} \Re \{ V_{jk}^\ast  \Theta_{jk} \} \ .
 \end{equation}
