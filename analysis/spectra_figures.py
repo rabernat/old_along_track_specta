@@ -5,9 +5,8 @@ import mycolors
 from scipy.ndimage.filters import gaussian_filter1d, gaussian_filter
 
 # which data to use
-secname = '50degwide'
-#prefix = 'SAT_%s' % secname
-prefix = 'POP_%s' % secname
+prefix = 'SAT_50degwide' 
+#prefix = 'POP_50degwide' 
 # the different variables available
 varnames = ['V','U','T','VT','VU']
 # load data
@@ -167,7 +166,7 @@ for dname, d in data.iteritems():
 
     draw()
     fig.tight_layout()
-    fig.savefig('../figures/%s/integrated_spectra_%s.pdf' % (secname,dname))
+    fig.savefig('../figures/%s/integrated_spectra_%s.pdf' % (prefix,dname))
 
 # contours
 d = data['VT']
@@ -197,19 +196,25 @@ ax1.set_xlim([-0.1,0.05])
 ax2.set_xlim([-0.1,0.05])
 grid();
 cb=colorbar(cax=axes((0.92,0.3,0.01,0.4)),ticks=cpowticks)
-savefig('../figures/%s/VT_phase_speed_spectra_extropical.pdf' % secname)
+savefig('../figures/%s/VT_phase_speed_spectra_extropical.pdf' % prefix)
+
+# different scale factors for different data
+if prefix[:3]=='POP':
+    scalefac = 2
+else:
+    scalefac = 5
 
 figure(figsize=(3.25,2.5))
-contourf(c[:,1:-1], lat_c[:,1:-1], d['pow_c'][:,1:-1]/dc[:,1:-1] / dc_norm, cpowlevs/10, cmap=d['cmap'], extend='both')
+contourf(c[:,1:-1], lat_c[:,1:-1], d['pow_c'][:,1:-1]/dc[:,1:-1] / dc_norm, cpowlevs/scalefac, cmap=d['cmap'], extend='both')
 plot(-cdat['c_dudley'], clat, 'k-', cdat['c_doppler'], clat, 'k--', Udat['Umean_ECCO_patch'], clat, 'm-')
 ylim([-10,10])
 xlim([-1,0.5])
 ylabel('lat')
 xlabel(r'$c$ (m/s)')
-grid(); colorbar(ticks=cpowticks/10);
+grid(); colorbar(ticks=cpowticks/scalefac);
 title(r'$\overline{|V^\ast \Theta|}(c)$ equator (K m s$^{-1}$ / 0.01 m s$^{-1}$)')
 #legend([r'$c_{eddy}$',r'$c_R$',r'$U_0$'], loc='upper left')
 tight_layout()
-savefig('../figures/%s/VT_phase_speed_spectra_equatorial.pdf' % secname)
+savefig('../figures/%s/VT_phase_speed_spectra_equatorial.pdf' % prefix)
 
 show()
