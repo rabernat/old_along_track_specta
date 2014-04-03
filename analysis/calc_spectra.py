@@ -25,6 +25,13 @@ Nc = 121
 Nt = 486
 Nk = s.Nk
 
+# a way to bypass actually outputing anything
+actually_save = False
+def savefig_dummy(*args, **kwargs):
+    if actually_save:
+        savefig(*args, **kwargs)
+
+
 # other datasets
 andreas_data_dir = os.path.join(os.environ['D'], 'DATASTORE.RPA','projects','aviso_mixing','andreas')
 cdat = np.load(os.path.join(andreas_data_dir, 'c.npz'))
@@ -69,6 +76,7 @@ lens =  array([1000,350,200,100,80,50])
 ktick = (1000. * lens.astype('f4') / 2 / pi)**-1
 
 rcParams['font.size'] = 8
+rcParams['legend.fontsize'] = 'small'
 rcParams['axes.formatter.limits'] = [-2, 2]
 def spectral_plot(SST,SSH_V):
     fig=figure(figsize=(6.5,7.5))
@@ -106,7 +114,7 @@ def spectral_plot(SST,SSH_V):
     
     fig.tight_layout()
     
-    savefig('../figures/%s/individual_spectra/SST_SST_wavefreq_spectra_%g.pdf' % (secname, int(round(SST.lat))) )
+    savefig_dummy('../figures/%s/individual_spectra/SST_SST_wavefreq_spectra_%g.pdf' % (secname, int(round(SST.lat))) )
     
 #plot_js = arange(79,s.Ny,40)
 plot_js = array([])
@@ -143,7 +151,8 @@ for j in arange(s.Ny):
             field = gaussian_filter(field, sm_sig)
         data[v]['pow_k'][j] = SSH_V.sum_over_om(field * mask)
         data[v]['pow_om'][j] = SSH_V.sum_over_k(field * mask)
-        data[v]['pow_c'][j], c[j], dc[j], data[v]['cpts'][j] = SSH_V.sum_in_c(field * mask, Nc)
+        #data[v]['pow_c'][j], c[j], dc[j], data[v]['cpts'][j] = SSH_V.sum_in_c(field * mask, Nc)
+        data[v]['pow_c'][j], c[j], dc[j], data[v]['cpts'][j] = SSH_V.sum_in_c_interp(field * mask, Nc=Nc)
     # zero wavenumber and frequency are already removed
     #Vp = SSH_V.ts_data - SSH_V.ts_data.mean(axis=1)[:,newaxis]      
     #Up = SSH_U.ts_data - SSH_U.ts_data.mean(axis=1)[:,newaxis]      
@@ -190,7 +199,7 @@ xlabel('lat'); ylabel(r'Q (W m$^{-2}$)')
 title('Heating Rate')
 tight_layout()
 
-savefig('../figures/%s/MHT_and_heating.pdf' % secname)
+savefig_dummy('../figures/%s/MHT_and_heating.pdf' % secname)
 
 figure(figsize=(6.5,2.25))
 plot(s.lat, K,'k',linewidth=2)
@@ -198,7 +207,7 @@ grid(); xlim([-60,50]); ylim(array([0,5000]))
 xlabel('lat'); ylabel(r'K (m$^2$ s$^{-1}$)')
 title('Meridional Eddy Diffusivity')
 tight_layout()
-savefig('../figures/%s/diffusivity.pdf' % secname)
+savefig_dummy('../figures/%s/diffusivity.pdf' % secname)
 
 
 # output Tbar for advection/diffusion calc
@@ -256,7 +265,6 @@ dk_norm = 1e3
 dom_norm = 1e5
 dc_norm = 100
 
-
 close('all')
 #for (pow_k,pow_om,pow_c) in [(V_pow_k,V_pow_om,V_pow_c),
 #               (T_pow_k,T_pow_om,T_pow_c)]:
@@ -272,7 +280,7 @@ for dname, d in data.iteritems():
         pow_c = d['pow_c'] / dc / dc_norm
         Ucolor = 'm-'
     
-    fig = figure()
+    fig = figure(figsize=(6.5,4.5))
     clf()
     subplot(131)
     pcolormesh(s.k, lat_k, pow_k, cmap=d['cmap'], rasterized=True)
@@ -287,7 +295,11 @@ for dname, d in data.iteritems():
     ylabel('lat')
     legend([r'$L_{eddy}$',r'$L_d$'], loc='upper right')
     cb=colorbar(orientation='horizontal', extendrect=True)
-    cb.ax.set_title(r'%s / 10$^{-3}$ m$^{-1}$' % d['units'])
+    cb.ax.set_title(r'%s / 10$^{-3}$ m$^{-1}$' % d['units'],
+        {'fontsize': rcParams['axes.labelsize'],
+             'verticalalignment': 'baseline',
+             'horizontalalignment': 'center'})
+    setp(cb.ax.get_xticklabels()[::2], visible=False)
     
     subplot(132)
     pcolormesh(SST.om, lat_om, pow_om, cmap=d['cmap'], rasterized=True)
@@ -300,7 +312,11 @@ for dname, d in data.iteritems():
     xlabel(r'$2 \pi / \omega$ (days)')
     #ylabel('lat')
     cb=colorbar(orientation='horizontal', extendrect=True)
-    cb.ax.set_title(r'%s / 10$^{-5}$ s$^{-1}$' % d['units'])
+    cb.ax.set_title(r'%s / 10$^{-5}$ s$^{-1}$' % d['units'],
+        {'fontsize': rcParams['axes.labelsize'],
+             'verticalalignment': 'baseline',
+             'horizontalalignment': 'center'})
+    setp(cb.ax.get_xticklabels()[::2], visible=False)
     
     subplot(133)
     pcolormesh(c[:,1:-1], lat_c, pow_c[:,1:-1], cmap=d['cmap'], rasterized=True)
@@ -314,7 +330,12 @@ for dname, d in data.iteritems():
     #ylabel('lat')
     legend([r'$c_{eddy}$',r'$c_R$',r'$U_0$'], loc='upper left')
     cb=colorbar(orientation='horizontal', extendrect=True)
-    cb.ax.set_title(r'%s / 0.01 m s$^{-1}$' % d['units'])
+    cb.ax.set_title(r'%s / 0.01 m s$^{-1}$' % d['units'],
+        {'fontsize': rcParams['axes.labelsize'],
+             'verticalalignment': 'baseline',
+             'horizontalalignment': 'center'})
+    setp(cb.ax.get_xticklabels()[::2], visible=False)
+
     draw()
     fig.tight_layout()
     fig.savefig('../figures/%s/integrated_spectra_%s.pdf' % (secname,dname))

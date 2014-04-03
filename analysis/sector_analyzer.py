@@ -251,6 +251,8 @@ class TimeSeries:
         field_c = zeros((Nc+2, self.sector.Nk))
         for i in range(self.sector.Nk):
             field_c[:,i] = interp(ci, C[:,i][::-1], field_sm[:,i][::-1],
-                            left=nan, right=nan) * self.k[i]
+                            left=nan, right=nan) * self.k[i] / self.dom
+        # normalize
+        field_c *= dc[:, newaxis]
 
         return ma.masked_invalid(field_c), ci, dc
