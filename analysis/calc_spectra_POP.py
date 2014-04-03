@@ -118,9 +118,9 @@ for j in arange(s.Ny):
     # there are two reasons for this
     # - it doesn't represent eddies, too large scale
     # - it is creating artifcats when we bin in c-space because the c bins are too fine for
-    SSH_V.ft_data[:,1] = 0
-    SSH_U.ft_data[:,1] = 0
-    SST.ft_data[:,1] = 0
+    #SSH_V.ft_data[:,1] = 0
+    #SSH_U.ft_data[:,1] = 0
+    #SST.ft_data[:,1] = 0
     
     if any(plot_js==j):
         spectral_plot(SST,SSH_V)
@@ -358,7 +358,7 @@ title(r'$\overline{|V^\ast \Theta|}(c)$ (equator)')
 tight_layout()
 savefig('../figures/%s/VT_phase_speed_spectra_equatorial.pdf' % secname)
 
-
+show()
 
 # comparison of zonal averages
 
