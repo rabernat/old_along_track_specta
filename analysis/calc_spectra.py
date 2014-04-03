@@ -165,7 +165,18 @@ for j in arange(s.Ny):
     za_data['Tp2'][j] = mean(SST.ts_data_filtered**2)
     za_data['VpTp'][j] = mean(SSH_V.ts_data_filtered*SST.ts_data_filtered)
     za_data['VpUp'][j] = mean(SSH_V.ts_data_filtered*SSH_U.ts_data_filtered)
+
+# save data
+prefix = '../data/SAT_%s' % secname
+for v in data.keys():
+    np.savez('%s_%s.npz' % (prefix,v), lat=s.lat,
+            c=c, dc=dc, k=s.k, dk=s.dk, om=SST.om, dom=SST.dom,
+            pow_k=data[v]['pow_k'].filled(0.),
+            pow_om=data[v]['pow_om'].filled(0.),
+            pow_c=data[v]['pow_c'].filled(0.))
+np.savez('%s_zon-avg.npz' % prefix, lat=s.lat, **za_data)
     
+
 mask = (sstmask | sshmask)
 MHT = rho0*cp*s.L*interp(s.lat,mld_lat,mld) * ma.masked_array(
             za_data['VpTp'], mask) 
@@ -217,187 +228,7 @@ dTdy = (za_data['Tbar'][2:]-za_data['Tbar'][:-2]) / (2*DY)
 
 alpha_c = - data['VT']['pow_c']/(data['V']['pow_c']**0.5 * data['T']['pow_c']**0.5)
 
-lat_k = tile(s.lat[:,newaxis], (1, s.Nk))    
-lat_c = tile(s.lat[:,newaxis], (1, Nc))
-lat_om = s.lat
 
-# put clim info into the array
-data['V']['pow_k_clim'] = [-4.5,-2.5]
-data['V']['pow_om_clim'] = [-5,-3]
-data['V']['pow_c_clim'] = [-5,-3]
-data['V']['log'] = True
-data['V']['units'] = r'm$^2$ s$^{-2}$'
-data['V']['cmap'] = get_cmap('CMRmap_r')
-data['V']['title'] = r'log$_{10}$($\overline{|V|^2}$)'
-data['U']['pow_k_clim'] = [-4.5,-2.5]
-data['U']['pow_om_clim'] = [-5,-3]
-data['U']['pow_c_clim'] = [-5,-3]
-data['U']['log'] = True
-data['U']['units'] = r'm$^2$ s$^{-2}$'
-data['U']['cmap'] = get_cmap('CMRmap_r')
-data['U']['title'] = r'log$_{10}$($\overline{|U|^2}$)'
-data['T']['pow_k_clim'] = [-3,-1]
-data['T']['pow_om_clim'] = [-3,-1]
-data['T']['pow_c_clim'] = [-3,-1]
-data['T']['log'] = True
-data['T']['units'] = r'K$^2$'
-data['T']['cmap'] = get_cmap('CMRmap_r')
-data['T']['title'] = r'log$_{10}$($\overline{|\Theta|^2}$)'
-data['VT']['pow_k_clim'] = [-0.01, 0.01]
-data['VT']['pow_om_clim'] = [-0.005, 0.005]
-data['VT']['pow_c_clim'] = [-0.005, 0.005]
-data['VT']['log'] = False
-data['VT']['units'] = r'K m s$^{-1}$'
-#data['VT']['cmap'] = get_cmap('coolwarm')
-data['VT']['cmap'] = get_cmap('posneg')
-data['VT']['title'] = r'$\overline{V^\ast \Theta}$'
-data['VU']['pow_k_clim'] = [-6e-4, 6e-4]
-data['VU']['pow_om_clim'] = [-3e-4, 3e-4]
-data['VU']['pow_c_clim'] = [-3e-4, 3e-4]
-data['VU']['log'] = False
-data['VU']['units'] = r'm$^2$ s$^{-2}$'
-#data['VT']['cmap'] = get_cmap('coolwarm')
-data['VU']['cmap'] = get_cmap('posneg')
-data['VU']['title'] = r'$\overline{V^\ast U}$'
-
-
-dk_norm = 1e3
-dom_norm = 1e5
-dc_norm = 100
-
-close('all')
-#for (pow_k,pow_om,pow_c) in [(V_pow_k,V_pow_om,V_pow_c),
-#               (T_pow_k,T_pow_om,T_pow_c)]:
-for dname, d in data.iteritems():
-    if d['log']:
-        pow_k = log10(d['pow_k']/s.dk / dk_norm)
-        pow_om = log10(d['pow_om']/SST.dom / dom_norm)
-        pow_c = log10(d['pow_c']/dc / dc_norm)
-        Ucolor = 'c-'
-    else:
-        pow_k = d['pow_k'] / s.dk / dk_norm
-        pow_om = d['pow_om'] / SST.dom / dom_norm
-        pow_c = d['pow_c'] / dc / dc_norm
-        Ucolor = 'm-'
-    
-    fig = figure(figsize=(6.5,4.5))
-    clf()
-    subplot(131)
-    pcolormesh(s.k, lat_k, pow_k, cmap=d['cmap'], rasterized=True)
-    plot((4*rdat['r_dudley'])**-1 * 2 * pi, clat, 'k-', (4*rdat['r_rossby'])**-1 * 2 * pi, clat, 'k--')
-    clim(d['pow_k_clim'])
-    xticks(ktick, lens)
-    ylim([-60,50])
-    xlim([0,5e-5])
-    grid()
-    title(d['title'] + r"$(\kappa)$")
-    xlabel(r'$2 \pi / k$ (km)')
-    ylabel('lat')
-    legend([r'$L_{eddy}$',r'$L_d$'], loc='upper right')
-    cb=colorbar(orientation='horizontal', extendrect=True)
-    cb.ax.set_title(r'%s / 10$^{-3}$ m$^{-1}$' % d['units'],
-        {'fontsize': rcParams['axes.labelsize'],
-             'verticalalignment': 'baseline',
-             'horizontalalignment': 'center'})
-    setp(cb.ax.get_xticklabels()[::2], visible=False)
-    
-    subplot(132)
-    pcolormesh(SST.om, lat_om, pow_om, cmap=d['cmap'], rasterized=True)
-    clim(d['pow_om_clim'])
-    xticks(omtick,days)
-    xlim([ -(25*day/(2*pi))**-1, (60*day/(2*pi))**-1])
-    ylim([-60,50])
-    grid()
-    title(d['title'] + r"$(\omega)$")
-    xlabel(r'$2 \pi / \omega$ (days)')
-    #ylabel('lat')
-    cb=colorbar(orientation='horizontal', extendrect=True)
-    cb.ax.set_title(r'%s / 10$^{-5}$ s$^{-1}$' % d['units'],
-        {'fontsize': rcParams['axes.labelsize'],
-             'verticalalignment': 'baseline',
-             'horizontalalignment': 'center'})
-    setp(cb.ax.get_xticklabels()[::2], visible=False)
-    
-    subplot(133)
-    pcolormesh(c[:,1:-1], lat_c, pow_c[:,1:-1], cmap=d['cmap'], rasterized=True)
-    clim(d['pow_c_clim'])
-    plot(-cdat['c_dudley'], clat, 'k-', cdat['c_doppler'], clat, 'k--', Udat['Umean_ECCO_patch'], clat, Ucolor)
-    ylim([-60,50])
-    xlim([-0.5,0.2])
-    grid()
-    title(d['title'] + r'$(c)$')
-    xlabel(r'$c$ (m/s)')
-    #ylabel('lat')
-    legend([r'$c_{eddy}$',r'$c_R$',r'$U_0$'], loc='upper left')
-    cb=colorbar(orientation='horizontal', extendrect=True)
-    cb.ax.set_title(r'%s / 0.01 m s$^{-1}$' % d['units'],
-        {'fontsize': rcParams['axes.labelsize'],
-             'verticalalignment': 'baseline',
-             'horizontalalignment': 'center'})
-    setp(cb.ax.get_xticklabels()[::2], visible=False)
-
-    draw()
-    fig.tight_layout()
-    fig.savefig('../figures/%s/integrated_spectra_%s.pdf' % (secname,dname))
-    
-    
-
-d = data['VT']
-
-#cpowlevs = 0.2*(arange(-10,10)+0.5)*d['pow_c_clim'][1]
-#cpowlevs = arange(-75,76,10)/100.
-#cpowticks = arange(-7,8,2)/10.
-cpowlevs = (arange(-5.,5.)+0.5)/1e3
-cpowticks = arange(-4,5)/1e3
-
-figure(figsize=(6.5,4.5))    
-ax1=subplot2grid((9,1), loc=(0,0), rowspan=4)
-#subplot(211)
-contourf(c[:,1:-1], lat_c, d['pow_c'][:,1:-1]/dc[:,1:-1] / dc_norm, cpowlevs, cmap=d['cmap'], extend='both')
-#pcolormesh(c[:,1:-1], lat_c, d['pow_c'][:,1:-1]/dc[:,1:-1], cmap=d['cmap'], rasterized=True)
-#clim(cpowlevs[r_[0,-1]])
-plot(-cdat['c_dudley'], clat, 'k-', cdat['c_doppler'], clat, 'k--', Udat['Umean_ECCO_patch'], clat, 'm-')
-ylim([10,50]); yticks(arange(10,51,10))
-ylabel('lat')
-grid();
-legend([r'$c_{eddy}$',r'$c_R$',r'$U_0$'], loc='upper left')
-title(r'$\overline{|V^\ast \Theta|}(c)$ extra tropics (K m s$^{-1}$ / 0.01 m s$^{-1}$)')
-
-#subplot(212)
-ax2=subplot2grid((9,1), loc=(4,0), rowspan=5)
-contourf(c[:,1:-1], lat_c, d['pow_c'][:,1:-1]/dc[:,1:-1] / dc_norm, cpowlevs, cmap=d['cmap'], extend='both')
-#pcolormesh(c[:,1:-1], lat_c, d['pow_c'][:,1:-1]/dc[:,1:-1], cmap=d['cmap'], rasterized=True)
-#clim(cpowlevs[r_[0,-1]])
-plot(-cdat['c_dudley'], clat, 'k-', cdat['c_doppler'], clat, 'k--', Udat['Umean_ECCO_patch'], clat, 'm-')
-xlim([-0.1,0.05])
-ylim([-60,-10])
-xlabel(r'$c$ (m/s)')
-ylabel('lat')
-ax1.set_xticks(ax2.get_xticks())
-ax1.set_xticklabels([])
-ax1.set_xlim([-0.1,0.05])
-ax2.set_xlim([-0.1,0.05])
-grid();
-#tight_layout()
-cb=colorbar(cax=axes((0.92,0.3,0.01,0.4)),ticks=cpowticks)
-savefig('../figures/%s/VT_phase_speed_spectra_extropical.pdf' % secname)
-
-figure(figsize=(3.25,2.5))
-contourf(c[:,1:-1], lat_c, d['pow_c'][:,1:-1]/dc[:,1:-1] / dc_norm, cpowlevs/10, cmap=d['cmap'], extend='both')
-plot(-cdat['c_dudley'], clat, 'k-', cdat['c_doppler'], clat, 'k--', Udat['Umean_ECCO_patch'], clat, 'm-')
-ylim([-10,10])
-xlim([-1,0.5])
-ylabel('lat')
-xlabel(r'$c$ (m/s)')
-grid(); colorbar(ticks=cpowticks/10);
-title(r'$\overline{|V^\ast \Theta|}(c)$ equator (K m s$^{-1}$ / 0.01 m s$^{-1}$)')
-#legend([r'$c_{eddy}$',r'$c_R$',r'$U_0$'], loc='upper left')
-tight_layout()
-savefig('../figures/%s/VT_phase_speed_spectra_equatorial.pdf' % secname)
-
-
-
-# comparison of zonal averages
 
 
 
