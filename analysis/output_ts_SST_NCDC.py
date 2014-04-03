@@ -34,7 +34,7 @@ lon = -179.875 + 0.25*arange(Nx)
 output_dir = os.path.join(os.environ['D'], 'DATASTORE.RPA','projects','cospectra',
                 'NCDC_AVHRR_AMSR_OI',
                 'lon%6.3fto%6.3f_lat%6.3fto%6.3f' % (lon.min(),lon.max(),lat.min(),lat.max()),
-                'timeseries_%s_%1dday' % (mydate.strftime('%Y%m%d'), DT))
+                'timeseries_%04d%02d%02d_%1dday' % (year0, mon0, day0, DT))
 
 try:
     print('Using output directory:')
