@@ -6,7 +6,8 @@ from scipy.ndimage.filters import gaussian_filter1d, gaussian_filter
 
 # which data to use
 secname = '50degwide'
-prefix = 'SAT_%s' % secname
+#prefix = 'SAT_%s' % secname
+prefix = 'POP_%s' % secname
 # the different variables available
 varnames = ['V','U','T','VT','VU']
 # load data
