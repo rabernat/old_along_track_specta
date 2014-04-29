@@ -26,7 +26,7 @@ Nt = 486
 Nk = s.Nk
 
 # a way to bypass actually outputing anything
-actually_save = False
+actually_save = True
 def savefig_dummy(*args, **kwargs):
     if actually_save:
         savefig(*args, **kwargs)
@@ -114,10 +114,10 @@ def spectral_plot(SST,SSH_V):
     
     fig.tight_layout()
     
-    savefig_dummy('../figures/%s/individual_spectra/SST_SST_wavefreq_spectra_%g.pdf' % (secname, int(round(SST.lat))) )
+    savefig_dummy('../figures/SAT_%s/individual_spectra/SST_SST_wavefreq_spectra_%g.pdf' % (secname, int(round(SST.lat))) )
     
-#plot_js = arange(79,s.Ny,40)
-plot_js = array([])
+plot_js = arange(79,s.Ny,40)
+#plot_js = array([])
 
 sstmask = zeros(s.Ny,bool)
 sshmask = zeros(s.Ny,bool)
