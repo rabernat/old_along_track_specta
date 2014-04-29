@@ -21,12 +21,15 @@ dsets = ['AVISO_dt_ref_global_merged_msla_v-20020605_7day',
          'AVISO_dt_ref_global_merged_msla_u-20020605_7day',
          'NCDC_AVHRR_AMSR_OI-20020605_7day']
 
-Nc = 121
+#Nc = 121
+Nc = 1000
+# we pick the phase speed grid now
+cin = linspace(-1.,1.,Nc+1)
 Nt = 486
 Nk = s.Nk
 
 # a way to bypass actually outputing anything
-actually_save = False
+actually_save = True
 def savefig_dummy(*args, **kwargs):
     if actually_save:
         savefig(*args, **kwargs)
@@ -56,13 +59,17 @@ data = {'V':[],'U':[],'T':[],'VT':[],'VU':[]}
 for v in data.keys():
     data[v] = {'pow_k': ma.masked_array(zeros((s.Ny, Nk)),True),
                'pow_om':  ma.masked_array(zeros((s.Ny, Nt)),True),
-               'pow_c':  ma.masked_array(zeros((s.Ny, Nc+2)),True),
-               'cpts':  ma.masked_array(zeros((s.Ny, Nc+2)),True) }
+#               'pow_c':  ma.masked_array(zeros((s.Ny, Nc+2)),True),
+#               'cpts':  ma.masked_array(zeros((s.Ny, Nc+2)),True) }
+               'pow_c':  ma.masked_array(zeros((s.Ny, Nc)),True),
+               'cpts':  ma.masked_array(zeros((s.Ny, Nc)),True) }
 za_data = {'Vp2':zeros(s.Ny),'Tp2':zeros(s.Ny), 'Up2': zeros(s.Ny),
             'Tbar':zeros(s.Ny),'VpTp':zeros(s.Ny), 'VpUp':zeros(s.Ny)}
 
-c = zeros((s.Ny, Nc+2))
-dc = zeros((s.Ny, Nc+2))
+#c = zeros((s.Ny, Nc+2))
+#dc = zeros((s.Ny, Nc+2))
+c = zeros((s.Ny, Nc))
+dc = zeros((s.Ny, Nc))
 
 mask = ones(s.Nk)
 mask[0] = 0
@@ -114,10 +121,10 @@ def spectral_plot(SST,SSH_V):
     
     fig.tight_layout()
     
-    savefig_dummy('../figures/%s/individual_spectra/SST_SST_wavefreq_spectra_%g.pdf' % (secname, int(round(SST.lat))) )
+    savefig_dummy('../figures/SAT_%s/individual_spectra/SST_SST_wavefreq_spectra_%g.pdf' % (secname, int(round(SST.lat))) )
     
-#plot_js = arange(79,s.Ny,40)
-plot_js = array([])
+plot_js = arange(79,s.Ny,40)
+#plot_js = array([])
 
 sstmask = zeros(s.Ny,bool)
 sshmask = zeros(s.Ny,bool)
@@ -152,7 +159,8 @@ for j in arange(s.Ny):
         data[v]['pow_k'][j] = SSH_V.sum_over_om(field * mask)
         data[v]['pow_om'][j] = SSH_V.sum_over_k(field * mask)
         #data[v]['pow_c'][j], c[j], dc[j], data[v]['cpts'][j] = SSH_V.sum_in_c(field * mask, Nc)
-        data[v]['pow_c'][j], c[j], dc[j], data[v]['cpts'][j] = SSH_V.sum_in_c_interp(field * mask, Nc=Nc)
+        data[v]['pow_c'][j], c[j], dc[j], data[v]['cpts'][j] = (
+            SSH_V.sum_in_c_interp(field * mask, cin=cin, Nc=Nc) )
     # zero wavenumber and frequency are already removed
     #Vp = SSH_V.ts_data - SSH_V.ts_data.mean(axis=1)[:,newaxis]      
     #Up = SSH_U.ts_data - SSH_U.ts_data.mean(axis=1)[:,newaxis]      

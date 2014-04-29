@@ -225,7 +225,7 @@ class TimeSeries:
         Cpts = ones(len(c))
         return field_c.sum(axis=1), c, dc, Cpts 
             
-    def convert_om_to_c(self, field, Nc=101, sig=2):
+    def convert_om_to_c(self, field, cin=None, Nc=101, sig=2):
         # should automatically mask the zero wavenumber
         #C = ma.masked_invalid(self.om[:,newaxis] / self.k[newaxis,:])
         C = self.om[:,newaxis] / self.k[newaxis,:]
@@ -237,18 +237,22 @@ class TimeSeries:
         else:
             field_sm = field
         
-        # minimum phase speed is a wave that will cross the sector over the period
-        Cmin = self.L / self.per / 10
-        Cmax = abs(ma.masked_invalid(C)).max()
+        if cin is None:
+            # minimum phase speed is a wave that will cross the sector over the period
+            Cmin = self.L / self.per / 10
+            Cmax = abs(ma.masked_invalid(C)).max()
         
-        # new method based on equal angle spacing
-        cstar = self.om.max() / self.k.max()        
-        c = -cstar/tan(linspace(self.sector.Nk**-1,pi-self.sector.Nk**-1,Nc+1))
-        c = hstack( [-inf, c, inf] )
+            # new method based on equal angle spacing
+            cstar = self.om.max() / self.k.max()        
+            c = -cstar/tan(linspace(self.sector.Nk**-1,pi-self.sector.Nk**-1,Nc+1))
+            c = hstack( [-inf, c, inf] )
+        else:
+            c = cin    
         ci = 0.5*(c[1:]+c[:-1])
         dc = diff(c)
         
-        field_c = zeros((Nc+2, self.sector.Nk))
+        #field_c = zeros((Nc+2, self.sector.Nk))
+        field_c = zeros((Nc, self.sector.Nk))
         for i in range(self.sector.Nk):
             field_c[:,i] = interp(ci, C[:,i][::-1], field_sm[:,i][::-1],
                             left=nan, right=nan) * self.k[i] / self.dom
