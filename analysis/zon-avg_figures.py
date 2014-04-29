@@ -20,21 +20,26 @@ for ex in expts:
     dza[ex] = dict(np.load('../data/%s_%s.npz' % (prefix[ex], 'zon-avg')))
 
 # calculate moments
-M1, M2 = dict(), dict()
+M1, M2, qual = dict(), dict(), dict()
 for ex in expts:
-    M1[ex], M2[ex] = dict(), dict()
+    M1[ex], M2[ex], qual[ex] = dict(), dict(), dict()
     for v in varnames:
-        M1[ex][v], M2[ex][v] = dict(), dict()
+        M1[ex][v], M2[ex][v], qual[ex][v] = dict(), dict(), dict()
         for coord in cnames:
             # clip the first and last values (to deal with c)
-            thedat = data[ex][v]['pow_' + coord][:,1:-1]
+            thedat = data[ex][v]['pow_' + coord][:,1:-1].copy()
+            # normalize
+            normfac = sum(thedat, axis=1)
+            # a check for profiles that have both positive and negative values
+            qual[ex][v][coord] = abs(normfac) / sum(abs(thedat), axis=1)
+            thedat /= normfac[:,newaxis]
             thecoord = data[ex][v][coord]
             if thecoord.ndim==2:
                 thecoord = thecoord[:,1:-1]
             else:
                 thecoord = thecoord[1:-1]
-            M1[ex][v][coord] = sum(thedat * thecoord, axis=1) / sum(thedat, axis=1)
-            M2[ex][v][coord] = sum(thedat * (thecoord - M1[ex][v][coord][:,newaxis])**2, axis=1) / sum(thedat, axis=1)
+            M1[ex][v][coord] = sum(thedat * thecoord, axis=1)
+            M2[ex][v][coord] = sum(thedat * (thecoord - M1[ex][v][coord][:,newaxis])**2, axis=1)
 
 # load grid info from data
 d = data['T']

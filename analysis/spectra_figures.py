@@ -5,8 +5,8 @@ import mycolors
 from scipy.ndimage.filters import gaussian_filter1d, gaussian_filter
 
 # which data to use
-prefix = 'SAT_50degwide' 
-#prefix = 'POP_50degwide' 
+#prefix = 'SAT_50degwide' 
+prefix = 'POP_50degwide' 
 # the different variables available
 varnames = ['V','U','T','VT','VU']
 # load data
