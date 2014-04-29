@@ -5,8 +5,8 @@ import mycolors
 from scipy.ndimage.filters import gaussian_filter1d, gaussian_filter
 
 # which data to use
-prefix = 'SAT_50degwide' 
-#prefix = 'POP_50degwide' 
+#prefix = 'SAT_50degwide' 
+prefix = 'POP_50degwide' 
 # the different variables available
 varnames = ['V','U','T','VT','VU']
 # load data
@@ -30,6 +30,10 @@ cdat = np.load(os.path.join(andreas_data_dir, 'c.npz'))
 clat = linspace(-80,80,160)
 Udat = np.load(os.path.join(andreas_data_dir, 'Umean_ECCO_patch.npz'))
 rdat = np.load(os.path.join(andreas_data_dir, 'r.npz'))
+# deformation radius
+Kdef = (rdat['r_rossby'] / (2*pi))**-1
+# obs scale
+Kobs = (rdat['r_dudley'] / (2*pi))**-1
 
 # Holt & Talley MLD
 mld_data_dir =  os.path.join(os.environ['D'], 'mixedlayer')
@@ -46,7 +50,7 @@ cp = 4186.
 day = 24*60*60.
 days = array([-15,-30,-60,inf,60,30,15])
 omtick = (day * days.astype('f4') / 2 / pi)**-1
-lens =  array([1000,350,200,100,80,50])
+lens =  array([250,125,80,60])
 ktick = (1000. * lens.astype('f4') / 2 / pi)**-1
 
 rcParams['font.size'] = 8
@@ -54,36 +58,36 @@ rcParams['legend.fontsize'] = 'small'
 rcParams['axes.formatter.limits'] = [-2, 2]
 
 # plotting configuration info
-data['V']['pow_k_clim'] = [-4.5,-2.5]
-data['V']['pow_om_clim'] = [-5,-3]
+data['V']['pow_k_clim'] = [-2,0]
+data['V']['pow_om_clim'] = [-3,-1]
 data['V']['pow_c_clim'] = [-5,-3]
 data['V']['log'] = True
 data['V']['units'] = r'm$^2$ s$^{-2}$'
 data['V']['cmap'] = get_cmap('CMRmap_r')
 data['V']['title'] = r'log$_{10}$($\overline{|V|^2}$)'
-data['U']['pow_k_clim'] = [-4.5,-2.5]
-data['U']['pow_om_clim'] = [-5,-3]
+data['U']['pow_k_clim'] = [-2,0]
+data['U']['pow_om_clim'] = [-3,-1]
 data['U']['pow_c_clim'] = [-5,-3]
 data['U']['log'] = True
 data['U']['units'] = r'm$^2$ s$^{-2}$'
 data['U']['cmap'] = get_cmap('CMRmap_r')
 data['U']['title'] = r'log$_{10}$($\overline{|U|^2}$)'
-data['T']['pow_k_clim'] = [-3,-1]
-data['T']['pow_om_clim'] = [-3,-1]
+data['T']['pow_k_clim'] = [-1,1]
+data['T']['pow_om_clim'] = [-1,1]
 data['T']['pow_c_clim'] = [-3,-1]
 data['T']['log'] = True
 data['T']['units'] = r'K$^2$'
 data['T']['cmap'] = get_cmap('CMRmap_r')
 data['T']['title'] = r'log$_{10}$($\overline{|\Theta|^2}$)'
-data['VT']['pow_k_clim'] = [-0.01, 0.01]
-data['VT']['pow_om_clim'] = [-0.005, 0.005]
+data['VT']['pow_k_clim'] = [-4, 4]
+data['VT']['pow_om_clim'] = [-0.5, 0.5]
 data['VT']['pow_c_clim'] = [-0.005, 0.005]
 data['VT']['log'] = False
 data['VT']['units'] = r'K m s$^{-1}$'
 data['VT']['cmap'] = get_cmap('posneg')
 data['VT']['title'] = r'$\overline{V^\ast \Theta}$'
-data['VU']['pow_k_clim'] = [-6e-4, 6e-4]
-data['VU']['pow_om_clim'] = [-3e-4, 3e-4]
+data['VU']['pow_k_clim'] = [-1e-1, 1e-1]
+data['VU']['pow_om_clim'] = [-3e-2, 3e-2]
 data['VU']['pow_c_clim'] = [-3e-4, 3e-4]
 data['VU']['log'] = False
 data['VU']['units'] = r'm$^2$ s$^{-2}$'
@@ -112,16 +116,19 @@ for dname, d in data.iteritems():
 
     subplot(131)
     pcolormesh(k, lat_k, pow_k, cmap=d['cmap'], rasterized=True)
-    plot((4*rdat['r_dudley'])**-1 * 2 * pi, clat, 'k-', (4*rdat['r_rossby'])**-1 * 2 * pi, clat, 'k--')
+    #plot((4*rdat['r_dudley'])**-1 * 2 * pi, clat, 'k-', (4*rdat['r_rossby'])**-1 * 2 * pi, clat, 'k--')
+    plot(Kobs / 5, clat, 'k-', Kdef / 5, clat, 'k--')
     clim(d['pow_k_clim'])
     xticks(ktick, lens)
+    xlim([0,1e-4])
     ylim([-60,50])
-    xlim([0,5e-5])
     grid()
     title(d['title'] + r"$(\kappa)$")
-    xlabel(r'$2 \pi / k$ (km)')
+    #xlabel(r'$2 \pi / k$ (km)')
+    xlabel(r'wavelength (km)')
     ylabel('lat')
-    legend([r'$L_{eddy}$',r'$L_d$'], loc='upper right')
+    #legend([r'$L_{eddy}$',r'$L_d$'], loc='upper right')
+    legend([r'$\kappa_{obs}/5$',r'$\kappa_d/5$'], loc='upper right')
     cb=colorbar(orientation='horizontal', extendrect=True)
     cb.ax.set_title(r'%s / 10$^{-3}$ m$^{-1}$' % d['units'],
         {'fontsize': rcParams['axes.labelsize'],
@@ -137,7 +144,8 @@ for dname, d in data.iteritems():
     ylim([-60,50])
     grid()
     title(d['title'] + r"$(\omega)$")
-    xlabel(r'$2 \pi / \omega$ (days)')
+    #xlabel(r'$2 \pi / \omega$ (days)')
+    xlabel(r'frequency (days)')
     #ylabel('lat')
     cb=colorbar(orientation='horizontal', extendrect=True)
     cb.ax.set_title(r'%s / 10$^{-5}$ s$^{-1}$' % d['units'],
