@@ -154,7 +154,7 @@ class TimeSeries:
         return self.sum_over_om(real(self.ft_data * self.ft_data.conj()))
         
     def sum_over_om(self,field):
-        return field.sum(axis=0) / self.Nt
+        return field.sum(axis=0)
     
     def power_in_om(self):
         """Power in frequency space.
@@ -164,7 +164,7 @@ class TimeSeries:
     def sum_over_k(self,field):
         # this weird stuff is necessary to account for the fact that we only
         # keep half of the spectrum. The form used here satisfies Parveval integrals
-        return (0.5*field[:,0] + field[:,1:].sum(axis=1)) / self.sector.Nk
+        return (0.5*field[:,0] + field[:,1:].sum(axis=1)) 
 
     def power_in_c(self, Nc=101):
         """Power density in phase speed space.
