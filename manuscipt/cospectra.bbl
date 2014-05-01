@@ -1,4 +1,4 @@
-\begin{thebibliography}{31}
+\begin{thebibliography}{32}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
@@ -154,6 +154,12 @@ Taylor, G.~I., 1915: Eddy motion in the atmosphere. \textit{Philosophical
 \bibitem[{Trenberth and Caron(2001)}]{TrenberthCaron2001}
 Trenberth, K.~E. and J.~M. Caron, 2001: Estimates of meridional atmosphere and
   ocean heat transports. \textit{J. Climate}, \textbf{14}, 3433--3443.
+
+\bibitem[{Tulloch et~al.(2011)Tulloch, Marshall, Hill, and
+  Smith}]{TullochEtAl2011}
+Tulloch, R., J.~Marshall, C.~Hill, and K.~S. Smith, 2011: Scales, growth rates,
+  and spectral fluxes of baroclinic instability in the ocean. \textit{J. Phys.
+  Oceanogr.}, \textbf{31}, 1057--1076.
 
 \bibitem[{Visbeck et~al.(1997)Visbeck, Marshall, and Haine}]{VisbeckEtAl1997}
 Visbeck, M., J.~Marshall, and T.~Haine, 1997: Specification of eddy transfer
