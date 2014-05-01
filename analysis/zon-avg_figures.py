@@ -26,23 +26,24 @@ for ex in expts:
     for v in varnames:
         M1[ex][v], M2[ex][v], qual[ex][v] = dict(), dict(), dict()
         for coord in cnames:
-            # clip the first and last values (to deal with c)
-            thedat = data[ex][v]['pow_' + coord][:,1:-1].copy()
+            thecoord = data[ex][v][coord]
+            thedat = data[ex][v]['pow_' + coord].copy()
             # normalize
             normfac = sum(thedat, axis=1)
             # a check for profiles that have both positive and negative values
-            qual[ex][v][coord] = abs(normfac) / sum(abs(thedat), axis=1)
+            qual[ex][v][coord] = (abs(normfac) / sum(abs(thedat), axis=1))
             thedat /= normfac[:,newaxis]
-            thecoord = data[ex][v][coord]
-            if thecoord.ndim==2:
-                thecoord = thecoord[:,1:-1]
-            else:
-                thecoord = thecoord[1:-1]
+            thedat = ma.masked_invalid(thedat)
+            thedat.mask += (qual[ex][v][coord]<0.9)[:,newaxis]
+            if coord=='k':
+                thedat.mask[:,:4] = True
             M1[ex][v][coord] = sum(thedat * thecoord, axis=1)
-            M2[ex][v][coord] = sum(thedat * (thecoord - M1[ex][v][coord][:,newaxis])**2, axis=1)
+            M2[ex][v][coord] = (
+                sum(thedat * (thecoord - M1[ex][v][coord][:,newaxis])**2, axis=1) )
+            M2[ex][v][coord].mask += (M2[ex][v][coord] < 0.)
 
 # load grid info from data
-d = data['T']
+d = data['SAT']['T']
 k, om, c = d['k'], d['om'], d['c']
 dk, dom, dc = d['dk'], d['dom'], d['dc']
 Nk, Nom, Nc = k.shape[1], len(om), c.shape[1]
@@ -55,6 +56,79 @@ cdat = np.load(os.path.join(andreas_data_dir, 'c.npz'))
 clat = linspace(-80,80,160)
 Udat = np.load(os.path.join(andreas_data_dir, 'Umean_ECCO_patch.npz'))
 rdat = np.load(os.path.join(andreas_data_dir, 'r.npz'))
+
+leg = [r'$\overline{|V|^2}$',r'$\overline{|\Theta|^2}$',r'$\overline{V\Theta}$']
+
+
+rcParams['legend.fontsize'] = 7
+rcParams['font.size'] = 8
+close('all')
+figure(figsize=(6.5,5.5))
+ax1=subplot(211)
+plot( lat, 2*pi*M1['SAT']['V']['k']**-1 / 1e3, 'c-',
+      lat, 2*pi*M1['SAT']['T']['k']**-1 / 1e3, 'm-',
+      lat, 2*pi*M1['SAT']['VT']['k']**-1 / 1e3, 'y-',
+      clat, rdat['r_dudley'] / 1e3, 'k-',
+      clat, rdat['r_rossby'] / 1e3, 'k--',
+      lat, 2*pi*M1['POP']['V']['k']**-1 / 1e3, 'c--',
+      lat, 2*pi*M1['POP']['T']['k']**-1 / 1e3, 'm--',
+      lat, 2*pi*M1['POP']['VT']['k']**-1 / 1e3, 'y--')
+xlabel('latitude')
+ylabel(r'wavelength (km)')
+xlim([-60,50])
+ylim([0,2000])
+legend(leg + [r'$L_{eddy}$', r'$L_{d}$'], loc='upper left')
+title(r'$M_1^\kappa$')
+grid()
+ax2=subplot(212)
+plot( lat, 2*pi*M2['SAT']['V']['k']**-0.5 / 1e3, 'c-',
+      lat, 2*pi*M2['SAT']['T']['k']**-0.5 / 1e3, 'm-',
+      lat, 2*pi*M2['SAT']['VT']['k']**-0.5 / 1e3, 'y-',
+      lat, 2*pi*M2['POP']['V']['k']**-0.5 / 1e3, 'c--',
+      lat, 2*pi*M2['POP']['T']['k']**-0.5 / 1e3, 'm--',
+      lat, 2*pi*M2['POP']['VT']['k']**-0.5 / 1e3, 'y--', )
+xlabel('latitude')
+ylabel(r'wavelength (km)')
+xlim([-60,50])
+ylim([0,1000])
+title(r'$\sqrt{M_2^\kappa}$')
+grid()
+tight_layout()
+savefig('../figures/moments_k.pdf')
+
+figure(figsize=(6.5,5.5))
+ax1=subplot(211)
+plot( lat, M1['SAT']['V']['c'], 'c-',
+      lat, M1['SAT']['T']['c'], 'm-',
+      lat, M1['SAT']['VT']['c'], 'y-',
+      clat, -cdat['c_dudley'], 'k-',
+      clat, cdat['c_doppler'], 'k--',
+      lat, M1['POP']['V']['c'], 'c--',
+      lat, M1['POP']['T']['c'], 'm--',
+      lat, M1['POP']['VT']['c'], 'y--')
+xlabel('latitude')
+ylabel(r'phase speed (m s$^{-1}$)')
+xlim([-60,50])
+ylim([0.1,-0.5])
+title(r'$M_1^c$')
+legend(leg + [r'$c_{eddy}$', r'$c_{R}$'], loc='upper left')
+grid()
+ax2=subplot(212)
+plot( lat, M2['SAT']['V']['c']**0.5, 'c-',
+      lat, M2['SAT']['T']['c']**0.5, 'm-',
+      lat, M2['SAT']['VT']['c']**0.5, 'y-',
+      lat, M2['POP']['V']['c']**0.5, 'c--',
+      lat, M2['POP']['T']['c']**0.5, 'm--',
+      lat, M2['POP']['VT']['c']**0.5, 'y--' )
+xlabel('latitude')
+ylabel(r'phase speed (m s$^{-1}$)')
+xlim([-60,50])
+title(r'$\sqrt{M_2^c}$')
+grid()
+tight_layout()
+savefig('../figures/moments_c.pdf')
+
+
 
 # Holt & Talley MLD
 mld_data_dir =  os.path.join(os.environ['D'], 'mixedlayer')
