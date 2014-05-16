@@ -28,15 +28,17 @@ for ex in expts:
         for coord in cnames:
             thecoord = data[ex][v][coord]
             thedat = data[ex][v]['pow_' + coord].copy()
+            thedat = ma.masked_array(thedat, zeros_like(thedat))
             # normalize
             normfac = sum(thedat, axis=1)
             # a check for profiles that have both positive and negative values
             qual[ex][v][coord] = (abs(normfac) / sum(abs(thedat), axis=1))
+            if coord=='k':
+                thedat.mask[:,:4] = True
             thedat /= normfac[:,newaxis]
             thedat = ma.masked_invalid(thedat)
             thedat.mask += (qual[ex][v][coord]<0.9)[:,newaxis]
-            if coord=='k':
-                thedat.mask[:,:4] = True
+
             M1[ex][v][coord] = sum(thedat * thecoord, axis=1)
             M2[ex][v][coord] = (
                 sum(thedat * (thecoord - M1[ex][v][coord][:,newaxis])**2, axis=1) )
@@ -65,14 +67,14 @@ rcParams['font.size'] = 8
 close('all')
 figure(figsize=(6.5,5.5))
 ax1=subplot(211)
-plot( lat, 2*pi*M1['SAT']['V']['k']**-1 / 1e3, 'c-',
-      lat, 2*pi*M1['SAT']['T']['k']**-1 / 1e3, 'm-',
-      lat, 2*pi*M1['SAT']['VT']['k']**-1 / 1e3, 'y-',
+plot( lat, 2*pi*M1['SAT']['V']['k']**-1 / 1e3, 'b-',
+      lat, 2*pi*M1['SAT']['T']['k']**-1 / 1e3, 'g-',
+      lat, 2*pi*M1['SAT']['VT']['k']**-1 / 1e3, 'r-',
       clat, rdat['r_dudley'] / 1e3, 'k-',
       clat, rdat['r_rossby'] / 1e3, 'k--',
-      lat, 2*pi*M1['POP']['V']['k']**-1 / 1e3, 'c--',
-      lat, 2*pi*M1['POP']['T']['k']**-1 / 1e3, 'm--',
-      lat, 2*pi*M1['POP']['VT']['k']**-1 / 1e3, 'y--')
+      lat, 2*pi*M1['POP']['V']['k']**-1 / 1e3, 'b--',
+      lat, 2*pi*M1['POP']['T']['k']**-1 / 1e3, 'g--',
+      lat, 2*pi*M1['POP']['VT']['k']**-1 / 1e3, 'r--')
 xlabel('latitude')
 ylabel(r'wavelength (km)')
 xlim([-60,50])
@@ -81,16 +83,16 @@ legend(leg + [r'$L_{eddy}$', r'$L_{d}$'], loc='upper left')
 title(r'$M_1^\kappa$')
 grid()
 ax2=subplot(212)
-plot( lat, 2*pi*M2['SAT']['V']['k']**-0.5 / 1e3, 'c-',
-      lat, 2*pi*M2['SAT']['T']['k']**-0.5 / 1e3, 'm-',
-      lat, 2*pi*M2['SAT']['VT']['k']**-0.5 / 1e3, 'y-',
-      lat, 2*pi*M2['POP']['V']['k']**-0.5 / 1e3, 'c--',
-      lat, 2*pi*M2['POP']['T']['k']**-0.5 / 1e3, 'm--',
-      lat, 2*pi*M2['POP']['VT']['k']**-0.5 / 1e3, 'y--', )
+plot( lat, M2['SAT']['V']['k']**0.5 / (2*pi) * 1e3, 'b-',
+      lat, M2['SAT']['T']['k']**0.5 / (2*pi) * 1e3, 'g-',
+      lat, M2['SAT']['VT']['k']**0.5 / (2*pi) * 1e3, 'r-',
+      lat, M2['POP']['V']['k']**0.5 / (2*pi) * 1e3, 'b--',
+      lat, M2['POP']['T']['k']**0.5 / (2*pi) * 1e3, 'g--',
+      lat, M2['POP']['VT']['k']**0.5 / (2*pi) * 1e3, 'r--', )
 xlabel('latitude')
-ylabel(r'wavelength (km)')
+ylabel(r'spectral width (cycles / km)')
 xlim([-60,50])
-ylim([0,1000])
+#ylim([0,1000])
 title(r'$\sqrt{M_2^\kappa}$')
 grid()
 tight_layout()
@@ -98,14 +100,14 @@ savefig('../figures/moments_k.pdf')
 
 figure(figsize=(6.5,5.5))
 ax1=subplot(211)
-plot( lat, M1['SAT']['V']['c'], 'c-',
-      lat, M1['SAT']['T']['c'], 'm-',
-      lat, M1['SAT']['VT']['c'], 'y-',
+plot( lat, M1['SAT']['V']['c'], 'b-',
+      lat, M1['SAT']['T']['c'], 'g-',
+      lat, M1['SAT']['VT']['c'], 'r-',
       clat, -cdat['c_dudley'], 'k-',
       clat, cdat['c_doppler'], 'k--',
-      lat, M1['POP']['V']['c'], 'c--',
-      lat, M1['POP']['T']['c'], 'm--',
-      lat, M1['POP']['VT']['c'], 'y--')
+      lat, M1['POP']['V']['c'], 'b--',
+      lat, M1['POP']['T']['c'], 'g--',
+      lat, M1['POP']['VT']['c'], 'r--')
 xlabel('latitude')
 ylabel(r'phase speed (m s$^{-1}$)')
 xlim([-60,50])
@@ -114,12 +116,12 @@ title(r'$M_1^c$')
 legend(leg + [r'$c_{eddy}$', r'$c_{R}$'], loc='upper left')
 grid()
 ax2=subplot(212)
-plot( lat, M2['SAT']['V']['c']**0.5, 'c-',
-      lat, M2['SAT']['T']['c']**0.5, 'm-',
-      lat, M2['SAT']['VT']['c']**0.5, 'y-',
-      lat, M2['POP']['V']['c']**0.5, 'c--',
-      lat, M2['POP']['T']['c']**0.5, 'm--',
-      lat, M2['POP']['VT']['c']**0.5, 'y--' )
+plot( lat, M2['SAT']['V']['c']**0.5, 'b-',
+      lat, M2['SAT']['T']['c']**0.5, 'g-',
+      lat, M2['SAT']['VT']['c']**0.5, 'r-',
+      lat, M2['POP']['V']['c']**0.5, 'b--',
+      lat, M2['POP']['T']['c']**0.5, 'g--',
+      lat, M2['POP']['VT']['c']**0.5, 'r--' )
 xlabel('latitude')
 ylabel(r'phase speed (m s$^{-1}$)')
 xlim([-60,50])

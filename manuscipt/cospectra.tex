@@ -107,15 +107,17 @@
 
 Transient motions (a.k.a.~``eddies'') in the ocean and atmosphere lead to significant material transport. Of particular importance is the meridional eddy heat transport, which contributes to the maintenance of Earth's the pole-to-equator temperature gradient \citep{TrenberthCaron2001,Wunsch2005}. Although eddy heat fluxes in the ocean are relatively less significant than in the atmosphere, they are still an important part of the ocean heat budget, particularly at regional scales and in the Southern Ocean \citep{JayneMarotzke2002,WhatElse?}. Because of their small spatial scales, ocean eddy fluxes are more difficult or observe than those in the atmosphere, and their statistical properties are less well characterized. Satellites provide a uniquely powerful tool for observing eddies at the ocean surface.
 
-A fundamental question is what determines the strength of the eddy flux and how this flux is related to observable eddy properties such as eddy size.
+A fundamental question is what determines the strength of the eddy flux and how this flux is related to more readily observable eddy properties such as eddy size, kinetic energy, etc.
 %A further, more challenging question is whether this flux can be parameterized in terms of large scale hydrographic properties; this problem is theoretically interesting but also practically relevant for ocean general circulation models (GCMs), which do not resolve eddies and therefore must parameterize their effects. 
 Inspired by the classical ``mixing length'' arguments of \citet{Taylor1915} and \citet{Prandtl1925} regarding turbulent fluxes, many studies have assumed the eddy flux in the ocean to be proportional to the background tracer gradient (i.e.~that it is diffusive) and to the product of a characteristic eddy size and eddy velocity \citep[e.g.][]{Holloway1986,KefferHolloway1988,VisbeckEtAl1997,Stammer1998}. More recent studies have added a new ingredient to the equation: the eddy phase speed, i.e.~the eddy propagation relative to the background mean flow \citep{MarshallEtAl2006,SmithMarshall2009,AbernatheyEtAl2010,FerrariNikurashin2010,KlockerEtAl2012a,KlockerEtAl2012b,AbernatheyMarshall2013}. In particular, the simple stochastic model of \citet[][henceforth FN10]{FerrariNikurashin2010} demonstrates how meridional phase propagation suppresses meridional eddy diffusion and puts forth a quantitative theory for the magnitude of this effect.
 
-The framework of FN10 was recently tested by \citet[][henceforth KA15]{KlockerAbernathey2014} in a comprehensive way using kinematic tracer simulations in the east Pacific (the same sector studied here). Those results indicated that the extratropical meridional eddy flux of a passive tracer due to mesoscale eddy stirring could be parameterized quite well in terms of a single wavenumber and phase speed at each latitude, an essentially monochromatic model. This conclusions seems at odds with the fact that the ocean contains a broad spectrum of variability in space and time \citep{Others,WorthamWunsch2013}. Therefore, a key motivation for our study is to attempt to reconcile the success of the monochromatic FN10 model with the broadband nature of the variability. We wish to asses how narrowly concentrated the eddy flux is around a single length scale and phase speed.
+The framework of FN10 was recently tested by \citet[][henceforth KA14]{KlockerAbernathey2014} in a comprehensive way using kinematic tracer simulations in the east Pacific (the same sector studied here). Those results indicated that the extratropical meridional eddy flux of a passive tracer due to mesoscale eddy stirring could be parameterized quite well in terms of a single wavenumber and phase speed at each latitude. The fact that the eddy flux could be parameterized in terms of an essentially monochromatic model seems at odds with the fact that the ocean contains a broad spectrum of variability in space and time \citep{Others,WorthamWunsch2013}. Therefore, a key motivation for our study is to attempt to reconcile the success of the monochromatic FN10 model with the broadband nature of the variability. We wish to asses how narrowly concentrated the eddy flux is around a single length scale and phase speed.
 
 To answer this question, we employ satellite observations to investigate the spectral character of surface eddy meridional heat fluxes over a wide range of latitudes. This is achieved by calculating wavenumber-frequency cross-spectra for sea-surface temperature (SST) and the geostrophic velocity derived from sea-surface height (SSH). There is an extensive literature on the analysis of spatiotemporal variance and covariance in different remotely sensed ocean surface datasets such as SSH, SST, and color-derived chlorophyl \citep[see review by][]{OBrienEtAl2013}. Many of these past studies focus on characterizing the propagation behavior of Rossby waves \citep{CheltonSchalx1996,PolitoCornillon1997,CipolliniEtAl1997,HillEtAl2000,CipolliniEtAl2001,PolitoLiu2003,KillworthEtAl2004} and tropical instability waves \citep{PolitoEtAl2001,Contreras2002,CheltonEtAl2000,LeeEtAl2012}. The paper by \citet{KillworthEtAl2004} is particularly comprehensive and makes a convincing case that a large fraction of of the variance in SST and surface chlorophyl arises by advective stirring by the surface geostrophic flow.
 
-Being interested in the wave dynamics themselves, the studies cited above generally employed filters to isolate the spectral bands of interest. Here the approach is slightly different: we consider the total, unfiltered eddy flux and examine its spectral density in wavenumber, frequency, and phase-speed space. This perspective is inspired by the atmospheric study of \citet[][henceforth RH91]{RandelHeld1991}, who made such a diagnosis for the eddy fluxes of heat and momentum in the troposphere. In particular, their way of plotting the results of the cross-spectral analysis, as 2D contour plot as a function of latitude and phase speed (or latitude and wavenumber), provides an especially insightful view of the oceanographic data as well. Our results indicate the the extratropical meridional eddy heat flux in phase-speed space is indeed concentrated around the longwave Rossby wave phase speed, which is equal to the observed propagation speed of mesoscale eddies. The dominant length scale is larger than the observed mesoscale eddy diameter; however, the two quantities are consistently proportional. The magnitude of the observed heat flux is also found to be consistent with, but somewhat greater than, the flux predicted by the FN10 theory.
+Being interested in the wave dynamics themselves, the studies cited above generally employed filters to isolate the spectral bands of interest. Here the approach is slightly different: we consider the total, unfiltered eddy flux and examine its spectral density in wavenumber, frequency, and phase-speed space. This perspective is inspired by the atmospheric study of \citet[][henceforth RH91]{RandelHeld1991}, who made such a diagnosis for the eddy fluxes of heat and momentum in the troposphere. In particular, their way of presenting the results of the cross-spectral analysis, as 2D contour plot as a function of latitude and phase speed (or latitude and wavenumber), provides a novel view of the oceanographic data, revealing the strong latitudinal dependence in the spectra. Our results indicate the the extratropical meridional eddy heat flux in phase-speed space is indeed concentrated around the longwave Rossby wave phase speed, which is equal to the observed propagation speed of mesoscale eddies. The dominant length scale is larger than the observed mesoscale eddy diameter; however, the two quantities are consistently proportional. The magnitude of the observed heat flux is also found to be consistent with, but somewhat greater than, the flux predicted by the FN10 theory.
+
+In addition to analyzing the satellite data, we perform the same analysis on a state-of-the-art global eddy permitting ocean model. This comparison serves two purposes. On one hand, it allows us probe finer space and time scales than the observations can resolve. On the other, it provides a form of model validation in the spectral domain. The broad agreement between the model and the observations is encouraging on both fronts, suggesting that the observations are sufficient to resolve the dominant scales of eddy heat transport and that the model shares the spectral characteristics of the observations.
 
 Our paper is organized as follows. Sec.~2 describes the satellite data sources used for SST and SSH. The basic results of the cross-spectral analysis are presented in Sec.~3 as function of latitude and wavenumber, latitude and frequency, and latitude and phase speed. In Sec.~4, we diagnose the moments of the flux and its ``breadth'' in wavenumber and phase-speed space. We also compare the total flux to the prediction of the FN10 model. Discussion and conclusions are given in Sec.~5.
 
@@ -141,7 +143,7 @@ What to cite here?
 
 \subsection{Pre-Processing}
 
-Relatively little additional processing is applied to the data, since the products we have chosen are already highly processed. The only filter we apply to the data is to subtract the overall temporal mean at each latitude and the zonal mean (over the 50$^\circ$ sector) at each time step, effectively removing the seasonal cycle and the basin-scale variability. In spectral terms, this removes the zero frequency and the zero zonal wavenumber. Everything remaining is included in our definition of ``eddy'' variability.
+Relatively little additional processing is applied to the data, since the observational products we have chosen are already highly processed in the case of the observations. The only filter we apply to the data is to subtract the overall temporal mean at each latitude and the zonal mean (over the 50$^\circ$ sector) at each time step, effectively removing the seasonal cycle and the basin-scale variability. In spectral terms, this removes the zero frequency and the zero zonal wavenumber. Everything remaining is included in our definition of ``eddy'' variability.
 
 \subsection{Issues}
 \begin{itemize}
@@ -171,7 +173,7 @@ We can express $\theta_{mn}$ using a discrete Fourier transform as
 \end{equation}
 where $\Theta_{jk}$ are the complex Fourier components, $\kappa_k = 2 \pi k / L$ is the wavenumber, and $\omega_j = 2 \pi j / T$ is the   angular frequency. % that is actually wrong--the frequencies only go to 2/N (Nyquist freq.) but they are positive and negative
 Equation \eqref{eq:ift} summarizes the normalization and unit conventions in our Fourier-transform definitions.
-We adopt the convention of RH91 in which all wavenumbers are positive while frequencies take both positive and negative values. The values of $\Theta_{jk}$ are computed numerically from $\theta_{mn}$ using the NumPy implementation of the fast-Fourier-transform (FFT) algorithm. {\em [[[ Should we be smoothing $\Theta_{jk}$ at this point? ]]]}
+We adopt the convention of RH91 in which all wavenumbers are positive while frequencies take both positive and negative values. The values of $\Theta_{jk}$ are computed numerically from $\theta_{mn}$ using the NumPy implementation of the fast-Fourier-transform (FFT) algorithm. 
 
 Parseval's theorem states that the total power of the signal is the same in either basis. The normalization condition chosen in \eqref{eq:ift} means that each Fourier component represents a fraction of the variance, such that 
 \begin{equation}
@@ -191,27 +193,21 @@ Similarly, we define the power density as a function of frequency as the sum ove
 \end{equation}
 where $\Delta \omega$ is the spacing of the discrete frequencies.
 
-As in RH91, we construct phase speed spectra by interpolating the spectral density in $(\kappa, \omega)$ space into $(\kappa, c)$ space, where $c = \omega / \kappa$ is the phase speed. Before interpolating, the density $(\Delta \omega)^{-1}\Theta_{jk}^\ast   \Theta_{jk}$ must be multiplied by $\kappa$; this transformation ensures that the total power is the same whether integrating over $\omega$ or $c$. We choose the $c$ values by evenly spaced angles in the $\omega, \kappa$ plane; as a result, the bins are not evenly spaced in $c$. We use 121 bins, a number that provides good resolution in phase speed space while minimizing noise. After summing over wavenumbers, we obtain the power density as a function of phase speed, $\ol{|\Theta|^2}(c)$.
+As in RH91, we construct phase speed spectra by interpolating the spectral density in $(\kappa, \omega)$ space into $(\kappa, c)$ space, where $c = \omega / \kappa$ is the phase speed. Before interpolating, the density $(\Delta \omega)^{-1}\Theta_{jk}^\ast   \Theta_{jk}$ must be multiplied by $\kappa$; this transformation ensures that the total power is the same whether integrating over $\omega$ or $c$. We also smooth the signal in frequency space before interpolating using a Gaussian filter with a width of two grid points. We use 1000 points in $c$, evenly spaced from -1 to 1 m s$^{1-}$ in order to capture the wide range of phase speeds with high precision. After summing over wavenumbers, we obtain the power density as a function of phase speed, $\ol{|\Theta|^2}(c)$.
 
+The raw wavenumber-frequency power spectra at different latitudes are shown in numerous other publications \citep[e.g.][]{KillworthEtAl1997,Wunsch2010,WorthamWunsch2014}; they are not plotted again here. We are interested instead the integrals of the spectra.
 In Fig.~\ref{fig:integrated_spectra_T} we plot $\ol{|\Theta|^2}(\varphi, \kappa)$, $\ol{|\Theta|^2}(\varphi, \omega)$, and $\ol{|\Theta|^2}(\varphi, c)$, using a logarithmic color scale. This figure reveals the distribution of SST variance by wavenumber, frequency, and phase speed as a function of latitude. From the surface meridional velocity data, we define $v_{mn}$ (the space/time data) and $V_{jk}$ (the Fourier transform) in the same way just described, and in Fig.~\ref{fig:integrated_spectra_V} we plot
 $\ol{|V|^2}(\varphi, \kappa)$, $\ol{|V|^2}(\varphi, \omega)$, and $\ol{|V|^2}(\varphi, c)$. 
+
 \begin{figure}[t]
   \noindent\includegraphics{../figures/SAT_50degwide/integrated_spectra_T.pdf}\\
-<<<<<<< Updated upstream
-  \caption{Power spectral density of SST variance as a function of latitude and wavenumber (left), frequency (center), and phase speed(right). All color scales are logarithmic. In the left panel, the Rossby deformation radius ($L_d$, from \citealt{TullochEtAl2011}) and the average nonlinear eddy diameter ($L_{eddy}$, from \citealt{CheltonEtAl2011}) are also plotted. In the right panel, the longwave linear Rossby wave phase speed ($c_R$, from \citealt{TullochEtAl2011}), the speed of tracked nonlinear eddies ($c_{eddy}$, from \citealt{CheltonEtAl2011}) and the surface zonal mean flow speed are also plotted.}
-=======
   \caption{Power spectral density of SST variance as a function of latitude and wavelength (left), frequency (center), and phase speed(right). All color scales are logarithmic. In the left panel, the Rossby deformation wavelength ($\kappa_d$, from \citealt{TullochEtAl2011}) and the average nonlinear eddy wavelength ($\kappa_{ons}$, from \citealt{CheltonEtAl2011}) are also plotted, {\em both divided by five} in order to be visible on the wavelength axis. In the right panel, the longwave linear Rossby wave phase speed ($c_R$, from \citealt{TullochEtAl2011}), the speed of tracked nonlinear eddies ($c_{eddy}$, from \citealt{CheltonEtAl2011}) and the surface zonal mean flow speed are also plotted.}
->>>>>>> Stashed changes
   \label{fig:integrated_spectra_T}
 \end{figure}
 
 \begin{figure}[t]
   \noindent\includegraphics{../figures/SAT_50degwide/integrated_spectra_V.pdf}\\
-<<<<<<< Updated upstream
-  \caption{The same as Fig.~\ref{fig:integrated_spectra_V}, but for the SSH-derived meridional velocity.}
-=======
   \caption{The same as Fig.~\ref{fig:integrated_spectra_T}, but for the SSH-derived meridional velocity.}
->>>>>>> Stashed changes
   \label{fig:integrated_spectra_V}
 \end{figure}
 
@@ -227,11 +223,7 @@ The spatial structure of the magnitude of the three $\ol{V\Theta}$ functions res
 
 \begin{figure}[t]
   \noindent\includegraphics{../figures/SAT_50degwide/integrated_spectra_VT.pdf}\\
-<<<<<<< Updated upstream
-  \caption{The same as Fig.~\ref{fig:integrated_spectra_V}, but for the heat flux cross-specta.}
-=======
-  \caption{The same as Fig.~\ref{fig:integrated_spectra_T}, but for the heat flux cross-specta.}
->>>>>>> Stashed changes
+  \caption{Cross spectral density $\ol{V\Theta}$  as a function of latitude and wavelength (left), frequency (center), and phase speed(right). Otherwise the same as Fig.~\ref{fig:integrated_spectra_T}.}
   \label{fig:integrated_spectra_VT}
 \end{figure}
 
@@ -260,20 +252,36 @@ Just figures for now.
 
 \section{Spectral Moments}
 
-Here we characterize the properties of the power spectra and cross spectra via their moments in wavenumber, frequency, and phase speed space. The first moments tell us about the dominant scale. The second moment tells us how concentrated the variance is about that scale.
+Here we characterize the properties of the power spectra and cross spectra via their moments in wavenumber, frequency, and phase speed space. The first moment tells us about the dominant scale. The second moment tells us how concentrated the distribution is about that scale.
 
-We define the first moment of a wavenumber spectrum $\ol{|\Theta|^2}(\kappa)$ at a single latitude (itself defined in \ref{eq:Theta_kappa}) as
+We define the first moment of a wavenumber spectrum $\ol{|\Theta|^2}(\kappa)$ at a given latitude (itself defined in \ref{eq:Theta_kappa}) as
 \begin{equation}
-M^1_\kappa ( \ol{|\Theta|^2} ) = \frac{ \int \kappa \ol{|\Theta|^2}(\kappa) d \kappa }{ \int \ol{|\Theta|^2}(\kappa) d \kappa }
+M^\kappa_1 ( \ol{|\Theta|^2} ) = \frac{ \int \kappa \ol{|\Theta|^2}(\kappa) d \kappa }{ \int \ol{|\Theta|^2}(\kappa) d \kappa }
 \label{eq:M1}
 \end{equation}
 where the integrals are performed over all wavenumbers. The second moment is then defined as
 \begin{equation}
-M^2_\kappa (\ol{ |\Theta|^2 }) = \frac{ \int (\kappa - M^1_\kappa)^2 \ol{|\Theta|^2}(\kappa) d \kappa }{ \int \ol{|\Theta|^2}(\kappa) d \kappa } \ .
+M^\kappa_2 (\ol{ |\Theta|^2 }) = \frac{ \int (\kappa - M^1_\kappa)^2 \ol{|\Theta|^2}(\kappa) d \kappa }{ \int \ol{|\Theta|^2}(\kappa) d \kappa } \ .
 \label{eq:M2}
 \end{equation}
-We can make similar definitions for the $\omega$ and $c$ moments. We can also compute the moments of the other spectra $\ol{|V|^2}$ and $\ol{V \Theta}$. 
+We make analogous definitions for the $\omega$ and $c$ moments, and also for the moments of the other spectra $\ol{|V|^2}$ and $\ol{V \Theta}$. 
 
+The significance of $M_1$ and $M_2$ is most clear when the spectra have a clearly defined, dominant peak. In the case of $\ol{V \Theta}$,  which is not positive definite, it is possible for the normalization factor in the denominator of \eqref{eq:M1} and \eqref{eq:M2} to approach zero, leading to a meaningless result. To avoid this situation, we mask the moments where the ratio $\int \ol{V\Theta} / \int | \ol{V \Theta} | < 0.9$. This is only the case in regions where the mean SST gradient is weak (primarily near 15$^\circ$S) and the heat flux is vanishingly small and noisy. At most latitudes, the heat flux does display a clear spectral peak, as evident in Figs.~\ref{fig:integrated_spectra_VT} and \ref{fig:integrated_spectra_VT_POP}.
+
+The first moments $M_1^\kappa( \ol{|\Theta|^2} )$, $M_1^\kappa( \ol{|V|^2} )$, and $M_1^\kappa( \ol{V \Theta} )$ are plotted in the upper panel Fig.~\ref{fig:moments_k}, with the second moments $M_2^\kappa( \ol{|\Theta|^2} )$, $M_2^\kappa( \ol{|V|^2} )$, and $M_2^\kappa( \ol{V \Theta} )$ in the lower panel, for both the satellite data and the POP model. The $c$ moments are in shown in Fig.~\ref{fig:moments_c}.
+
+\begin{figure}[t]
+  \noindent\includegraphics{../figures/moments_k.pdf}\\
+  \caption{The first moments $M_1^\kappa$ (upper panel) and second moments $M_2^\kappa$ (lower panel) of the wavenumber spectra $\ol{|\Theta|^2}(\kappa)$ (blue), $\ol{|V|^2}(\kappa)$ (green), and $\ol{V\Theta}(\kappa)$ (red). In the upper panel the wavenumber has been converted to wavelength for plotting. In the lower panel, the square root of the second moment is shown, indicating the ``width" of the spectra in $\kappa$ space. The satellite data are shown in solid lines, and the POP model is shown in dashed lines. In the upper panel, the observed eddy scale $L_{eddy}$ (solid black) and the deformation radius $L_{d}$ (dashed black) are also plotted. }
+  \label{fig:moments_k}
+\end{figure}
+
+\begin{figure}[t]
+  \noindent\includegraphics{../figures/moments_c.pdf}\\
+  \caption{The same as Fig.~\ref{fig:moments_k}, but for the $c$-moments. In the upper panel, the observed eddy phase speed $L_{eddy}$ (solid black) and the long-wave Rossby wave phase speed from linear theory $c_R$ (dashed black) are also plotted. }
+  \label{fig:moments_c}
+\end{figure}
+\section{Discussion}
 
 \section{Discussion and Conclusions}
 Atmospheric waves propagate meridionally, but this propagation is constrained by their phase speed: they break when they encounter ``critical latitudes'' at which their phase speed matches the background mean flow. These dynamics leave a clear signature in atmospheric phase-speed cospecta \citep{ChenHeld2007}. Ocean eddies, in contrast, do not propagate far in latitude. However, we argue that the phase phase speed is still an important factor in understanding ocean eddy fluxes, since it plays a significant role in determining the eddy diffusivity \citep{AbernatheyEtAl2010,FerrariNikurashin2010}. In this study we show that the surface eddy heat flux at each latitude is relatively concentrated around the long-wave Rossby wave phase speed.
