@@ -65,8 +65,8 @@ leg = [r'$\overline{|V|^2}$',r'$\overline{|\Theta|^2}$',r'$\overline{V\Theta}$']
 rcParams['legend.fontsize'] = 7
 rcParams['font.size'] = 8
 close('all')
-figure(figsize=(6.5,5.5))
-ax1=subplot(211)
+figure(figsize=(6.5,7.75))
+ax1=subplot(311)
 plot( lat, 2*pi*M1['SAT']['V']['k']**-1 / 1e3, 'b-',
       lat, 2*pi*M1['SAT']['T']['k']**-1 / 1e3, 'g-',
       lat, 2*pi*M1['SAT']['VT']['k']**-1 / 1e3, 'r-',
@@ -75,26 +75,41 @@ plot( lat, 2*pi*M1['SAT']['V']['k']**-1 / 1e3, 'b-',
       lat, 2*pi*M1['POP']['V']['k']**-1 / 1e3, 'b--',
       lat, 2*pi*M1['POP']['T']['k']**-1 / 1e3, 'g--',
       lat, 2*pi*M1['POP']['VT']['k']**-1 / 1e3, 'r--')
-xlabel('latitude')
+#xlabel('latitude')
 ylabel(r'wavelength (km)')
 xlim([-60,50])
 ylim([0,2000])
 legend(leg + [r'$L_{eddy}$', r'$L_{d}$'], loc='upper left')
 title(r'$M_1^\kappa$')
 grid()
-ax2=subplot(212)
+ax2=subplot(312)
 plot( lat, M2['SAT']['V']['k']**0.5 / (2*pi) * 1e3, 'b-',
       lat, M2['SAT']['T']['k']**0.5 / (2*pi) * 1e3, 'g-',
       lat, M2['SAT']['VT']['k']**0.5 / (2*pi) * 1e3, 'r-',
       lat, M2['POP']['V']['k']**0.5 / (2*pi) * 1e3, 'b--',
       lat, M2['POP']['T']['k']**0.5 / (2*pi) * 1e3, 'g--',
       lat, M2['POP']['VT']['k']**0.5 / (2*pi) * 1e3, 'r--', )
-xlabel('latitude')
+#xlabel('latitude')
 ylabel(r'spectral width (cycles / km)')
 xlim([-60,50])
 #ylim([0,1000])
 title(r'$\sqrt{M_2^\kappa}$')
 grid()
+# ratio between M1[k] and L_eddy
+L_eddy = interp(lat, clat, rdat['r_dudley'])
+L_ros = interp(lat, clat, rdat['r_rossby'])
+subplot(313)
+plot( lat, 2*pi*M1['SAT']['VT']['k']**-1 / L_eddy, 'k-',
+      lat, 2*pi*M1['SAT']['VT']['k']**-1 / L_ros, 'c-',
+      lat, 2*pi*M1['POP']['VT']['k']**-1 / L_eddy, 'k--',
+      lat, 2*pi*M1['POP']['VT']['k']**-1 / L_ros, 'c--')
+grid()
+xlim([-60,50]); ylim([0,30])
+xlabel('lat');
+legend([r'$\gamma / L_{eddy}$', r'$\gamma / L_{d}$'],
+        loc='upper center')
+title('Ratio Between Length Scales')
+
 tight_layout()
 savefig('../figures/moments_k.pdf')
 
@@ -131,7 +146,6 @@ tight_layout()
 savefig('../figures/moments_c.pdf')
 
 
-
 # Holt & Talley MLD
 mld_data_dir =  os.path.join(os.environ['D'], 'mixedlayer')
 mld_hdf_file = h5py.File(os.path.join(mld_data_dir, 'climatology.nc'),'r')
@@ -158,7 +172,7 @@ dTbar_dy = hstack([0, Tbar[2:] - Tbar[:-2] ,0]) / (2*DY)
 K = ma.masked_array(-za_data['VpTp']/dTbar_dy, abs(dTbar_dy) < 1e-6)
 
  
-close('all')
+#close('all')
 
 # mht
 figure(figsize=(6.5,5.5))

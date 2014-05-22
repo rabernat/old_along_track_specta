@@ -119,19 +119,21 @@ Being interested in the wave dynamics themselves, the studies cited above genera
 
 In addition to analyzing the satellite data, we perform the same analysis on a state-of-the-art global eddy permitting ocean model. This comparison serves two purposes. On one hand, it allows us probe finer space and time scales than the observations can resolve. On the other, it provides a form of model validation in the spectral domain. The broad agreement between the model and the observations is encouraging on both fronts, suggesting that the observations are sufficient to resolve the dominant scales of eddy heat transport and that the model shares the spectral characteristics of the observations.
 
+Finally, to probe the physics that give rise to the observed spectra, we analyze kinematic simulations of advective stirring of the climatological SST pattern by satellite-derived velocity fields.
+
 Our paper is organized as follows. Sec.~2 describes the satellite data sources used for SST and SSH. The basic results of the cross-spectral analysis are presented in Sec.~3 as function of latitude and wavenumber, latitude and frequency, and latitude and phase speed. In Sec.~4, we diagnose the moments of the flux and its ``breadth'' in wavenumber and phase-speed space. We also compare the total flux to the prediction of the FN10 model. Discussion and conclusions are given in Sec.~5.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Data
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Data Sources}
+\section{Data, Models, and Kinematic Simulations}
 
 \subsection{Sea-Surface Height (SSH)}
 The altimeter products were produced by Ssalto/Duacs and distributed by Aviso, with support from Cnes (\url{http://www.aviso.oceanobs.com/duacs/}). For this study we use the pre-computed geostrophic velocities derived from the delayed-time, merged sea-level anomaly fields. In these pre-computed velocities, the method of \citet{Lagerloef1999} is applied in the equatorial band ($\pm 5^\circ$). This method, based on the ``equatorial geostrophic'' vorticity balance, has been validated with {\em in situ} current meters and allows us to obtain velocity estimates in this region. Nevertheless, we must maintain some skepticism of the results in the equatorial band.
 
-The horizontal spacing of the Aviso gridded data is 1/4$^\circ$. However, due to the smoothing applied during the gridding procedure, the effective resolution of the product is such that it resolves eddies of approx.~50 km diameter and larger \citep{CheltonEtAl2011}. The SSH signal displays very little power at such short wavelengths (see Fig.~\ref{fig:powV}), and the heat flux is dominated by larger scales. While it is expected that the largest eddies make the dominant contribution to the eddy flux, the contribution of the unresolved smaller scales remains an interesting open question. This question awaits the development of higher resolution altimeters \citep{FuFerrari2008}.
+The horizontal spacing of the Aviso gridded data is 1/4$^\circ$. However, due to the smoothing applied during the gridding procedure, the effective resolution of the product is such that it resolves eddies of approx.~50 km diameter and larger \citep{CheltonEtAl2011}. The SSH signal displays very little power at such short wavelengths (see Fig.~\ref{fig:powV}), and the heat flux is dominated by larger scales. While it is expected that the largest eddies make the dominant contribution to the eddy flux, the contribution of the unresolved smaller scales remains an interesting open question. This question awaits the development of higher resolution altimeters \citep{FuFerrari2008}. Alternatively, 
 
-Aviso produces a map every 7 days which represents a best estimate of the SSH field on the day. The data record begins in 1992, but we only consider the 9.3 year period concurrent with the SST observations, as described below. We extract the region between 180$^\circ$ and 130$^\circ$ E, the same region studied by KA14. This region was chosen because of the absence of land (except for Hawaii), greatly simplifying the spectral analysis, and because of the relatively high degree of zonal symmetry in eddy statistics, allowing us to focus on the latitude dependence.
+Aviso produces a map every 7 days which represents a best estimate of the SSH field on that day. The data record begins in 1992, but we only consider the 9.3 year period concurrent with the SST observations, as described below. We extract the region between 180$^\circ$ and 130$^\circ$ E, the same region studied by KA14. This region was chosen because of the absence of land (except for Hawaii), greatly simplifying the spectral analysis, and because of the relatively high degree of zonal symmetry in eddy statistics, allowing us to focus on the latitude dependence.
 
 \subsection{Sea-Surface Temperature (SST)}
 
@@ -166,7 +168,7 @@ We write the discreet SST as
 \begin{equation}
 \theta_{mn} = \theta( x_n, t_m ) \ \ \{n\ |\ 0,1, ..., N-1\} ,\ \{m\ |\ 0,1, ..., M-1\} \ .
 \end{equation}
-We can express $\theta_{mn}$ using a discrete Fourier transform as
+We can express $\theta_{mn}$ using a discrete inverse Fourier transform as
 \begin{equation}
 \theta_{mn} = \frac{\sqrt{2}}{M^2 N^2} \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} \Theta_{jk} \exp[ i (\kappa_k x_n - \omega_j t_m ) ] 
 \label{eq:ift}
@@ -186,14 +188,14 @@ We define the power density as a function of wavenumber as the sum over all freq
 \ol{|\Theta|^2}(\kappa) = (\Delta \kappa)^{-1} \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \Theta_{jk}^\ast  \Theta_{jk} \ .
 \label{eq:Theta_kappa}
 \end{equation}
-The normalization by $\Delta \kappa$, the spacing of the discrete wavenumbers, approximates a continuous power density function, giving results which are independent of $N$.  
+The normalization by $\Delta \kappa$, the spacing of the discrete wavenumbers, means that $\ol{|\Theta|^2}(\kappa)$ approximates a continuous power density function, giving results which are independent of $N$.  
 Similarly, we define the power density as a function of frequency as the sum over wavenumbers,
 \begin{equation}
 \ol{|\Theta|^2}(\omega) = (\Delta \omega)^{-1} \sum_{k=0}^{N-1} \Theta_{jk}^\ast   \Theta_{jk} 
 \end{equation}
 where $\Delta \omega$ is the spacing of the discrete frequencies.
 
-As in RH91, we construct phase speed spectra by interpolating the spectral density in $(\kappa, \omega)$ space into $(\kappa, c)$ space, where $c = \omega / \kappa$ is the phase speed. Before interpolating, the density $(\Delta \omega)^{-1}\Theta_{jk}^\ast   \Theta_{jk}$ must be multiplied by $\kappa$; this transformation ensures that the total power is the same whether integrating over $\omega$ or $c$. We also smooth the signal in frequency space before interpolating using a Gaussian filter with a width of two grid points. We use 1000 points in $c$, evenly spaced from -1 to 1 m s$^{1-}$ in order to capture the wide range of phase speeds with high precision. After summing over wavenumbers, we obtain the power density as a function of phase speed, $\ol{|\Theta|^2}(c)$.
+As in RH91, we construct phase speed spectra by interpolating the spectral density in $(\kappa, \omega)$ space into $(\kappa, c)$ space, where $c = \omega / \kappa$ is the phase speed. Before interpolating, the density $(\Delta \omega)^{-1}\Theta_{jk}^\ast   \Theta_{jk}$ must be multiplied by $\kappa$; this transformation ensures that the total power is the same whether integrating over $\omega$ or $c$. We also smooth the signal in frequency space before interpolating using a Gaussian filter with a width of two grid points. We use 1000 points in $c$, evenly spaced from -1 to 1 m s$^{-1}$ in order to capture the wide range of phase speeds with high precision. After summing over wavenumbers, we obtain the power density as a function of phase speed, $\ol{|\Theta|^2}(c)$.
 
 The raw wavenumber-frequency power spectra at different latitudes are shown in numerous other publications \citep[e.g.][]{KillworthEtAl1997,Wunsch2010,WorthamWunsch2014}; they are not plotted again here. We are interested instead the integrals of the spectra.
 In Fig.~\ref{fig:integrated_spectra_T} we plot $\ol{|\Theta|^2}(\varphi, \kappa)$, $\ol{|\Theta|^2}(\varphi, \omega)$, and $\ol{|\Theta|^2}(\varphi, c)$, using a logarithmic color scale. This figure reveals the distribution of SST variance by wavenumber, frequency, and phase speed as a function of latitude. From the surface meridional velocity data, we define $v_{mn}$ (the space/time data) and $V_{jk}$ (the Fourier transform) in the same way just described, and in Fig.~\ref{fig:integrated_spectra_V} we plot
@@ -217,9 +219,8 @@ Parseval's theorem also applies to the product of $\theta$ and $v$; the eddy hea
 \begin{equation}
 \ol{V\Theta} = \frac{1}{MN} \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} v_{mn} \theta_{mn} = \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} \Re \{ V_{jk}^\ast  \Theta_{jk} \} \ .
 \end{equation}
-Just as described above, we can sum the components of $\Re \{ V_{jk}^\ast  \Theta_{jk} \}$ selectively to define $\ol{V\Theta}(\varphi, \kappa)$, $\ol{V\Theta}(\varphi, \omega)$, and $\ol{V\Theta}(\varphi, c)$. These functions are plotted in  Fig.~\ref{fig:integrated_spectra_VT}. Unlike the power spectra described above $\ol{V\Theta}$ can take both positive and negative values, corresponding to northward and southward heat transport. As seen in Fig.~\ref{fig:integrated_spectra_VT}, the eddy heat flux is poleward in both hemispheres, except near the equator, where it reverses. This is consistent with the mean SST gradient, which also reverses near the equator; the eddy flux is always down gradient. (The eddy diffusivity is discussed in Sec.~5).
-
-The spatial structure of the magnitude of the three $\ol{V\Theta}$ functions resembles that of $\ol{|V|^2}$ more than it does that of $\ol{|\Theta|^2}$. While $\ol{|\Theta|^2}(\kappa)$ peaks at the lowest wavenumbers at every latitude, both  $\ol{|V|^2}(\kappa)$ and $\ol{V\Theta}(\kappa)$ peak at an intermediate wavenumber, presumably one associated with mesoscale eddies.
+Just as described above, we can sum the components of $\Re \{ V_{jk}^\ast  \Theta_{jk} \}$ selectively to define $\ol{V\Theta}(\varphi, \kappa)$, $\ol{V\Theta}(\varphi, \omega)$, and $\ol{V\Theta}(\varphi, c)$. These functions are plotted in  Fig.~\ref{fig:integrated_spectra_VT}. Unlike the power spectra described above $\ol{V\Theta}$ can take both positive and negative values, corresponding to northward and southward heat transport. As seen in Fig.~\ref{fig:integrated_spectra_VT}, the eddy heat flux is poleward in both hemispheres, except near the equator, where it reverses. This is consistent with the mean SST gradient, which also reverses near the equator; the eddy flux is always down gradient. In depth discussion and comparison of the spectra is deferred until Sec.~?.  %(The eddy diffusivity is discussed in Sec.~5).
+%The spatial structure of the magnitude of the three $\ol{V\Theta}$ functions resembles that of $\ol{|V|^2}$ more than it does that of $\ol{|\Theta|^2}$. While $\ol{|\Theta|^2}(\kappa)$ peaks at the lowest wavenumbers at every latitude, both  $\ol{|V|^2}(\kappa)$ and $\ol{V\Theta}(\kappa)$ peak at an intermediate wavenumber, presumably one associated with mesoscale eddies.
 
 \begin{figure}[t]
   \noindent\includegraphics{../figures/SAT_50degwide/integrated_spectra_VT.pdf}\\
@@ -227,7 +228,7 @@ The spatial structure of the magnitude of the three $\ol{V\Theta}$ functions res
   \label{fig:integrated_spectra_VT}
 \end{figure}
 
-\section{Cross-Spectral Analysis of 1/10$^\circ$ POP Model}
+\subsection{Cross-Spectral Analysis of 1/10$^\circ$ POP Model}
 
 Just figures for now.
 
@@ -252,7 +253,7 @@ Just figures for now.
 
 \section{Spectral Moments}
 
-Here we characterize the properties of the power spectra and cross spectra via their moments in wavenumber, frequency, and phase speed space. The first moment tells us about the dominant scale. The second moment tells us how concentrated the distribution is about that scale.
+While a visual comparison of the spectra in Figs. 1-6 is informative, a more quantitative comparison is desirable. In particular, we wish to asses whether the spectra peak in the same locations and how those peaks are related to the underlying dynamics. Furthermore, we wish to assess to what extent the spectra are narrowly concentrated around these peaks, versus broadly distributed. In this section we characterize the properties of the power spectra and cross spectra via their moments in wavenumber, frequency, and phase speed space. The first moment tells us about the dominant scale. The second moment tells us how concentrated the distribution is about that scale.
 
 We define the first moment of a wavenumber spectrum $\ol{|\Theta|^2}(\kappa)$ at a given latitude (itself defined in \ref{eq:Theta_kappa}) as
 \begin{equation}
@@ -266,7 +267,7 @@ M^\kappa_2 (\ol{ |\Theta|^2 }) = \frac{ \int (\kappa - M^1_\kappa)^2 \ol{|\Theta
 \end{equation}
 We make analogous definitions for the $\omega$ and $c$ moments, and also for the moments of the other spectra $\ol{|V|^2}$ and $\ol{V \Theta}$. 
 
-The significance of $M_1$ and $M_2$ is most clear when the spectra have a clearly defined, dominant peak. In the case of $\ol{V \Theta}$,  which is not positive definite, it is possible for the normalization factor in the denominator of \eqref{eq:M1} and \eqref{eq:M2} to approach zero, leading to a meaningless result. To avoid this situation, we mask the moments where the ratio $\int \ol{V\Theta} / \int | \ol{V \Theta} | < 0.9$. This is only the case in regions where the mean SST gradient is weak (primarily near 15$^\circ$S) and the heat flux is vanishingly small and noisy. At most latitudes, the heat flux does display a clear spectral peak, as evident in Figs.~\ref{fig:integrated_spectra_VT} and \ref{fig:integrated_spectra_VT_POP}.
+For a gaussian distribution, $M_1$ is the mean and $M_2$ is the variance. The interpretation of $M_1$ and $M_2$ is therefore most clear when the spectra have a clearly defined, dominant peak. In the case of $\ol{V \Theta}$,  which is not positive definite, it is possible for the normalization factor in the denominator of \eqref{eq:M1} and \eqref{eq:M2} to approach zero, leading to a meaningless result. To avoid this situation, we mask the moments at latitudes where the ratio $\int \ol{V\Theta} / \int | \ol{V \Theta} | < 0.9$. This is only the case in regions where the mean SST gradient is weak (primarily near 15$^\circ$S) and the heat flux is vanishingly small and noisy. At most latitudes, the heat flux does display a clear spectral peak, as evident in Figs.~\ref{fig:integrated_spectra_VT} and \ref{fig:integrated_spectra_VT_POP}.
 
 The first moments $M_1^\kappa( \ol{|\Theta|^2} )$, $M_1^\kappa( \ol{|V|^2} )$, and $M_1^\kappa( \ol{V \Theta} )$ are plotted in the upper panel Fig.~\ref{fig:moments_k}, with the second moments $M_2^\kappa( \ol{|\Theta|^2} )$, $M_2^\kappa( \ol{|V|^2} )$, and $M_2^\kappa( \ol{V \Theta} )$ in the lower panel, for both the satellite data and the POP model. The $c$ moments are in shown in Fig.~\ref{fig:moments_c}.
 

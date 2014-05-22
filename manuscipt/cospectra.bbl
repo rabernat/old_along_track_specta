@@ -1,4 +1,4 @@
-\begin{thebibliography}{32}
+\begin{thebibliography}{34}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
@@ -79,6 +79,12 @@ Jayne, S.~R. and J.~Marotzke, 2002: The oceanic eddy heat transport. \textit{J.
 \bibitem[{Keffer and Holloway(1988)}]{KefferHolloway1988}
 Keffer, T. and G.~Holloway, 1988: Estimating {Southern Ocean} eddy flux of heat
   and salt from satellite altimetry. \textit{Nature}, \textbf{332}, 624 -- 626.
+
+\bibitem[{Killworth et~al.(1997)Killworth, Chelton, and
+  de~Szoeke}]{KillworthEtAl1997}
+Killworth, P.~D., D.~B. Chelton, and R.~A. de~Szoeke, 1997: The speed of
+  observed and theoretical long extratropical planetary waves. \textit{J. Phys.
+  Oceanogr.}, \textbf{27}, 1946--1966.
 
 \bibitem[{Killworth et~al.(2004)Killworth, Cipollini, Uz, and
   Blundell}]{KillworthEtAl2004}
@@ -169,5 +175,10 @@ Visbeck, M., J.~Marshall, and T.~Haine, 1997: Specification of eddy transfer
 \bibitem[{Wunsch(2005)}]{Wunsch2005}
 Wunsch, C., 2005: The total meridional heat flux and its oceanic and
   atmospheric partition. \textit{J. Climate}, \textbf{18}, 4378--4384.
+
+\bibitem[{Wunsch(2010)}]{Wunsch2010}
+Wunsch, C., 2010: Toward a midlatitude ocean frequency--wavenumber spectral
+  density and trend determination. \textit{J. Phys. Oceanogr.}, \textbf{40},
+  2264--2282.
 
 \end{thebibliography}

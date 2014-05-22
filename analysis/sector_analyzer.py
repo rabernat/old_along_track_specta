@@ -54,6 +54,7 @@ class Sector:
         base_dir = self.base_dir
         sector_prefix = 'lon%6.3fto%6.3f_lat%6.3fto%6.3f' % (
                             self.londata.min(),self.londata.max(),self.lat.min(),self.lat.max())
+        print sector_prefix
         for ddir in os.listdir(base_dir):
             for secdir in os.listdir(os.path.join(base_dir,ddir)):
                 if secdir==sector_prefix:
