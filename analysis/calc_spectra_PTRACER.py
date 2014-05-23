@@ -10,16 +10,20 @@ from scipy.ndimage.filters import gaussian_filter1d, gaussian_filter
 # should be the same
 #Nx = 120; Nxdata=200; secname='30degwide'
 # the wide sector
-Nx = 500; Nxdata=None; secname = 'PSV_50degwide'
+Nx = 500; Nxdata=None; secname = 'PACE_Uecco_50degwide'
 
 do_smoothing=True
 sm_sig = 1.
 
 s = sector_analyzer.Sector(Nx=Nx, lonmin=-179.95, dlon=0.1)
 s.search_for_timeseries_data()
-dsets = ['AVISO_passive_V-19930115_7day',
-         'AVISO_passive_U-19930115_7day',
-         'AVISO_passive_T-19930115_7day']
+dsets = ['PACE_Uecco_V-19930115_7day',
+         'PACE_Uecco_U-19930115_7day',
+         'PACE_Uecco_T-19930115_7day']
+
+#dsets = ['AVISO_passive_V-19930115_7day',
+#         'AVISO_passive_U-19930115_7day',
+#         'AVISO_passive_T-19930115_7day']
 
 #Nc = 121
 Nc = 1000
