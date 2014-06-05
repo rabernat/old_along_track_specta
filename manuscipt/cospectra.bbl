@@ -1,4 +1,4 @@
-\begin{thebibliography}{34}
+\begin{thebibliography}{39}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
@@ -62,6 +62,10 @@ Ferrari, R. and M.~Nikurashin, 2010: Suppression of eddy diffusivity across
   jets in the {Southern Ocean}. \textit{J. Phys. Oceanogr.}, \textbf{40},
   1501--1519.
 
+\bibitem[{Fu and Ferrari(2008)}]{FuFerrari2008}
+Fu, L.~L. and R.~Ferrari, 2008: Observing oceanic submesoscale processes from
+  space. \textit{EOS}, \textbf{89}, 488--489.
+
 \bibitem[{Hill et~al.(2000)Hill, Robinson, and Cipollini}]{HillEtAl2000}
 Hill, K.~L., I.~S. Robinson, and P.~Cipollini, 2000: Propagation
   characteristics of extratropical planetary waves observed in the atsr global
@@ -92,6 +96,11 @@ Killworth, P.~D., P.~Cipollini, B.~M. Uz, and J.~R. Blundell, 2004: Physical
   and biological mechanisms for planetary waves observed in satellite-derived
   chlorophyll. \textit{J. Geophys. Res.}, \textbf{109}, C07\,002.
 
+\bibitem[{Klocker and Abernathey(2014)}]{KlockerAbernathey2014}
+Klocker, A. and R.~Abernathey, 2014: Global patterns of mesoscale eddy
+  properties and diffusivities. \textit{J. Phys. Oceanogr.}, \textbf{44},
+  1030--1047.
+
 \bibitem[{Klocker et~al.(2012{\natexlab{a}})Klocker, Ferrari, and
   LaCasce}]{KlockerEtAl2012a}
 Klocker, A., R.~Ferrari, and J.~H. LaCasce, 2012{\natexlab{a}}: Estimating
@@ -104,6 +113,12 @@ Klocker, A., R.~Ferrari, J.~H. LaCasce, and S.~T. Merrifield,
   2012{\natexlab{b}}: Reconciling float-based and tracer-based estimates of
   eddy diffusivities. \textit{J. Marine Res.}, \textbf{70~(4)}, 569--602.
 
+\bibitem[{Lagerloef et~al.(1999)Lagerloef, Mitchum, Lukas, and
+  Niiler}]{LagerloefEtAl1999}
+Lagerloef, G., G.~Mitchum, R.~Lukas, and P.~Niiler, 1999: Tropical {P}acific
+  near-surface currents estimated from altimeter, wind and drifter data.
+  \textit{J. Geophys. Res.}, \textbf{104}, 313--23.
+
 \bibitem[{Lee et~al.(2012)Lee, Lagerloef, Gierach, Kao, Yueh, and
   Dohan}]{LeeEtAl2012}
 Lee, T., G.~Lagerloef, M.~M. Gierach, H.-Y. Kao, S.~Yueh, and K.~Dohan, 2012:
@@ -115,6 +130,11 @@ Lee, T., G.~Lagerloef, M.~M. Gierach, H.-Y. Kao, S.~Yueh, and K.~Dohan, 2012:
 Marshall, J., E.~Shuckburgh, H.~Jones, and C.~Hill, 2006: Estimates and
   implications of surface eddy diffusivity in the {Southern Ocean} derived from
   tracer transport. \textit{J. Phys. Oceanogr.}, \textbf{36}, 1806--1821.
+
+\bibitem[{McClean et~al.(2011)}]{MccleanEtAl2011}
+McClean, J.~L., et~al., 2011: A prototype two-decade fully-coupled
+  fine-resolution ccsm simulation. \textit{Ocean Modelling}, \textbf{39},
+  10--30.
 
 \bibitem[{{O'Brien} et~al.(2013){O'Brien}, Cipollini, and
   Blundell}]{OBrienEtAl2013}
@@ -143,6 +163,12 @@ Prandtl, L., 1925: Bericht untersuchungen zur ausgebildeten turbulenz.
 Randel, W.~J. and I.~M. Held, 1991: Phase speed spectra of transient eddy
   fluxes and critical layer absorption. \textit{J. Atmos. Sci.}, \textbf{48},
   688--697.
+
+\bibitem[{Reynolds et~al.(2007)Reynolds, Smith, Liu, Chelton, Casey, and
+  Schlax}]{ReynoldsEtAl2007}
+Reynolds, R.~W., T.~M. Smith, C.~Liu, D.~B. Chelton, K.~S. Casey, and M.~G.
+  Schlax, 2007: Daily high-resolution-blended analyses for sea surface
+  temperature. \textit{J. Climate}, \textbf{20}, 5473--5491.
 
 \bibitem[{Smith and Marshall(2009)}]{SmithMarshall2009}
 Smith, K.~S. and J.~Marshall, 2009: Evidence for enhanced eddy mixing at
