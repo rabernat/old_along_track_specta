@@ -1,4 +1,4 @@
-\begin{thebibliography}{39}
+\begin{thebibliography}{44}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
@@ -18,6 +18,18 @@ Abernathey, R., J.~Marshall, E.~Shuckburgh, and M.~Mazloff, 2010: Enhancement
 Abernathey, R. and J.~C. Marshall, 2013: Global surface eddy diffusivities
   derived from satellite altimetry. \textit{J. Geophys. Res.}, \textbf{118},
   901--916.
+
+\bibitem[{Bryan et~al.(2010)Bryan, Tomas, Dennis, Chelton, Loeb, and
+  McClean}]{BryanEtAl2010}
+Bryan, F.~O., R.~Tomas, J.~M. Dennis, D.~B. Chelton, N.~G. Loeb, and J.~L.
+  McClean, 2010: Frontal scale air-sea interaction in high-resolution coupled
+  climate models. \textit{Journal of Climate}, \textbf{23}.
+
+\bibitem[{Chelton et~al.(1998)Chelton, de~Szoeke, Schlax, Naggar, and
+  Siwertz}]{CheltonEtAl1998}
+Chelton, D.~B., R.~A. de~Szoeke, M.~G. Schlax, K.~Naggar, and N.~Siwertz, 1998:
+  Geographical variability of the first baroclinic rossby radius of
+  deformations. \textit{J. Phys. Oceanogr.}, \textbf{28}, 433--450.
 
 \bibitem[{Chelton and Schlax(1996)}]{CheltonSchalx1996}
 Chelton, D.~B. and M.~G. Schlax, 1996: Global observations of oceanic rossby
@@ -170,6 +182,14 @@ Reynolds, R.~W., T.~M. Smith, C.~Liu, D.~B. Chelton, K.~S. Casey, and M.~G.
   Schlax, 2007: Daily high-resolution-blended analyses for sea surface
   temperature. \textit{J. Climate}, \textbf{20}, 5473--5491.
 
+\bibitem[{Rhines(1975)}]{Rhines1975}
+Rhines, P., 1975: Waves and turbulence on a beta-plane. \textit{J. Fluid
+  Mech.}, \textbf{69}, 417--433.
+
+\bibitem[{Small et~al.(2008)}]{SmallEtAl2008}
+Small, R., et~al., 2008: Air--sea interaction over ocean fronts and eddies.
+  \textit{Dynamics of Atmospheres and Oceans}, \textbf{45~(3)}, 274--319.
+
 \bibitem[{Smith and Marshall(2009)}]{SmithMarshall2009}
 Smith, K.~S. and J.~Marshall, 2009: Evidence for enhanced eddy mixing at
   mid-depth in the {Southern Ocean}. \textit{J. Phys. Oceanogr.}, \textbf{39},
@@ -192,6 +212,12 @@ Trenberth, K.~E. and J.~M. Caron, 2001: Estimates of meridional atmosphere and
 Tulloch, R., J.~Marshall, C.~Hill, and K.~S. Smith, 2011: Scales, growth rates,
   and spectral fluxes of baroclinic instability in the ocean. \textit{J. Phys.
   Oceanogr.}, \textbf{31}, 1057--1076.
+
+\bibitem[{Tulloch et~al.(2009)Tulloch, Marshall, and Smith}]{TullochEtAl2009}
+Tulloch, R., J.~Marshall, and K.~S. Smith, 2009: Interpretation of the
+  propagation of surface altimetric observations in terms of planetary waves
+  and geostrophic turbulence. \textit{J. Geophys. Res.}, \textbf{114},
+  C02\,005.
 
 \bibitem[{Visbeck et~al.(1997)Visbeck, Marshall, and Haine}]{VisbeckEtAl1997}
 Visbeck, M., J.~Marshall, and T.~Haine, 1997: Specification of eddy transfer

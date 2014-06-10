@@ -58,6 +58,13 @@ cdat = np.load(os.path.join(andreas_data_dir, 'c.npz'))
 clat = linspace(-80,80,160)
 Udat = np.load(os.path.join(andreas_data_dir, 'Umean_ECCO_patch.npz'))
 rdat = np.load(os.path.join(andreas_data_dir, 'r.npz'))
+EKEdat = np.load(os.path.join(andreas_data_dir,'aviso_EKE.npz'))
+u_rms = gaussian_filter1d(((EKEdat['U2mean'] + EKEdat['V2mean'])[540:690]**0.5).mean(axis=0),2)
+
+# Earth stuff
+Om = 7.292e-5
+L = 6.371e6
+Beta = 2*Om*cos(pi*lat/180.)/L
 
 leg = [r'$\overline{|V|^2}$',r'$\overline{|\Theta|^2}$',r'$\overline{V\Theta}$']
 
@@ -96,17 +103,21 @@ xlim([-60,50])
 title(r'$\sqrt{M_2^\kappa}$')
 grid()
 # ratio between M1[k] and L_eddy
-L_eddy = interp(lat, clat, rdat['r_dudley'])
+L_eddy = 2*interp(lat, clat, rdat['r_dudley'])
 L_ros = interp(lat, clat, rdat['r_rossby'])
+L_rhines = (interp(lat, EKEdat['lat'], u_rms)/Beta)**0.5
+
 subplot(313)
 plot( lat, 2*pi*M1['SAT']['VT']['k']**-1 / L_eddy, 'k-',
       lat, 2*pi*M1['SAT']['VT']['k']**-1 / L_ros, 'c-',
+      lat, 2*pi*M1['SAT']['VT']['k']**-1 / L_rhines, 'm-',
       lat, 2*pi*M1['POP']['VT']['k']**-1 / L_eddy, 'k--',
-      lat, 2*pi*M1['POP']['VT']['k']**-1 / L_ros, 'c--')
+      lat, 2*pi*M1['POP']['VT']['k']**-1 / L_ros, 'c--',
+      lat, 2*pi*M1['POP']['VT']['k']**-1 / L_rhines, 'm--',)
 grid()
-xlim([-60,50]); ylim([0,30])
+xlim([-60,50]); ylim([0,20])
 xlabel('lat');
-legend([r'$\gamma / L_{eddy}$', r'$\gamma / L_{d}$'],
+legend([r'$\gamma / L_{eddy}$', r'$\gamma / L_{d}$', r'$\gamma / L_{Rh}$'],
         loc='upper center')
 title('Ratio Between Length Scales')
 

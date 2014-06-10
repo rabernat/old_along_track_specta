@@ -5,10 +5,10 @@ import mycolors
 from scipy.ndimage.filters import gaussian_filter1d, gaussian_filter
 
 # which data to use
-prefix = 'PACE_Ueqc'
+#prefix = 'PACE_Ueqc'
 #prefix = 'PSV_50degwide'
 #prefix = 'SAT_50degwide' 
-#prefix = 'POP_50degwide' 
+prefix = 'POP_50degwide' 
 # the different variables available
 varnames = ['V','U','T','VT','VU']
 # load data
@@ -35,7 +35,16 @@ rdat = np.load(os.path.join(andreas_data_dir, 'r.npz'))
 # deformation radius
 Kdef = (rdat['r_rossby'] / (2*pi))**-1
 # obs scale
-Kobs = (rdat['r_dudley'] / (2*pi))**-1
+Kobs = ((2*rdat['r_dudley'] )/ (2*pi))**-1
+
+# for Rhines scale
+EKEdat = np.load(os.path.join(andreas_data_dir,'aviso_EKE.npz'))
+u_rms = gaussian_filter1d(((EKEdat['U2mean'] + EKEdat['V2mean'])[540:690]**0.5).mean(axis=0),2)
+Om = 7.292e-5
+L = 6.371e6
+Beta = 2*Om*cos(pi*lat/180.)/L
+L_rhines = (interp(lat, EKEdat['lat'], u_rms)/Beta)**0.5
+Krhines = (L_rhines/ (2*pi))**-1
 
 # Holt & Talley MLD
 mld_data_dir =  os.path.join(os.environ['D'], 'mixedlayer')
@@ -58,6 +67,11 @@ ktick = (1000. * lens.astype('f4') / 2 / pi)**-1
 rcParams['font.size'] = 8
 rcParams['legend.fontsize'] = 'small'
 rcParams['axes.formatter.limits'] = [-2, 2]
+rcParams['grid.color'] = '0.3'
+rcParams['grid.linewidth'] = 0.25
+rcParams['grid.linestyle'] = ':'
+
+
 
 # plotting configuration info
 data['V']['pow_k_clim'] = [-2,0]
@@ -119,7 +133,7 @@ for dname, d in data.iteritems():
     subplot(131)
     pcolormesh(k, lat_k, pow_k, cmap=d['cmap'], rasterized=True)
     #plot((4*rdat['r_dudley'])**-1 * 2 * pi, clat, 'k-', (4*rdat['r_rossby'])**-1 * 2 * pi, clat, 'k--')
-    plot(Kobs / 5, clat, 'k-', Kdef / 5, clat, 'k--')
+    plot(Kobs / 5, clat, 'k-', Kdef / 5, clat, 'k--', Krhines / 5, lat, 'k:')
     clim(d['pow_k_clim'])
     xticks(ktick, lens)
     xlim([0,1e-4])
@@ -130,7 +144,7 @@ for dname, d in data.iteritems():
     xlabel(r'wavelength (km)')
     ylabel('lat')
     #legend([r'$L_{eddy}$',r'$L_d$'], loc='upper right')
-    legend([r'$\kappa_{obs}/5$',r'$\kappa_d/5$'], loc='upper right')
+    legend([r'$\kappa_{eddy}/5$',r'$\kappa_d/5$',r'$\kappa_{Rh}/5$'], loc='upper right')
     cb=colorbar(orientation='horizontal', extendrect=True)
     cb.ax.set_title(r'%s / 10$^{-3}$ m$^{-1}$' % d['units'],
         {'fontsize': rcParams['axes.labelsize'],
@@ -159,14 +173,16 @@ for dname, d in data.iteritems():
     subplot(133)
     pcolormesh(c[:,1:-1], lat_c[:,1:-1], pow_c[:,1:-1], cmap=d['cmap'], rasterized=True)
     clim(d['pow_c_clim'])
-    plot(-cdat['c_dudley'], clat, 'k-', cdat['c_doppler'], clat, 'k--', Udat['Umean_ECCO_patch'], clat, Ucolor)
+    #plot(-cdat['c_dudley'], clat, 'k-', cdat['c_doppler'], clat, 'k--', Udat['Umean_ECCO_patch'], clat, Ucolor)
+    plot(-cdat['c_dudley'], clat, 'k-', cdat['c_doppler'], clat, 'k--')
     ylim([-60,50])
     xlim([-0.5,0.2])
     grid()
     title(d['title'] + r'$(c)$')
     xlabel(r'$c$ (m/s)')
     #ylabel('lat')
-    legend([r'$c_{eddy}$',r'$c_R$',r'$U_0$'], loc='upper left')
+    #legend([r'$c_{eddy}$',r'$c_R$',r'$U_0$'], loc='upper left')
+    legend([r'$c_{eddy}$',r'$c_R$'], loc='upper left')
     cb=colorbar(orientation='horizontal', extendrect=True)
     cb.ax.set_title(r'%s / 0.01 m s$^{-1}$' % d['units'],
         {'fontsize': rcParams['axes.labelsize'],
@@ -186,16 +202,17 @@ cpowticks = arange(-4,5)/1e3
 figure(figsize=(6.5,4.5))    
 ax1=subplot2grid((9,1), loc=(0,0), rowspan=4)
 contourf(c[:,1:-1], lat_c[:,1:-1], d['pow_c'][:,1:-1]/dc[:,1:-1] / dc_norm, cpowlevs, cmap=d['cmap'], extend='both')
-plot(-cdat['c_dudley'], clat, 'k-', cdat['c_doppler'], clat, 'k--', Udat['Umean_ECCO_patch'], clat, 'm-')
+plot(-cdat['c_dudley'], clat, 'k-', cdat['c_doppler'], clat, 'k--') #, Udat['Umean_ECCO_patch'], clat, 'm-')
 ylim([10,50]); yticks(arange(10,51,10))
 ylabel('lat')
 grid();
-legend([r'$c_{eddy}$',r'$c_R$',r'$U_0$'], loc='upper left')
+#legend([r'$c_{eddy}$',r'$c_R$',r'$U_0$'], loc='upper left')
+legend([r'$c_{eddy}$',r'$c_R$'], loc='upper left')
 title(r'$\overline{|V^\ast \Theta|}(c)$ extra tropics (K m s$^{-1}$ / 0.01 m s$^{-1}$)')
 
 ax2=subplot2grid((9,1), loc=(4,0), rowspan=5)
 contourf(c[:,1:-1], lat_c[:,1:-1], d['pow_c'][:,1:-1]/dc[:,1:-1] / dc_norm, cpowlevs, cmap=d['cmap'], extend='both')
-plot(-cdat['c_dudley'], clat, 'k-', cdat['c_doppler'], clat, 'k--', Udat['Umean_ECCO_patch'], clat, 'm-')
+plot(-cdat['c_dudley'], clat, 'k-', cdat['c_doppler'], clat, 'k--') #, Udat['Umean_ECCO_patch'], clat, 'm-')
 xlim([-0.1,0.05])
 ylim([-60,-10])
 xlabel(r'$c$ (m/s)')
@@ -216,7 +233,7 @@ else:
 
 figure(figsize=(3.25,2.5))
 contourf(c[:,1:-1], lat_c[:,1:-1], d['pow_c'][:,1:-1]/dc[:,1:-1] / dc_norm, cpowlevs/scalefac, cmap=d['cmap'], extend='both')
-plot(-cdat['c_dudley'], clat, 'k-', cdat['c_doppler'], clat, 'k--', Udat['Umean_ECCO_patch'], clat, 'm-')
+plot(-cdat['c_dudley'], clat, 'k-', cdat['c_doppler'], clat, 'k--') # , Udat['Umean_ECCO_patch'], clat, 'm-')
 ylim([-10,10])
 xlim([-1,0.5])
 ylabel('lat')
