@@ -16,8 +16,34 @@ dza = dict()
 for ex in expts:
     data[ex] = dict()
     for v in varnames:
-        data[ex][v] = dict(np.load('../data/%s_%s.npz' % (prefix[ex], v)))
+        try:
+            data[ex][v] = dict(np.load('../data/%s_%s.npz' % (prefix[ex], v)))
+        except KeyError:
+            pass
     dza[ex] = dict(np.load('../data/%s_%s.npz' % (prefix[ex], 'zon-avg')))
+
+# calculate diffusivities
+K = dict()
+sig=4
+for ex in expts:
+    K[ex] = dict()
+    for tr in ['T','S']:
+        try:
+            vq = dza[ex]['Vp%sp' % tr]
+            # mask extreme values, don't know how they got there
+            vq = ma.masked_array(vq, abs(vq) > 1e5)
+            vq = ma.masked_array( gaussian_filter1d(vq.filled(0.), sig), vq.mask)[1:-1]
+            qbar = gaussian_filter1d(dza[ex]['%sbar' % tr], sig)
+            lat = dza[ex]['lat']
+            # centered difference
+            dqdy = (qbar[2:] - qbar[:-2]) / (110e3 * (lat[2:] - lat[:-2]))
+            # mask for diffusivity
+            dmask = dqdy**2 < (dqdy**2).mean()/100.
+            K[ex][tr] = {'flux': vq,
+                         'grad': dqdy,
+                         'diff': -ma.masked_array(vq / dqdy, dmask)}
+        except KeyError:
+            pass
 
 # calculate moments
 M1, M2, qual = dict(), dict(), dict()
@@ -58,6 +84,7 @@ cdat = np.load(os.path.join(andreas_data_dir, 'c.npz'))
 clat = linspace(-80,80,160)
 Udat = np.load(os.path.join(andreas_data_dir, 'Umean_ECCO_patch.npz'))
 rdat = np.load(os.path.join(andreas_data_dir, 'r.npz'))
+K_ka = np.load(os.path.join(andreas_data_dir, 'K.npz'))
 EKEdat = np.load(os.path.join(andreas_data_dir,'aviso_EKE.npz'))
 u_rms = gaussian_filter1d(((EKEdat['U2mean'] + EKEdat['V2mean'])[540:690]**0.5).mean(axis=0),2)
 
@@ -161,62 +188,62 @@ savefig('../figures/moments_c.pdf')
 mld_data_dir =  os.path.join(os.environ['D'], 'mixedlayer')
 mld_hdf_file = h5py.File(os.path.join(mld_data_dir, 'climatology.nc'),'r')
 # smooth data with gaussian filter
-mld = gaussian_filter1d(
+mld_ht = gaussian_filter1d(
         ma.masked_invalid(mld_hdf_file.get('dt_mld_mean')[:,:30]).mean(axis=1), 2)
 mld_lat = ma.masked_invalid(mld_hdf_file.get('latgrid')[:,0])
+
 # a few other constants
 rho0 = 1027.
 cp = 4186.
-
-mask = (sstmask | sshmask)
-MHT = rho0*cp*s.L*interp(lat,mld_lat,mld) * ma.masked_array(
-            za_data['VpTp'], mask) 
-DY = (s.lat[1] - s.lat[0])*110e3
-# 2nd order centered difference
-MHT_smooth = MHT.filled(0.)
-MHT_smooth[mask] = interp(lat[mask],s.lat[~mask],MHT[~mask])
-MHT_smooth = gaussian_filter1d(MHT_smooth,1.5)
-heating_rate = -hstack([0, (MHT_smooth[2:] - MHT_smooth[:-2]), 0]) / s.L / (2*DY)
-
-Tbar = za_data['Tbar']
-dTbar_dy = hstack([0, Tbar[2:] - Tbar[:-2] ,0]) / (2*DY)
-K = ma.masked_array(-za_data['VpTp']/dTbar_dy, abs(dTbar_dy) < 1e-6)
-
+mld = 50.
+#L = 50*110e3*cos(pi*lat[1:-1]/180.)
+L = 110e3*cos(pi*lat[1:-1]/180.) # one degree
+Qfac = rho0*cp*mld*L
  
 #close('all')
 
 # mht
-figure(figsize=(6.5,5.5))
-subplot(211)
-plot(s.lat, MHT,'k',linewidth=2)
-grid(); xlim([-60,50]); ylim(array([-1,1])*1.3e13)
-xlabel('lat'); ylabel(r'MHT (W)')
+figure(figsize=(6.5,4.5))
+
+subplot(221)
+plot(lat[1:-1], Qfac*K['SAT']['T']['flux']/1e12,'k',
+     lat[1:-1], Qfac*K['POP']['T']['flux']/1e12,'k--')
+grid(); xlim([-60,50]); ylim(array([-1,1]))
+legend(['SAT','POP'], loc='upper left')
+ylabel(r'(TW / deg. long.)')
 title('Meridional Heat Transport')
 
-# heating
-subplot(212)
-plot(s.lat, ma.masked_array(heating_rate, mask), 'k', linewidth=2)
-grid(); xlim([-60,50]); ylim([-15,15])
-xlabel('lat'); ylabel(r'Q (W m$^{-2}$)')
-title('Heating Rate')
+# gradient
+subplot(222)
+plot(lat[1:-1], K['SAT']['T']['grad']*1e3,'k',
+     lat[1:-1], K['POP']['T']['grad']*1e3,'k--')
+grid(); xlim([-60,50]);
+ylabel(r'$\partial \overline{T} / \partial \varphi$ ($^\circ$ / km)')
+title('Mean Meridional SST Gradient')
+
+# EKE
+EKE_SAT = 0.5*( dza['SAT']['Vp2'] + dza['SAT']['Up2'])
+EKE_POP = 0.5*( dza['POP']['Vp2'] + dza['POP']['Up2'])
+subplot(223)
+plot(lat, EKE_SAT,'k',
+     lat, EKE_POP,'k--')
+grid(); xlim([-60,50]);
+xlabel('lat'); ylabel(r'(m$^2$ s$^{-2}$)')
+title('Eddy Kinetic Energy')
+
+# diffusivity
+subplot(224)
+plot(lat[1:-1], K['SAT']['T']['diff'],'k',
+     lat[1:-1], K['POP']['T']['diff'],'k--')
+grid(); xlim([-60,50]); ylim([-0,7000])
+xlabel('lat'); ylabel(r'(m$^2$ s$^{-1}$)')
+title('Eddy Diffusivity')
+
 tight_layout()
+savefig('../figures/MHT_gradient_EKE_diffusivity.pdf')
 
-savefig_dummy('../figures/%s/MHT_and_heating.pdf' % secname)
-
-figure(figsize=(6.5,2.25))
-plot(s.lat, K,'k',linewidth=2)
-grid(); xlim([-60,50]); ylim(array([0,5000]))
-xlabel('lat'); ylabel(r'K (m$^2$ s$^{-1}$)')
-title('Meridional Eddy Diffusivity')
-tight_layout()
-savefig_dummy('../figures/%s/diffusivity.pdf' % secname)
+show()
 
 
-# output Tbar for advection/diffusion calc
-Tbar_fine = tile( interp(arange(-80,80,0.1)+0.5, s.lat, za_data['Tbar'])[:,newaxis],[1,500] )
-#Tbar_fine.astype(dtype('>f4')).tofile('../data/PACE_SST.bin')
-dTdy = (za_data['Tbar'][2:]-za_data['Tbar'][:-2]) / (2*DY)
-
-alpha_c = - data['VT']['pow_c']/(data['V']['pow_c']**0.5 * data['T']['pow_c']**0.5)
 
 

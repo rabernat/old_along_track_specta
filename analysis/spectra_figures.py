@@ -10,7 +10,7 @@ from scipy.ndimage.filters import gaussian_filter1d, gaussian_filter
 #prefix = 'SAT_50degwide' 
 prefix = 'POP_50degwide' 
 # the different variables available
-varnames = ['V','U','T','VT','VU']
+varnames = ['V','U','T','VT','VU','VS']
 # load data
 data = dict()
 for v in varnames:
@@ -109,6 +109,13 @@ data['VU']['log'] = False
 data['VU']['units'] = r'm$^2$ s$^{-2}$'
 data['VU']['cmap'] = get_cmap('posneg')
 data['VU']['title'] = r'$\overline{V^\ast U}$'
+data['VS']['pow_k_clim'] = [-0.3, 0.3]
+data['VS']['pow_om_clim'] = [-0.1, 0.1]
+data['VS']['pow_c_clim'] = [-1e-3, 1e-3]
+data['VS']['log'] = False
+data['VS']['units'] = r'PSU m s$^{-1}$'
+data['VS']['cmap'] = get_cmap('posneg')
+data['VS']['title'] = r'$\overline{V^\ast S}$'
 
 dk_norm = 1e3
 dom_norm = 1e5
@@ -243,5 +250,46 @@ title(r'$\overline{|V^\ast \Theta|}(c)$ equator (K m s$^{-1}$ / 0.01 m s$^{-1}$)
 #legend([r'$c_{eddy}$',r'$c_R$',r'$U_0$'], loc='upper left')
 tight_layout()
 savefig('../figures/%s/VT_phase_speed_spectra_equatorial.pdf' % prefix)
+
+
+figure(figsize=(6.5,4.5))    
+clf()
+subplot(121)
+d = data['V']
+pow_k = ma.masked_array(log10(d['pow_k']/ dk / dk_norm), abs(lat_k) <= 5.1)
+Kdefi = interp(lat, clat, Kdef)
+contourf(k / Kdefi[:,newaxis], lat_k, pow_k, arange(-2,0.1,0.25), cmap=d['cmap'], extend='both')
+xlim([0,0.5])
+ylim([-60,50])
+cb=colorbar(orientation='horizontal', ticks=arange(-2,0.1,0.5))
+cb.ax.set_title(r'%s / 10$^{-3}$ m$^{-1}$' % d['units'],
+    {'fontsize': rcParams['axes.labelsize'],
+         'verticalalignment': 'baseline',
+         'horizontalalignment': 'center'})
+grid()
+xlabel(r'$\kappa / \kappa_d$')
+ylabel('lat')
+title(d['title'] + '$(\kappa)$')
+
+subplot(122)
+d = data['VT']
+pow_k = ma.masked_array(d['pow_k']/ dk / dk_norm, abs(lat_k) <= 5.1)
+Kdefi = interp(lat, clat, Kdef)
+contourf(k / Kdefi[:,newaxis], lat_k, pow_k, arange(-2,2,0.25)+0.125, cmap=d['cmap'], extend='both')
+xlim([0,0.5])
+ylim([-60,50])
+cb=colorbar(orientation='horizontal', ticks=arange(-2,2,0.5))
+cb.ax.set_title(r'%s / 10$^{-3}$ m$^{-1}$' % d['units'],
+    {'fontsize': rcParams['axes.labelsize'],
+         'verticalalignment': 'baseline',
+         'horizontalalignment': 'center'})
+grid()
+#ylabel('lat')
+xlabel(r'$\kappa / \kappa_d$')
+title(d['title'] + '$(\kappa)$')
+tight_layout()
+savefig('../figures/%s/V2_VT_kappa_d.pdf' % prefix)
+
+
 
 show()
