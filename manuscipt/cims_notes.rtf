@@ -65,10 +65,34 @@ LINE 130-132: Something odd in your description of removing space/time means. \'
 First, does "subtract overall temporal mean at each latitude" mean (i) subtract the time mean at each POINT in lat/lon or (ii) subtract the time-longitude mean at each latitude? \'a0remove_temporal_mean in sector_analyzer looks like it does (i). \'a0\
 Second, in calc_spectra.py line 134-136, it looks like you're treating SSH and SST differently: remove_temporal_mean=True for SST but not for SSH_U and _V. \'a0Is there a reason for this? \'a0AVISO is already the anomaly relative to the 1993-1999 time mean (at each point), but GHRSST fields aren't, so that would be a good reason to remove the time mean from SST only. \'a0The same question applies to calc_spectra_POP: why not remove_temporal_mean=True for SSH_U and _V? \'a0Is the time mean velocity already removed from the POP fields?\
 I would say: "We subtract the time mean at each point (this is already done in the case of AVISO fields which are the anomaly relative to 1993-1999 mean), and then the zonal mean at each time step, effectively removing the seasonal cycle and the basin-scale variability." \'a0Technically, this isn't the "only filter", since smoothing the signal in frequency space (line 180) is a frequency-space filter, too.\
+
+\i Good catch. You are right: removing the temporal mean doesn\'92t affect AVISO since I am using SLA. However, it does affect POP. I reran the POP calculation with temporal mean removed. No visible difference other than at the zero frequency.\
+
+\i0 \
 LINE 155: Here\'85\
+
+\i OK\
+
+\i0 \
 LINE 160: Should this be L(\\phi) = 2 \\pi a cos(\\phi)*50/360?\
-EQ 1: Are you sure the normalization of the inverse FT is right? \'a0I haven't checked it yet, but looks odd. \'a0On a trivial note, I was initially confused by the index k, since k is usually wavenumber. \'a0Maybe rename the indices j->r and k->s? \
+
+\i OK\
+
+\i0 \
+EQ 1: Are you sure the normalization of the inverse FT is right? \'a0I haven't checked it yet, but looks odd.\
+
+\i I have checked it multiple times and also verified the Parseval relations (eqs. 3-5) numerically. The normalization was chosen to make those equations look the way they do. The square root of two arises because you are only summing over half of of the wavenumbers but all of the frequencies. 
+\i0 \
+\
+On a trivial note, I was initially confused by the index k, since k is usually wavenumber. \'a0Maybe rename the indices j->r and k->s? \
+
+\i Here k is actually a wave\'94number\'94 in the sense that wavenumber k=1 is the wave with a wavelength of the basin. I know it looks a little weird but there is a logic to it\'85Plus I don\'92t really feel like changing all the notation.
+\i0 \
+\
 LINE 170: "\'85 each Fourier component represents a fraction of the variance and the total variance is (eq. 3) where the asterisk denotes the complex conjugate and the overbear a frequency/wavenumber sum." \'a0\\Phi is in Fourier space, so you can't average in space and time. (Except in the case where you average spectral estimates from different locations/times. \'a0But I don't think that's what you mean here.)\
+\
+\
+\
 LINE 180: I found the "Gaussian filter with a width of two grid points" a bit confusing. \'a0"Grid points" sounds like physical space (1/4 deg or 7 days), but I think you mean that the standard deviation of the Gaussian function is two frequency bands. \'a0\
 LINE 225: and Figs. 7-8. \'a0What's the message? \'a0\
 LINE 235: Again, any citation for claiming large eddies are most efficient?\

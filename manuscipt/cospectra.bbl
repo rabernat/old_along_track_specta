@@ -1,4 +1,4 @@
-\begin{thebibliography}{44}
+\begin{thebibliography}{50}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
@@ -40,6 +40,11 @@ Chelton, D.~B., M.~G. Schlax, and R.~M. Samelson, 2011: Global observations of
   nonlinear mesoscale eddies. \textit{Progress in Oceanography}, \textbf{91},
   167--216.
 
+\bibitem[{Chelton et~al.(2007)Chelton, Schlax, Samelson, and
+  de~Szoeke}]{CheltonEtAl2007}
+Chelton, D.~B., M.~G. Schlax, R.~M. Samelson, and R.~A. de~Szoeke, 2007: Global
+  observations of large oceanic eddies, submitted to GRL.
+
 \bibitem[{Chelton et~al.(2000)Chelton, Wentz, Gentemann, {de Szoeke}, and
   Schlax}]{CheltonEtAl2000}
 Chelton, D.~B., F.~J. Wentz, C.~L. Gentemann, R.~A. {de Szoeke}, and M.~G.
@@ -69,10 +74,18 @@ Cipollini, P., D.~Cromwell, M.~S. Jones, G.~D. Quartly, and P.~G. Challenor,
 Contreras, R.~F., 2002: Long-term observations of tropical instability waves.
   \textit{J. Phys. Oceanogr.}, \textbf{32}, 2715--2722.
 
+\bibitem[{Dong et~al.(2014)Dong, McWilliams, Liu, and Chen}]{DongEtAl2014}
+Dong, C., J.~C. McWilliams, Y.~Liu, and D.~Chen, 2014: Global heat and salt
+  transports by eddy movement. \textit{Nature Comm.}, \textbf{5~(3294)}.
+
 \bibitem[{Ferrari and Nikurashin(2010)}]{FerrariNikurashin2010}
 Ferrari, R. and M.~Nikurashin, 2010: Suppression of eddy diffusivity across
   jets in the {Southern Ocean}. \textit{J. Phys. Oceanogr.}, \textbf{40},
   1501--1519.
+
+\bibitem[{Forget(2010)}]{Forget2010}
+Forget, G., 2010: Mapping ocean observations in a dynamical framework: A
+  2004--06 ocean atlas. \textit{J. Phys. Oceanogr.}, \textbf{40}, 1201--1221.
 
 \bibitem[{Fu and Ferrari(2008)}]{FuFerrari2008}
 Fu, L.~L. and R.~Ferrari, 2008: Observing oceanic submesoscale processes from
@@ -87,6 +100,11 @@ Hill, K.~L., I.~S. Robinson, and P.~Cipollini, 2000: Propagation
 \bibitem[{Holloway(1986)}]{Holloway1986}
 Holloway, G., 1986: Estimation of oceanic eddy transports from satellite
   altimetry. \textit{Nature}, \textbf{323}, 343--344.
+
+\bibitem[{Holte and Talley(2009)}]{HolteTalley2009}
+Holte, J. and L.~Talley, 2009: A new algorithm for finding mixed layer depths
+  with applications to {Argo} data and {Subantarctic Mode Water} formation.
+  \textit{J. Atm. Ocean. Tech.}, \textbf{26}, 1920--1939.
 
 \bibitem[{Jayne and Marotzke(2002)}]{JayneMarotzke2002}
 Jayne, S.~R. and J.~Marotzke, 2002: The oceanic eddy heat transport. \textit{J.
@@ -186,6 +204,11 @@ Reynolds, R.~W., T.~M. Smith, C.~Liu, D.~B. Chelton, K.~S. Casey, and M.~G.
 Rhines, P., 1975: Waves and turbulence on a beta-plane. \textit{J. Fluid
   Mech.}, \textbf{69}, 417--433.
 
+\bibitem[{Roemmich and Gilson(2001)}]{RoemmichGilson2001}
+Roemmich, D. and J.~Gilson, 2001: ddy transport of heat and thermocline waters
+  in the {North Pacific}: a key to interannual/decadal climate variability?
+  \textit{J. Phys. Oceanogr.}, \textbf{31}, 675--687.
+
 \bibitem[{Small et~al.(2008)}]{SmallEtAl2008}
 Small, R., et~al., 2008: Air--sea interaction over ocean fronts and eddies.
   \textit{Dynamics of Atmospheres and Oceans}, \textbf{45~(3)}, 274--319.
@@ -223,6 +246,10 @@ Tulloch, R., J.~Marshall, and K.~S. Smith, 2009: Interpretation of the
 Visbeck, M., J.~Marshall, and T.~Haine, 1997: Specification of eddy transfer
   coefficients in coarse-resolution ocean circulation models. \textit{J. Phys.
   Oceanogr.}, \textbf{27}, 381--403.
+
+\bibitem[{Volkov et~al.(2008)Volkov, Lee, and Fu}]{VolkovEtAl2008}
+Volkov, D., T.~Lee, and L.~Fu, 2008: Eddy-induced meridional heat transport in
+  the ocean. \textit{Geophys. Res. Lett.}, \textbf{35}, L20\,601.
 
 \bibitem[{Wunsch(2005)}]{Wunsch2005}
 Wunsch, C., 2005: The total meridional heat flux and its oceanic and
