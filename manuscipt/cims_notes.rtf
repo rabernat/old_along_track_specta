@@ -89,16 +89,34 @@ On a trivial note, I was initially confused by the index k, since k is usually w
 \i Here k is actually a wave\'94number\'94 in the sense that wavenumber k=1 is the wave with a wavelength of the basin. I know it looks a little weird but there is a logic to it\'85Plus I don\'92t really feel like changing all the notation.
 \i0 \
 \
-LINE 170: "\'85 each Fourier component represents a fraction of the variance and the total variance is (eq. 3) where the asterisk denotes the complex conjugate and the overbear a frequency/wavenumber sum." \'a0\\Phi is in Fourier space, so you can't average in space and time. (Except in the case where you average spectral estimates from different locations/times. \'a0But I don't think that's what you mean here.)\
-\
-\
+LINE 170: "\'85 each Fourier component represents a fraction of the variance and the total variance is (eq. 3) where the asterisk denotes the complex conjugate and the overbear a frequency/wavenumber sum." \'a0\\Phi is in Fourier space, so you can't average in space and time. (Except in the case where you average spectral estimates from different locations/times. \'a0But I don't think that's what you mean here.\
+
+\i Corrected
+\i0 \
 \
 LINE 180: I found the "Gaussian filter with a width of two grid points" a bit confusing. \'a0"Grid points" sounds like physical space (1/4 deg or 7 days), but I think you mean that the standard deviation of the Gaussian function is two frequency bands. \'a0\
-LINE 225: and Figs. 7-8. \'a0What's the message? \'a0\
+
+\i Yes
+\i0 \
+\
+LINE 225: and Figs. 7-8. \'a0What's the message? \
+
+\i What\'92s the message of what? Don\'92t understand the question.\
+
+\i0 \
 LINE 235: Again, any citation for claiming large eddies are most efficient?\
+
+\i probably
+\i0 \
+\
 LINE 238: conclusion\
 LINE 302: capitalize CCSM in reference\
-FIG 1: The figure captions use km, m and days, s. \'a0Do you want to pick one? \'a0Units of temperature are Kelvin which is sensible, but still possibly confusing. \'a0I'd mention it somewhere in the text. \'a0For middle panel, x-axis is period, not frequency. \'a0For the colormaps, you are plotting the log of the spectrum, and the colorbar is in log(spectrum units). \'a0I think a nicer way to do it is to plot the quantity itself, but with a logarithmically scaled colorbar. \'a0For example\
+FIG 1: The figure captions use km, m and days, s. \'a0Do you want to pick one? \'a0Units of temperature are Kelvin which is sensible, but still possibly confusing. \'a0I'd mention it somewhere in the text. \'a0For middle panel, x-axis is period, not frequency.\
+
+\i I don\'92t want to pick one. I picked the units I thought were most appropriate for each case. km / days are appropriate for the axes. m/s are appropriate for the velocities. In any case, the units are very obscure: the point is to see the magnitudes
+\i0 \
+\
+For the colormaps, you are plotting the log of the spectrum, and the colorbar is in log(spectrum units). \'a0I think a nicer way to do it is to plot the quantity itself, but with a logarithmically scaled colorbar. \'a0For example\
 	im = plt.imshow(spectrum, extent=[k[0], k[-1], w[0], w[-1]], cmap=cm.Spectral_r, norm=mpl.colors.LogNorm())\
 	cbar = plt.colorbar(im, format=mpl.ticker.LogFormatterMathtext())\
 To make this look right with latex fonts and all, I had to add a bit of code before the figures:\

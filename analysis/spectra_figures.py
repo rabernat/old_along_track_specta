@@ -1,4 +1,4 @@
-    from pylab import *
+from pylab import *
 import h5py
 import os
 import mycolors
@@ -7,14 +7,17 @@ from scipy.ndimage.filters import gaussian_filter1d, gaussian_filter
 # which data to use
 #prefix = 'PACE_Ueqc'
 #prefix = 'PSV_50degwide'
-#prefix = 'SAT_50degwide' 
-prefix = 'POP_50degwide' 
+prefix = 'SAT_50degwide' 
+#prefix = 'POP_50degwide' 
 # the different variables available
 varnames = ['V','U','T','VT','VU','VS']
 # load data
 data = dict()
 for v in varnames:
-    data[v] = dict(np.load('../data/%s_%s.npz' % (prefix, v)))
+    try:
+        data[v] = dict(np.load('../data/%s_%s.npz' % (prefix, v)))
+    except IOError:
+        pass
 # load grid info from data
 d = data['T']
 k, om, c = d['k'], d['om'], d['c']
