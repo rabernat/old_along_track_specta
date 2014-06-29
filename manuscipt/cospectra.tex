@@ -64,8 +64,8 @@
 				\newline{E-mail: rpa@ldeo.columbia.edu}}\\
 \textit{\footnotesize{Columbia University, New York, New York}}
 \and 
-\centerline{\textsc{Cimmaron Wortham}}\\% Add additional authors, different institution
-\centerline{\textit{\footnotesize{University of Washington, Seattle, Washington}}}
+\centerline{\textsc{Cimarron Wortham}}\\% Add additional authors, different institution
+\centerline{\textit{\footnotesize{Applied Physics Laboratory, University of Washington, Seattle, Washington}}}
 }
 %
 % Formatting done here...Authors should skip over this.  See above for abstract.
@@ -115,9 +115,7 @@ The framework of FN10 was recently tested by \citet[][henceforth KA14]{KlockerAb
 
 To answer this question, we employ satellite observations to investigate the spectral character of surface eddy meridional heat fluxes over a wide range of latitudes. This is achieved by calculating wavenumber-frequency cross-spectra for sea-surface temperature (SST) and the geostrophic velocity derived from sea-surface height (SSH). There is an extensive literature on the analysis of spatiotemporal variance and covariance in different remotely sensed ocean surface datasets such as SSH, SST, and color-derived chlorophyl \citep[see review by][]{OBrienEtAl2013}. Many of these past studies focus on characterizing the propagation behavior of Rossby waves \citep{CheltonSchalx1996,PolitoCornillon1997,CipolliniEtAl1997,HillEtAl2000,CipolliniEtAl2001,PolitoLiu2003,KillworthEtAl2004} and tropical instability waves \citep{PolitoEtAl2001,Contreras2002,CheltonEtAl2000,LeeEtAl2012}. The paper by \citet{KillworthEtAl2004} is particularly comprehensive and makes a convincing case that a large fraction of of the variance in SST and surface chlorophyl arises by advective stirring by the surface geostrophic flow by motions propagating close to the long Rossby wave speed.
 
-Being interested in the wave dynamics themselves, the studies cited above generally employed filters to isolate the spectral bands of interest. Here the approach is slightly different: we consider the total, unfiltered eddy flux and examine its spectral density in wavenumber, frequency, and phase-speed space. This perspective is inspired by the atmospheric study of \citet[][henceforth RH91]{RandelHeld1991}, who made such a diagnosis for the eddy fluxes of heat and momentum in the troposphere. In particular, presenting the results of the cross-spectral analysis through 2D contour plots as a function of latitude and phase speed (or latitude and wavenumber), provides a novel view of the oceanographic data, revealing the strong latitudinal dependence in the spectra. Our results indicate that the extratropical meridional eddy heat flux in phase-speed space is indeed concentrated around the long Rossby wave phase speed. One slightly confusing yet well documented fact is  that coherent nonlinear eddies propagate at about this phase speed, but larger (apparently linear) Rossby waves propagate somewhat faster \citep{CheltonEtAl2007,CheltonEtAl2011}.
-
-The dominant length scale is significantly larger (by roughly five times) than the observed mesoscale eddy diameter; however, the two quantities are consistently proportional. These conclusions help to explain the success of KA14 but also raise some new questions.
+Being interested in the wave dynamics themselves, the studies cited above generally employed filters to isolate the spectral bands of interest. Here the approach is slightly different: we consider the total, unfiltered eddy flux and examine its spectral density in wavenumber, frequency, and phase-speed space. This perspective is inspired by the atmospheric study of \citet[][henceforth RH91]{RandelHeld1991}, who made such a diagnosis for the eddy fluxes of heat and momentum in the troposphere. In particular, presenting the results of the cross-spectral analysis through 2D contour plots as a function of latitude and phase speed (or latitude and wavenumber), provides a novel view of the oceanographic data, revealing the strong latitudinal dependence in the spectra. Our results indicate that the extratropical meridional eddy heat flux in phase-speed space is indeed concentrated around the long Rossby wave phase speed. One slightly confusing yet well documented fact to keep in mind is  that coherent nonlinear eddies propagate at about this phase speed, but larger (apparently linear) Rossby waves propagate somewhat faster \citep{CheltonEtAl2007,CheltonEtAl2011}. The dominant length scale is significantly larger (by roughly five times) than the observed mesoscale eddy diameter; however, the two quantities are consistently proportional. These conclusions help to explain the success of KA14 but also raise some new questions.
 
 In addition to analyzing the satellite data, we perform the same analysis on a state-of-the-art global eddy permitting ocean model. This comparison serves two purposes. On one hand, it allows us probe finer space and time scales than the observations can resolve. On the other, it provides a form of model validation in the spectral domain. The broad agreement between the model and the observations is encouraging on both fronts, suggesting that the observations are more than sufficient to resolve the dominant scales of eddy heat transport and that the model shares the spectral characteristics of the observations.
 
@@ -199,7 +197,7 @@ Parseval's theorem states that the total power of the signal is the same in eith
 \begin{equation}
 \ol{|\Theta|^2} = \frac{1}{MN} \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} \theta_{mn}^2 = \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} \Theta_{jk}^\ast  \Theta_{jk} 
 \end{equation}
-where the asterisk denotes the complex conjugate and the overbar a time and zonal mean.
+where the asterisk denotes the complex conjugate and the overbar a sum over all wavenumbers / frequencies (here equivalent to a time and zonal mean).
 
 We define the power density as a function of wavenumber as the sum over all frequencies:
 \begin{equation}
@@ -213,7 +211,7 @@ Similarly, we define the power density as a function of frequency as the sum ove
 \end{equation}
 where $\Delta \omega$ is the spacing of the discrete frequencies.
 
-As in RH91, we construct phase speed spectra by interpolating the spectral density in $(\kappa, \omega)$ space into $(\kappa, c)$ space, where $c = \omega / \kappa$ is the phase speed. Before interpolating, the density $(\Delta \omega)^{-1}\Theta_{jk}^\ast   \Theta_{jk}$ must be multiplied by $\kappa$; this transformation ensures that the total power is the same whether integrating over $\omega$ or $c$. We also smooth the signal in frequency space before interpolating using a Gaussian filter with a width of two grid points. We use 1000 points in $c$, evenly spaced from -1 to 1 m s$^{-1}$ in order to capture the wide range of phase speeds with high precision. After summing over wavenumbers, we obtain the power density as a function of phase speed, $\ol{|\Theta|^2}(c)$.
+As in RH91, we construct phase speed spectra by interpolating the spectral density in $(\kappa, \omega)$ space into $(\kappa, c)$ space, where $c = \omega / \kappa$ is the phase speed. Before interpolating, the density $(\Delta \omega)^{-1}\Theta_{jk}^\ast   \Theta_{jk}$ must be multiplied by $\kappa$; this transformation ensures that the total power is the same whether integrating over $\omega$ or $c$. We also smooth the signal in frequency space before interpolating using a Gaussian filter with a standard deviation of two frequency bands. We interpolate to 1000 points in $c$, evenly spaced from -1 to 1 m s$^{-1}$ in order to capture the wide range of phase speeds with high precision. After summing over wavenumbers, we obtain the power density as a function of phase speed, $\ol{|\Theta|^2}(c)$.
 
 Raw wavenumber-frequency power spectra at different latitudes are shown in numerous other publications \citep[e.g.][]{KillworthEtAl1997,Wunsch2010,WorthamWunsch2014}; they are not plotted again here. We are interested instead the integrals of the spectra.
 In Fig.~\ref{fig:integrated_spectra_T} we plot $\ol{|\Theta|^2}(\varphi, \kappa)$, $\ol{|\Theta|^2}(\varphi, \omega)$, and $\ol{|\Theta|^2}(\varphi, c)$, using a logarithmic color scale. This figure reveals the distribution of SST variance by wavenumber, frequency, and phase speed as a function of latitude.
@@ -271,7 +269,7 @@ The analysis of the model is identical. Only the spatiotemporal sampling and res
 \end{figure}
 
 
-\section{Spectral Moments}
+\section{Spectral Moments and Discussion}
 
 While a visual comparison of the spectra in Figs.~1-6 is informative, a more quantitative comparison is desirable. In particular, we wish to asses whether the spectra peak in the same locations and how those peaks are related to the underlying dynamics. Furthermore, we wish to assess to what extent the spectra are narrowly concentrated around these peaks, versus broadly distributed. In this section we characterize the properties of the power spectra and cross spectra via their moments in wavenumber, frequency, and phase speed space. The first moment tells us about the dominant scale. The second moment tells us how concentrated the distribution is about that scale. Spectral moments play an important role in the theory of geostrophic turbulence \citep[e.g.][]{Rhines1975}.
 
@@ -289,7 +287,7 @@ We make analogous definitions for the $\omega$ and $c$ moments, and also for the
 
 For a gaussian distribution, $M_1$ is the mean and $M_2$ is the variance. The interpretation of $M_1$ and $M_2$ is therefore most clear when the spectra have a clearly defined, dominant peak. In the case of $\ol{V \Theta}$,  which is not positive definite, it is possible for the normalization factor in the denominator of \eqref{eq:M1} and \eqref{eq:M2} to approach zero, leading to a meaningless result. To avoid this situation, we mask the moments at latitudes where the ratio $\int \ol{V\Theta} / \int | \ol{V \Theta} | < 0.9$. This is only the case in regions where the mean SST gradient is weak (primarily near 15$^\circ$S) and the heat flux is vanishingly small and noisy. At most latitudes, the heat flux does display a clear spectral peak, as evident in Figs.~\ref{fig:integrated_spectra_VT} and \ref{fig:integrated_spectra_VT_POP}.
 
-The first moments $M_1^\kappa( \ol{|\Theta|^2} )$, $M_1^\kappa( \ol{|V|^2} )$, and $M_1^\kappa( \ol{V \Theta} )$ are plotted in the upper panel Fig.~\ref{fig:moments_k}, with the second moments $M_2^\kappa( \ol{|\Theta|^2} )$, $M_2^\kappa( \ol{|V|^2} )$, and $M_2^\kappa( \ol{V \Theta} )$ in the lower panel, for both the satellite data and the POP model. The $c$ moments are in shown in Fig.~\ref{fig:moments_c}.
+The first moments $M_1^\kappa( \ol{|\Theta|^2} )$, $M_1^\kappa( \ol{|V|^2} )$, and $M_1^\kappa( \ol{V \Theta} )$ are plotted in the upper panel Fig.~\ref{fig:moments_k}, with the second moments $M_2^\kappa( \ol{|\Theta|^2} )$, $M_2^\kappa( \ol{|V|^2} )$, and $M_2^\kappa( \ol{V \Theta} )$ in the lower panel, for both the satellite data and the POP model. The $c$ moments are in shown in Fig.~\ref{fig:moments_c}. Equipped with this more quantitative description, we are now prepared to discuss the features and characteristics of the spectra.
 
 \begin{figure}[t]
   \noindent\includegraphics{../figures/moments_k.pdf}\\
@@ -302,6 +300,15 @@ The first moments $M_1^\kappa( \ol{|\Theta|^2} )$, $M_1^\kappa( \ol{|V|^2} )$, a
   \caption{The same as Fig.~\ref{fig:moments_k}, but for the $c$-moments. In the upper panel, the observed eddy phase speed $L_{eddy}$ (solid black) and the long-wave Rossby wave phase speed from linear theory $c_R$ (dashed black) are also plotted. }
   \label{fig:moments_c}
 \end{figure}
+
+Regarding the lengths scales of the eddy heat flux $\ol{V\Theta}(\kappa)$, is is noteworthy that at all latitudes it is concentrated at relatively low wavenumbers, corresponding to wavelengths of 250 km or greater (Fig.~\ref{fig:moments_k}). Generally speaking, these are the same wavelengths containing most of the kinetic energy (as indicated by $\ol{|V|^2}(\kappa)$). The dominance of these wavelengths in the kinetic energy has been noted by other authors \citep[e.g.][]{Stammer1997,Wunsch2010,WorthamWunsch2014} and has been attributed to the work a geostrophic-turbulent inverse cascade of energy from some source scale to the deformation radius. It is interesting, although unsurprising, to see that these wavelengths also dominate the heat flux. (Unsurprising because large eddies are the most efficient at transporting tracers.) The consistent proportionality between the dominant length scale of the heat flux and the diameter of coherent mesoscale eddies strongly suggests that the mesoscale eddies are responsible for the heat transport. This conclusions stands somewhat in contrast to \citet{KillworthEtAl2004}, who attributed the large scales in ocean color / SSH cross spectra to advection by long linear Rossby waves.
+
+Of course, when interpreting the wavenumber spectra, we must keep in mind the low-pass-filtering effect of the AVISO processing, which artificially attenuates small scales. In this respect, comparison with the POP results is illuminating. It is clear from Figs.~1-6 that there is significantly more small-scale variance in the POP fields. This is reflected in larger values of $M_2^\kappa$ (Fig.~\ref{fig:moments_k}) for the POP model by a factor of 2-3 for all three spectra. The values of $M_1^\kappa(\ol{|\Theta|^2})$ are are also significantly different between the POP model and the data; a shift to shorter wavelengths is seen in the model SST. Since the SST spectra are red throughout (in contrast the energy spectra, which are peaked), this shift is expected from the resolution of smaller scales by the model. 
+
+However, given the overall redness of the ocean energy spectrum, and the fact that the observations do resolve the most energetic scales well, we feel the above conclusions are robust.
+
+\citet{KeatingSmith}
+
 
 \section{Net Meridional Heat Transport and Eddy Diffusivity}
 
@@ -336,18 +343,11 @@ In summary, where the model SST gradient and EKE are the same as the data, the
   \label{fig:H}
 \end{figure*}
 
-
-\section{Discussion}
-
-Regarding the lengths scales of the eddy heat flux $\ol{V\Theta}(\kappa)$, is is noteworthy that at all latitudes it is concentrated at relatively low wavenumbers, corresponding to wavelengths of 250 km or greater (Fig.~\ref{moments_k}). Generally speaking, these are the same wavelengths containing most of the kinetic energy (as indicated by $\ol{|V|^2}(\kappa)$). The dominance of these wavelengths in the kinetic energy has been noted by other authors \citep[e.g.][]{Stammer1997,Wunsch2010} and has been attributed to the work a geostrophic-turbulent inverse cascade of energy from some source scale to the deformation radius. It is interesting, although unsurprising, to see that these wavelengths also dominate the heat flux. (Unsurprising because large eddies are likely to be the most efficient at transporting tracers.) The consistent proportionality between the dominant length scale of the heat flux and the diameter of coherent mesoscale eddies strongly suggests that the mesoscale eddies are responsible for the heat transport. This conclusions stands somewhat in contrast to \citet{KillworthEtAl2004}, who attributed the large scales to advection by long linear Rossby waves.
-
+\section{Conclusions}
 
 The fact that the scales of eddy heat transport are so large suggests an alternative to the traditional diffusive parameterization of eddy fluxes in coarse-resolution models. 
 
 
-\citet{KeatingSmith}
-
-\section{Conclusions}
 Atmospheric waves propagate meridionally, but this propagation is constrained by their phase speed: they break when they encounter ``critical latitudes'' at which their phase speed matches the background mean flow. These dynamics leave a clear signature in atmospheric phase-speed cospecta \citep{ChenHeld2007}. Ocean eddies, in contrast, do not propagate far in latitude. However, we argue that the phase phase speed is still an important factor in understanding ocean eddy fluxes, since it plays a significant role in determining the eddy diffusivity \citep{AbernatheyEtAl2010,FerrariNikurashin2010}. In this study we show that the surface eddy heat flux at each latitude is relatively concentrated around the long-wave Rossby wave phase speed.
 
 
