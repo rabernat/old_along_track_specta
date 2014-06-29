@@ -1,4 +1,4 @@
-    from pylab import *
+from pylab import *
 import h5py
 import os
 import mycolors
@@ -14,7 +14,10 @@ varnames = ['V','U','T','VT','VU','VS']
 # load data
 data = dict()
 for v in varnames:
-    data[v] = dict(np.load('../data/%s_%s.npz' % (prefix, v)))
+    try:
+        data[v] = dict(np.load('../data/%s_%s.npz' % (prefix, v)))
+    except IOError:
+        pass
 # load grid info from data
 d = data['T']
 k, om, c = d['k'], d['om'], d['c']
@@ -33,9 +36,9 @@ clat = linspace(-80,80,160)
 Udat = np.load(os.path.join(andreas_data_dir, 'Umean_ECCO_patch.npz'))
 rdat = np.load(os.path.join(andreas_data_dir, 'r.npz'))
 # deformation radius
-Kdef = (rdat['r_rossby'] / (2*pi))**-1
+Kdef = rdat['r_rossby']**-1 #* 2*pi
 # obs scale
-Kobs = ((2*rdat['r_dudley'] )/ (2*pi))**-1
+Kobs = (2*rdat['r_dudley'])**-1 #* 2*pi
 
 # for Rhines scale
 EKEdat = np.load(os.path.join(andreas_data_dir,'aviso_EKE.npz'))
@@ -140,6 +143,7 @@ for dname, d in data.iteritems():
     subplot(131)
     pcolormesh(k, lat_k, pow_k, cmap=d['cmap'], rasterized=True)
     #plot((4*rdat['r_dudley'])**-1 * 2 * pi, clat, 'k-', (4*rdat['r_rossby'])**-1 * 2 * pi, clat, 'k--')
+    #plot(Kobs / 5, clat, 'k-', Kdef / 5, clat, 'k--', Krhines / 5, lat, 'k:')
     plot(Kobs / 5, clat, 'k-', Kdef / 5, clat, 'k--', Krhines / 5, lat, 'k:')
     clim(d['pow_k_clim'])
     xticks(ktick, lens)
