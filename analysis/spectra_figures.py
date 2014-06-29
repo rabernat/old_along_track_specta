@@ -36,9 +36,11 @@ clat = linspace(-80,80,160)
 Udat = np.load(os.path.join(andreas_data_dir, 'Umean_ECCO_patch.npz'))
 rdat = np.load(os.path.join(andreas_data_dir, 'r.npz'))
 # deformation radius
-Kdef = rdat['r_rossby']**-1 #* 2*pi
+#Kdef = (rdat['r_rossby'] / (2*pi))**-1
+Kdef = rdat['r_rossby']**-1
 # obs scale
-Kobs = (2*rdat['r_dudley'])**-1 #* 2*pi
+#Kobs = ((2*rdat['r_dudley'] )/ (2*pi))**-1
+Kobs = (rdat['r_dudley'])**-1
 
 # for Rhines scale
 EKEdat = np.load(os.path.join(andreas_data_dir,'aviso_EKE.npz'))
@@ -141,21 +143,25 @@ for dname, d in data.iteritems():
     clf()
 
     subplot(131)
-    pcolormesh(k, lat_k, pow_k, cmap=d['cmap'], rasterized=True)
+    #pcolormesh(k, lat_k, pow_k, cmap=d['cmap'], rasterized=True)
+    pcolormesh(k/(2*pi), lat_k, pow_k, cmap=d['cmap'], rasterized=True)
     #plot((4*rdat['r_dudley'])**-1 * 2 * pi, clat, 'k-', (4*rdat['r_rossby'])**-1 * 2 * pi, clat, 'k--')
     #plot(Kobs / 5, clat, 'k-', Kdef / 5, clat, 'k--', Krhines / 5, lat, 'k:')
-    plot(Kobs / 5, clat, 'k-', Kdef / 5, clat, 'k--', Krhines / 5, lat, 'k:')
+    plot(Kobs/(2*pi), clat, 'k-', Kdef/(2*pi) , clat, 'k--', Krhines/(2*pi), lat, 'k:')
     clim(d['pow_k_clim'])
-    xticks(ktick, lens)
+    #xticks(ktick, lens)
     xlim([0,1e-4])
     ylim([-60,50])
     grid()
     title(d['title'] + r"$(\kappa)$")
     #xlabel(r'$2 \pi / k$ (km)')
-    xlabel(r'wavelength (km)')
+    #xlabel(r'wavelength (km)')
+    xlim([0,2e-5])
+    xlabel(r'$\kappa / (2\pi)$ (cpm)')
     ylabel('lat')
     #legend([r'$L_{eddy}$',r'$L_d$'], loc='upper right')
-    legend([r'$\kappa_{eddy}/5$',r'$\kappa_d/5$',r'$\kappa_{Rh}/5$'], loc='upper right')
+    #legend([r'$\kappa_{eddy}/5$',r'$\kappa_d/5$',r'$\kappa_{Rh}/5$'], loc='upper right')
+    legend([r'$\kappa_{eddy}$',r'$\kappa_d$',r'$\kappa_{Rh}$'], loc='upper right')
     cb=colorbar(orientation='horizontal', extendrect=True)
     cb.ax.set_title(r'%s / 10$^{-3}$ m$^{-1}$' % d['units'],
         {'fontsize': rcParams['axes.labelsize'],
@@ -167,7 +173,7 @@ for dname, d in data.iteritems():
     pcolormesh(om, lat_om, pow_om, cmap=d['cmap'], rasterized=True)
     clim(d['pow_om_clim'])
     xticks(omtick,days)
-    xlim([ -(25*day/(2*pi))**-1, (60*day/(2*pi))**-1])
+    #xlim([ -(25*day/(2*pi))**-1, (60*day/(2*pi))**-1])
     ylim([-60,50])
     grid()
     title(d['title'] + r"$(\omega)$")
