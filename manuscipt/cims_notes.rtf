@@ -113,12 +113,16 @@ LINE 238: conclusion\
 LINE 302: capitalize CCSM in reference\
 FIG 1: The figure captions use km, m and days, s. \'a0Do you want to pick one? \'a0Units of temperature are Kelvin which is sensible, but still possibly confusing. \'a0I'd mention it somewhere in the text. \'a0For middle panel, x-axis is period, not frequency.\
 
-\i I don\'92t want to pick one. I picked the units I thought were most appropriate for each case. km / days are appropriate for the axes. m/s are appropriate for the velocities. In any case, the units are very obscure: the point is to see the magnitudes
+\i I agree that the units were confusing. So bad that I actually confused myself! I have fixed part of problem (the axes), but have not touched the color scale units. I feel that those units are pretty arbitrary.
 \i0 \
 \
 For the colormaps, you are plotting the log of the spectrum, and the colorbar is in log(spectrum units). \'a0I think a nicer way to do it is to plot the quantity itself, but with a logarithmically scaled colorbar. \'a0For example\
 	im = plt.imshow(spectrum, extent=[k[0], k[-1], w[0], w[-1]], cmap=cm.Spectral_r, norm=mpl.colors.LogNorm())\
 	cbar = plt.colorbar(im, format=mpl.ticker.LogFormatterMathtext())\
+
+\i TRY THIS
+\i0 \
+\
 To make this look right with latex fonts and all, I had to add a bit of code before the figures:\
 	from matplotlib import colors, ticker, cm, rc \
 	# control fonts \
@@ -130,6 +134,10 @@ To make this look right with latex fonts and all, I had to add a bit of code bef
 	# control legend line length. Multiple of font width \
 	mpl.rcParams['legend.handlelength'] = 3 \
 	rc('axes', unicode_minus=True)\
+
+\i I actually prefer the sans-serif font for the figures.
+\i0 \
+\
 FIG 7: Caption doesn't mention bottom panel or define \\gamma. \'a0In the middle panel (spectral width), all three quantities have a larger bandwidth in POP than in the satellite observations. \'a0This is worrying. \'a0Earlier, you suggest that the eddy heat transport is dominated by the large eddies. \'a0But here it looks like POP has heat transport at smaller mean scales (top panel red lines differ by about a factor of 2 at 30S) and spread over a wider wavenumber range (middle panel red lines differ by about a factor of 3 at 30S). \'a0More broadly, I think the paper could make better use of the POP results. How can POP be used to reinforce the satellite results? \'a0More on this below.\
 FIG 8: lower panel label y-axis "spectral width (m s^-1)". \'a0\
 \
