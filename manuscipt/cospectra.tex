@@ -157,9 +157,21 @@ Relatively little additional processing is applied to the data, since the observ
 
 \subsection{Coherent Eddy Statistics}
 
-A large amount of the variance in midlatitude SSH has been attributed to coherent, nonlinear mesoscale eddies \citep{CheltonEtAl2011}. Throughout this study, we compare the length scales and phase speeds that arise from our spectral analysis with the coherent eddy characteristics from the eddy census of \citet{CheltonEtAl2011}, whose results were made publicly available\footnote{{\tt http://cioss.coas.oregonstate.edu/eddies/}}. The observed eddy length scale, which we call $L_{eddy}$, is defined by the average diameter of all the eddies at each latitude in the sector. This diameter itself is derived for each eddy from the area enclosed by the SSH contour corresponding to the maximum geostrophic flow speed, i.e.~where the eddy velocity is greatest. (See \citealt{CheltonEtAl2011} Sec.~4.2 for further discussion of the eddy length computation.) We also incorporate the zonally averaged phase speed of the tracked eddies from the census, which we denote $c_{eddy}$.
+A large amount of the variance in midlatitude SSH has been attributed to coherent, nonlinear mesoscale eddies \citep{CheltonEtAl2011}. Throughout this study, we compare the length scales and phase speeds that arise from our spectral analysis with the coherent eddy characteristics from the eddy census of \citet{CheltonEtAl2011}, whose results were made publicly available\footnote{{\tt http://cioss.coas.oregonstate.edu/eddies/}}. The observed eddy length scale $L_s$ is defined by the average radius of all the eddies at each latitude in the sector. This radius itself is determined for each eddy from the area enclosed by the SSH contour corresponding to the maximum geostrophic flow speed, i.e.~where the eddy velocity is greatest. (See \citealt{CheltonEtAl2011}, Sec.~4.2 for further discussion of the eddy length computation.) To convert this length scale to a wavenumber, we follow the recommendation of \citet{CheltonEtAl2011} and assume the eddy streamfunction to be described by a gaussian function with an $e$-folding scale of $\sqrt{2} L_s$. We then define the corresponding eddy wavenumber as $K_{eddy} = (\sqrt{2} L_s)^{-1}$.
 
-Two additional length scales are relevant to our study. The first baroclinic deformation radius, $L_d$, is borrowed from the calculation of \citet{TullochEtAl2009}, who employed the hydrographic atlas of \citet{Forget2010}; these values of $L_d$ are not substantially different from \citet{CheltonEtAl1998}. We also invoke the Rhines scale, defined as $L_{Rh} = \sqrt{u_{rms} / \beta}$, where $u_{rms}$ is the root-mean-square eddy velocity (calculated from the AVISO data) and $\beta$ is the planetary vorticity gradient \citep{Rhines1975}. For comparisons in wavenumber space, we convert these length scales to wavenumbers; $\kappa_{eddy} = 2 \pi / L_{eddy}$, etc.
+Two additional length scales are relevant to our study. The first baroclinic Rossby radius of deformation is a fundamental length scale for the dynamics of large-scale ocean circulation; of particular relevance here is that the most unstable mode of baroclinic instability occurs near the deformation radius \citep{CheltonEtAl1998,Stammer1998,Smith2007}. It is also enters into the Rossby wave dispersion relation. Following \citet{TullochEtAl2009} (whose deformation radius data we borrowed), the first baroclinic deformation wavenumber is defined as the largest eigenvalue $K_d$ given by the Sturm-Liouville equation
+\begin{equation}
+\od{}{z}\left (\frac{f^2}{N^2} \od{\Phi}{z} \right ) = - K_d^2 \Phi
+\end{equation}
+where $f$ is the Coriolis parameter and $N$ is the Brunt--V{\"a}is{\"a}l{\"a} frequency. Given $K_d$, the long baroclinic Rossby wave phase speed in the zonal direction is then given by
+\begin{equation}
+c_R = \ol{U}^{zt}  - \beta K_d^{-2}
+\label{eq:c_R}
+\end{equation}
+where $\ol{U}^{zt}$ is the time- and depth-averaged zonal flow (a Doppler-shift term) and $\beta$ is the meridional gradient of $f$. As shown by KA14, $c_R \simeq c_{eddy}$ in this sector. We also invoke the Rhines scale, defined as the wavenumber $K_\beta = (\beta / 2 u_{rms} )^{1/2}$, where $u_{rms}$ is the root-mean-square eddy velocity (calculated from the AVISO data). This represents the scale at which turbulent motions become effective at transferring energy into zonally elongated flow such as jets \citep{Rhines1975,VallisMaltrud1993}.
+
+For a given wavenumber $K$, the wavelength is defined as $L = 2 \pi / K$. While elementary, this conversion can be a source of great confusion. For example, under this terminology  the Rossby deformation {\em wavelength} near 45 S is approx.~120 km (as in \citealt{TullochEtAl2009}); this is greater than the deformation {\em radius} of \citet{CheltonEtAl1998} by a factor of $2 \pi$. It is common to plot wavenumber spectra in terms of ``cycles per meter,'' which implies the division of wavenumber $K$ by a factor of $2 \pi$. This quantity is best described as an ``inverse wavelength,'' not a wavenumber. Correct treatment of this issue is crucial, for example, in assessing the strength of the inverse cascade.
+
 
 %\subsection{Issues}
 %\begin{itemize}
@@ -176,7 +188,7 @@ Two additional length scales are relevant to our study. The first baroclinic def
 
 Here we describe the technical details of the spectral analysis and present the basic results. Extensive discussion of the results is deferred until Sec.~5.
 
-\subsection{Univariate Power Spectra for SST and Surface Velocity}
+\subsection{Univariate Power Spectra for SST and Surface Meridional Velocity}
 
 Here we describe the calculation of wavenumber-frequency spectra for $\theta$, the SST. (An identical procedure applies to $v$, the meridional velocity.) In principle, $\theta$ is a continuous function of $x$, zonal coordinate, and $t$, time: $\theta = \theta(x,t)$ at each latitude $\varphi$ in the sector. However, our observations are discrete, with $N$ spatial points in longitude (spaced by $\Delta x$) and $M$ points in time (spaced by $\Delta t$) such that the total zonal length of the sector is $L = N \Delta x$ and the total temporal length of the record is $T = M \Delta t$. The discrete space and time coordinates are denoted as $x_n = n \Delta x$, $t_m = m \Delta t$. For the satellite data used here, $L(\varphi) = 2 \pi a \cos(\varphi) (50/360)$ where $\varphi$ is latitude, $N = 200$, $T = 3402$ days, and $M = 486$.
 
@@ -186,42 +198,42 @@ We write the discreet SST as
 \end{equation}
 We can express $\theta_{mn}$ using a discrete inverse Fourier transform as
 \begin{equation}
-\theta_{mn} = \frac{\sqrt{2}}{M^2 N^2} \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} \Theta_{jk} \exp[ i (\kappa_k x_n - \omega_j t_m ) ] 
+\theta_{mn} = \frac{\sqrt{2}}{M^2 N^2} \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{l=0}^{\frac{N}{2}-1} \Theta_{jl} \exp[ i (k_l x_n - \omega_j t_m ) ] 
 \label{eq:ift}
 \end{equation}
-where $\Theta_{jk}$ are the complex Fourier components, $\kappa_k = 2 \pi k / L$ is the wavenumber, and $\omega_j = 2 \pi j / T$ is the   angular frequency. % that is actually wrong--the frequencies only go to 2/N (Nyquist freq.) but they are positive and negative
+where $\Theta_{jl}$ are the complex Fourier components, $k_l = 2 \pi l / L$ is the wavenumber, and $\omega_j = 2 \pi j / T$ is the   angular frequency. % that is actually wrong--the frequencies only go to 2/N (Nyquist freq.) but they are positive and negative
 Equation \eqref{eq:ift} summarizes the normalization and unit conventions in our Fourier-transform definitions.
-We adopt the convention of RH91 in which all wavenumbers are positive while frequencies take both positive and negative values. The values of $\Theta_{jk}$ are computed numerically from $\theta_{mn}$ using the NumPy implementation of the fast-Fourier-transform (FFT) algorithm. 
+We adopt the convention of RH91 in which all wavenumbers are positive while frequencies take both positive and negative values. The values of $\Theta_{jl}$ are computed numerically from $\theta_{mn}$ using the NumPy implementation of the fast-Fourier-transform (FFT) algorithm. 
 
 Parseval's theorem states that the total power of the signal is the same in either basis. The normalization condition chosen in \eqref{eq:ift} means that each Fourier component represents a fraction of the variance, such that 
 \begin{equation}
-\ol{|\Theta|^2} = \frac{1}{MN} \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} \theta_{mn}^2 = \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} \Theta_{jk}^\ast  \Theta_{jk} 
+\ol{|\Theta|^2} = \frac{1}{MN} \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} \theta_{mn}^2 = \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{l=0}^{\frac{N}{2}-1} \Theta_{jl}^\ast  \Theta_{jl} 
 \end{equation}
 where the asterisk denotes the complex conjugate and the overbar a sum over all wavenumbers / frequencies (here equivalent to a time and zonal mean).
 
 We define the power density as a function of wavenumber as the sum over all frequencies:
 \begin{equation}
-\ol{|\Theta|^2}(\kappa) = (\Delta \kappa)^{-1} \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \Theta_{jk}^\ast  \Theta_{jk} \ .
+\ol{|\Theta|^2}(k) = (\Delta k)^{-1} \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \Theta_{jl}^\ast  \Theta_{jl} \ .
 \label{eq:Theta_kappa}
 \end{equation}
-The normalization by $\Delta \kappa$, the spacing of the discrete wavenumbers, means that $\ol{|\Theta|^2}(\kappa)$ approximates a continuous power density function, giving results which are independent of $N$.  
+The normalization by $\Delta k$, the spacing of the discrete wavenumbers, means that $\ol{|\Theta|^2}(k)$ represents a continuous power density function, giving results which are independent of $N$.  
 Similarly, we define the power density as a function of frequency as the sum over wavenumbers,
 \begin{equation}
-\ol{|\Theta|^2}(\omega) = (\Delta \omega)^{-1} \sum_{k=0}^{N-1} \Theta_{jk}^\ast   \Theta_{jk} 
+\ol{|\Theta|^2}(\omega) = (\Delta \omega)^{-1} \sum_{l=0}^{N-1} \Theta_{jl}^\ast   \Theta_{jl} 
 \end{equation}
 where $\Delta \omega$ is the spacing of the discrete frequencies.
 
-As in RH91, we construct phase speed spectra by interpolating the spectral density in $(\kappa, \omega)$ space into $(\kappa, c)$ space, where $c = \omega / \kappa$ is the phase speed. Before interpolating, the density $(\Delta \omega)^{-1}\Theta_{jk}^\ast   \Theta_{jk}$ must be multiplied by $\kappa$; this transformation ensures that the total power is the same whether integrating over $\omega$ or $c$. We also smooth the signal in frequency space before interpolating using a Gaussian filter with a standard deviation of two frequency bands. We interpolate to 1000 points in $c$, evenly spaced from -1 to 1 m s$^{-1}$ in order to capture the wide range of phase speeds with high precision. After summing over wavenumbers, we obtain the power density as a function of phase speed, $\ol{|\Theta|^2}(c)$.
+As in RH91, we construct phase speed spectra by interpolating the spectral density in $(k, \omega)$ space into $(k, c)$ space, where $c = \omega / k$ is the phase speed. Before interpolating, the density $(\Delta \omega)^{-1}\Theta_{jl}^\ast   \Theta_{jl}$ must be multiplied by $k$; this transformation ensures that the total power is the same whether integrating over $\omega$ or $c$. We also smooth the signal in frequency space before interpolating using a Gaussian filter with an $e$-folding scale of two frequency bands. We interpolate to 1000 points in $c$, evenly spaced from -1 to 1 m s$^{-1}$ in order to capture the wide range of phase speeds with high precision. After summing over wavenumbers, we obtain the power density as a function of phase speed, $\ol{|\Theta|^2}(c)$.
 
-Raw wavenumber-frequency power spectra at different latitudes are shown in numerous other publications \citep[e.g.][]{KillworthEtAl1997,Wunsch2010,WorthamWunsch2014}; they are not plotted again here. We are interested instead the integrals of the spectra.
-In Fig.~\ref{fig:integrated_spectra_T} we plot $\ol{|\Theta|^2}(\varphi, \kappa)$, $\ol{|\Theta|^2}(\varphi, \omega)$, and $\ol{|\Theta|^2}(\varphi, c)$, using a logarithmic color scale. This figure reveals the distribution of SST variance by wavenumber, frequency, and phase speed as a function of latitude.
+Raw wavenumber-frequency power spectra at different latitudes are shown in numerous other publications \citep[e.g.][]{KillworthEtAl1997,Wunsch2010,WorthamWunsch2014} and are not plotted here. We are interested instead in the integrals of the spectra.
+In Fig.~\ref{fig:integrated_spectra_T} we plot $\ol{|\Theta|^2}(\varphi, k)$, $\ol{|\Theta|^2}(\varphi, \omega)$, and $\ol{|\Theta|^2}(\varphi, c)$, using a logarithmic color scale. This figure reveals the distribution of SST variance by wavenumber, frequency, and phase speed as a function of latitude.
 
-From the surface meridional velocity data, we define $v_{mn}$ (the space/time data) and $V_{jk}$ (the Fourier transform) in the same way described above. Fig.~\ref{fig:integrated_spectra_V} shows
-$\ol{|V|^2}(\varphi, \kappa)$, $\ol{|V|^2}(\varphi, \omega)$, and $\ol{|V|^2}(\varphi, c)$. 
+From the surface meridional velocity data, we define $v_{mn}$ (the space/time data) and $V_{jl}$ (the Fourier transform) in the same way described above. Fig.~\ref{fig:integrated_spectra_V} shows
+$\ol{|V|^2}(\varphi, k)$, $\ol{|V|^2}(\varphi, \omega)$, and $\ol{|V|^2}(\varphi, c)$. 
 
 \begin{figure}[t]
   \noindent\includegraphics{../figures/SAT_50degwide/integrated_spectra_T.pdf}\\
-  \caption{Power spectral density of SST variance as a function of latitude and wavelength (left), frequency (center), and phase speed(right). All color scales are logarithmic. In the left panel, the Rossby deformation wavelength ($\kappa_d$, from \citealt{TullochEtAl2011}) and the average tracked-eddy wavelength ($\kappa_{eddy}$, from \citealt{CheltonEtAl2011}) are also plotted, {\em both divided by five} in order to be visible on the wavelength axis. In the right panel, the longwave linear Rossby wave phase speed ($c_R$, from \citealt{TullochEtAl2011}), the speed of tracked nonlinear eddies ($c_{eddy}$, from \citealt{CheltonEtAl2011}) and the surface zonal mean flow speed are also plotted.}
+  \caption{Power spectral density of SST variance as a function of latitude and wavelength (left), frequency (center), and phase speed(right). All color scales are logarithmic. In the left panel, the Rossby deformation wavelength ($k_d$, from \citealt{TullochEtAl2011}) and the average tracked-eddy wavelength ($k_{eddy}$, from \citealt{CheltonEtAl2011}) are also plotted, {\em both divided by five} in order to be visible on the wavelength axis. In the right panel, the longwave linear Rossby wave phase speed ($c_R$, from \citealt{TullochEtAl2011}), the speed of tracked nonlinear eddies ($c_{eddy}$, from \citealt{CheltonEtAl2011}) and the surface zonal mean flow speed are also plotted.}
   \label{fig:integrated_spectra_T}
 \end{figure}
 
@@ -235,10 +247,10 @@ $\ol{|V|^2}(\varphi, \kappa)$, $\ol{|V|^2}(\varphi, \omega)$, and $\ol{|V|^2}(\v
 
 Parseval's theorem also applies to the product of $\theta$ and $v$; the eddy heat flux is the same whether expressed as an average of space / time components or a sum of Fourier components. We express this mathematically as
 \begin{equation}
-\ol{V\Theta} = \frac{1}{MN} \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} v_{mn} \theta_{mn} = \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{k=0}^{\frac{N}{2}-1} \Re \{ V_{jk}^\ast  \Theta_{jk} \} \ .
+\ol{V\Theta} = \frac{1}{MN} \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} v_{mn} \theta_{mn} = \sum_{j=-\frac{M}{2}}^{\frac{M}{2}-1} \sum_{l=0}^{\frac{N}{2}-1} \Re \{ V_{jl}^\ast  \Theta_{jl} \} \ .
 \end{equation}
-Just as described above for the univariate spectra, we can sum the components of $\Re \{ V_{jk}^\ast  \Theta_{jk} \}$ selectively to define $\ol{V\Theta}(\varphi, \kappa)$, $\ol{V\Theta}(\varphi, \omega)$, and $\ol{V\Theta}(\varphi, c)$. These functions are plotted in  Fig.~\ref{fig:integrated_spectra_VT}. Unlike the power spectra described above $\ol{V\Theta}$ can take both positive and negative values, corresponding to northward and southward heat transport. As seen in Fig.~\ref{fig:integrated_spectra_VT}, the eddy heat flux is poleward in both hemispheres, except near the equator, where it reverses. This is consistent with the mean SST gradient, which also reverses near the equator; the eddy flux is always down gradient. In depth discussion and comparison of the spectra is deferred until Sec.~5.  %(The eddy diffusivity is discussed in Sec.~5).
-%The spatial structure of the magnitude of the three $\ol{V\Theta}$ functions resembles that of $\ol{|V|^2}$ more than it does that of $\ol{|\Theta|^2}$. While $\ol{|\Theta|^2}(\kappa)$ peaks at the lowest wavenumbers at every latitude, both  $\ol{|V|^2}(\kappa)$ and $\ol{V\Theta}(\kappa)$ peak at an intermediate wavenumber, presumably one associated with mesoscale eddies.
+Just as described above for the univariate spectra, we can sum the components of $\Re \{ V_{jl}^\ast  \Theta_{jl} \}$ selectively to define $\ol{V\Theta}(\varphi, k)$, $\ol{V\Theta}(\varphi, \omega)$, and $\ol{V\Theta}(\varphi, c)$. These functions are plotted in  Fig.~\ref{fig:integrated_spectra_VT}. Unlike the power spectra described above $\ol{V\Theta}$ can take both positive and negative values, corresponding to northward and southward heat transport. As seen in Fig.~\ref{fig:integrated_spectra_VT}, the eddy heat flux is poleward in both hemispheres, except near the equator, where it reverses. This is consistent with the mean SST gradient, which also reverses near the equator; the eddy flux is always down gradient. In depth discussion and comparison of the spectra is deferred until Sec.~5.  %(The eddy diffusivity is discussed in Sec.~5).
+%The spatial structure of the magnitude of the three $\ol{V\Theta}$ functions resembles that of $\ol{|V|^2}$ more than it does that of $\ol{|\Theta|^2}$. While $\ol{|\Theta|^2}(k)$ peaks at the lowest wavenumbers at every latitude, both  $\ol{|V|^2}(k)$ and $\ol{V\Theta}(k)$ peak at an intermediate wavenumber, presumably one associated with mesoscale eddies.
 
 \begin{figure}[t]
   \noindent\includegraphics{../figures/SAT_50degwide/integrated_spectra_VT.pdf}\\
@@ -273,25 +285,25 @@ The analysis of the model is identical. Only the spatiotemporal sampling and res
 
 While a visual comparison of the spectra in Figs.~1-6 is informative, a more quantitative comparison is desirable. In particular, we wish to asses whether the spectra peak in the same locations and how those peaks are related to the underlying dynamics. Furthermore, we wish to assess to what extent the spectra are narrowly concentrated around these peaks, versus broadly distributed. In this section we characterize the properties of the power spectra and cross spectra via their moments in wavenumber, frequency, and phase speed space. The first moment tells us about the dominant scale. The second moment tells us how concentrated the distribution is about that scale. Spectral moments play an important role in the theory of geostrophic turbulence \citep[e.g.][]{Rhines1975}.
 
-We define the first moment of a wavenumber spectrum $\ol{|\Theta|^2}(\kappa)$ at a given latitude (itself defined in \ref{eq:Theta_kappa}) as
+We define the first moment of a wavenumber spectrum $\ol{|\Theta|^2}(k)$ at a given latitude (itself defined in \ref{eq:Theta_kappa}) as
 \begin{equation}
-M^\kappa_1 ( \ol{|\Theta|^2} ) = \frac{ \int \kappa \ol{|\Theta|^2}(\kappa) d \kappa }{ \int \ol{|\Theta|^2}(\kappa) d \kappa }
+M^k_1 ( \ol{|\Theta|^2} ) = \frac{ \int k \ol{|\Theta|^2}(k) d k }{ \int \ol{|\Theta|^2}(k) d k }
 \label{eq:M1}
 \end{equation}
 where the integrals are performed over all wavenumbers. The second moment is then defined as
 \begin{equation}
-M^\kappa_2 (\ol{ |\Theta|^2 }) = \frac{ \int (\kappa - M^1_\kappa)^2 \ol{|\Theta|^2}(\kappa) d \kappa }{ \int \ol{|\Theta|^2}(\kappa) d \kappa } \ .
+M^k_2 (\ol{ |\Theta|^2 }) = \frac{ \int (k - M^1_k)^2 \ol{|\Theta|^2}(k) d k }{ \int \ol{|\Theta|^2}(k) d k } \ .
 \label{eq:M2}
 \end{equation}
 We make analogous definitions for the $\omega$ and $c$ moments, and also for the moments of the other spectra $\ol{|V|^2}$ and $\ol{V \Theta}$. 
 
 For a gaussian distribution, $M_1$ is the mean and $M_2$ is the variance. The interpretation of $M_1$ and $M_2$ is therefore most clear when the spectra have a clearly defined, dominant peak. In the case of $\ol{V \Theta}$,  which is not positive definite, it is possible for the normalization factor in the denominator of \eqref{eq:M1} and \eqref{eq:M2} to approach zero, leading to a meaningless result. To avoid this situation, we mask the moments at latitudes where the ratio $\int \ol{V\Theta} / \int | \ol{V \Theta} | < 0.9$. This is only the case in regions where the mean SST gradient is weak (primarily near 15$^\circ$S) and the heat flux is vanishingly small and noisy. At most latitudes, the heat flux does display a clear spectral peak, as evident in Figs.~\ref{fig:integrated_spectra_VT} and \ref{fig:integrated_spectra_VT_POP}.
 
-The first moments $M_1^\kappa( \ol{|\Theta|^2} )$, $M_1^\kappa( \ol{|V|^2} )$, and $M_1^\kappa( \ol{V \Theta} )$ are plotted in the upper panel Fig.~\ref{fig:moments_k}, with the second moments $M_2^\kappa( \ol{|\Theta|^2} )$, $M_2^\kappa( \ol{|V|^2} )$, and $M_2^\kappa( \ol{V \Theta} )$ in the lower panel, for both the satellite data and the POP model. The $c$ moments are in shown in Fig.~\ref{fig:moments_c}. Equipped with this more quantitative description, we are now prepared to discuss the features and characteristics of the spectra.
+The first moments $M_1^k( \ol{|\Theta|^2} )$, $M_1^k( \ol{|V|^2} )$, and $M_1^k( \ol{V \Theta} )$ are plotted in the upper panel Fig.~\ref{fig:moments_k}, with the second moments $M_2^k( \ol{|\Theta|^2} )$, $M_2^k( \ol{|V|^2} )$, and $M_2^k( \ol{V \Theta} )$ in the lower panel, for both the satellite data and the POP model. The $c$ moments are in shown in Fig.~\ref{fig:moments_c}. Equipped with this more quantitative description, we are now prepared to discuss the features and characteristics of the spectra.
 
 \begin{figure}[t]
   \noindent\includegraphics{../figures/moments_k.pdf}\\
-  \caption{The first moments $M_1^\kappa$ (upper panel) and second moments $M_2^\kappa$ (lower panel) of the wavenumber spectra $\ol{|\Theta|^2}(\kappa)$ (blue), $\ol{|V|^2}(\kappa)$ (green), and $\ol{V\Theta}(\kappa)$ (red). In the upper panel the wavenumber has been converted to wavelength for plotting. In the lower panel, the square root of the second moment is shown, indicating the ``width" of the spectra in $\kappa$ space. The satellite data are shown in solid lines, and the POP model is shown in dashed lines. In the upper panel, the observed eddy scale $L_{eddy}$ (solid black) and the deformation radius $L_{d}$ (dashed black) are also plotted. }
+  \caption{The first moments $M_1^k$ (upper panel) and second moments $M_2^k$ (lower panel) of the wavenumber spectra $\ol{|\Theta|^2}(k)$ (blue), $\ol{|V|^2}(k)$ (green), and $\ol{V\Theta}(k)$ (red). In the upper panel the wavenumber has been converted to wavelength for plotting. In the lower panel, the square root of the second moment is shown, indicating the ``width" of the spectra in $k$ space. The satellite data are shown in solid lines, and the POP model is shown in dashed lines. In the upper panel, the observed eddy scale $L_{eddy}$ (solid black) and the deformation radius $L_{d}$ (dashed black) are also plotted. }
   \label{fig:moments_k}
 \end{figure}
 
@@ -301,9 +313,9 @@ The first moments $M_1^\kappa( \ol{|\Theta|^2} )$, $M_1^\kappa( \ol{|V|^2} )$, a
   \label{fig:moments_c}
 \end{figure}
 
-Regarding the lengths scales of the eddy heat flux $\ol{V\Theta}(\kappa)$, is is noteworthy that at all latitudes it is concentrated at relatively low wavenumbers, corresponding to wavelengths of 250 km or greater (Fig.~\ref{fig:moments_k}). Generally speaking, these are the same wavelengths containing most of the kinetic energy (as indicated by $\ol{|V|^2}(\kappa)$). The dominance of these wavelengths in the kinetic energy has been noted by other authors \citep[e.g.][]{Stammer1997,Wunsch2010,WorthamWunsch2014} and has been attributed to the work a geostrophic-turbulent inverse cascade of energy from some source scale to the deformation radius. It is interesting, although unsurprising, to see that these wavelengths also dominate the heat flux. (Unsurprising because large eddies are the most efficient at transporting tracers.) The consistent proportionality between the dominant length scale of the heat flux and the diameter of coherent mesoscale eddies strongly suggests that the mesoscale eddies are responsible for the heat transport. This conclusions stands somewhat in contrast to \citet{KillworthEtAl2004}, who attributed the large scales in ocean color / SSH cross spectra to advection by long linear Rossby waves.
+Regarding the lengths scales of the eddy heat flux $\ol{V\Theta}(k)$, is is noteworthy that at all latitudes it is concentrated at relatively low wavenumbers, corresponding to wavelengths of 250 km or greater (Fig.~\ref{fig:moments_k}). Generally speaking, these are the same wavelengths containing most of the kinetic energy (as indicated by $\ol{|V|^2}(k)$). The dominance of these wavelengths in the kinetic energy has been noted by other authors \citep[e.g.][]{Stammer1997,Wunsch2010,WorthamWunsch2014} and has been attributed to the work a geostrophic-turbulent inverse cascade of energy from some source scale to the deformation radius. It is interesting, although unsurprising, to see that these wavelengths also dominate the heat flux. (Unsurprising because large eddies are the most efficient at transporting tracers.) The consistent proportionality between the dominant length scale of the heat flux and the diameter of coherent mesoscale eddies strongly suggests that the mesoscale eddies are responsible for the heat transport. This conclusions stands somewhat in contrast to \citet{KillworthEtAl2004}, who attributed the large scales in ocean color / SSH cross spectra to advection by long linear Rossby waves.
 
-Of course, when interpreting the wavenumber spectra, we must keep in mind the low-pass-filtering effect of the AVISO processing, which artificially attenuates small scales. In this respect, comparison with the POP results is illuminating. It is clear from Figs.~1-6 that there is significantly more small-scale variance in the POP fields. This is reflected in larger values of $M_2^\kappa$ (Fig.~\ref{fig:moments_k}) for the POP model by a factor of 2-3 for all three spectra. The values of $M_1^\kappa(\ol{|\Theta|^2})$ are are also significantly different between the POP model and the data; a shift to shorter wavelengths is seen in the model SST. Since the SST spectra are red throughout (in contrast the energy spectra, which are peaked), this shift is expected from the resolution of smaller scales by the model. 
+Of course, when interpreting the wavenumber spectra, we must keep in mind the low-pass-filtering effect of the AVISO processing, which artificially attenuates small scales. In this respect, comparison with the POP results is illuminating. It is clear from Figs.~1-6 that there is significantly more small-scale variance in the POP fields. This is reflected in larger values of $M_2^k$ (Fig.~\ref{fig:moments_k}) for the POP model by a factor of 2-3 for all three spectra. The values of $M_1^k(\ol{|\Theta|^2})$ are are also significantly different between the POP model and the data; a shift to shorter wavelengths is seen in the model SST. Since the SST spectra are red throughout (in contrast the energy spectra, which are peaked), this shift is expected from the resolution of smaller scales by the model. 
 
 However, given the overall redness of the ocean energy spectrum, and the fact that the observations do resolve the most energetic scales well, we feel the above conclusions are robust.
 

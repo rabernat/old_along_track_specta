@@ -40,16 +40,18 @@ rdat = np.load(os.path.join(andreas_data_dir, 'r.npz'))
 Kdef = rdat['r_rossby']**-1
 # obs scale
 #Kobs = ((2*rdat['r_dudley'] )/ (2*pi))**-1
-Kobs = (rdat['r_dudley'])**-1
-
+#Kobs = 0.5*(rdat['r_dudley'])**-1
+Kobs = (rdat['r_dudley']*sqrt(2))**-1
 # for Rhines scale
 EKEdat = np.load(os.path.join(andreas_data_dir,'aviso_EKE.npz'))
 u_rms = gaussian_filter1d(((EKEdat['U2mean'] + EKEdat['V2mean'])[540:690]**0.5).mean(axis=0),2)
 Om = 7.292e-5
 L = 6.371e6
 Beta = 2*Om*cos(pi*lat/180.)/L
-L_rhines = (interp(lat, EKEdat['lat'], u_rms)/Beta)**0.5
-Krhines = (L_rhines/ (2*pi))**-1
+#L_rhines = (interp(lat, EKEdat['lat'], u_rms)/Beta)**0.5
+#Krhines = (L_rhines/ (2*pi))**-1
+Krhines = sqrt( Beta / (2*interp(lat, EKEdat['lat'], u_rms)) )
+L_rhines = 2*pi/Krhines
 
 # Holt & Talley MLD
 mld_data_dir =  os.path.join(os.environ['D'], 'mixedlayer')
@@ -64,6 +66,8 @@ cp = 4186.
 
 # figure stuff
 day = 24*60*60.
+week = 7*day
+month = 30*day
 days = array([-15,-30,-60,inf,60,30,15])
 omtick = (day * days.astype('f4') / 2 / pi)**-1
 lens =  array([250,125,80,60])
@@ -114,13 +118,14 @@ data['VU']['log'] = False
 data['VU']['units'] = r'm$^2$ s$^{-2}$'
 data['VU']['cmap'] = get_cmap('posneg')
 data['VU']['title'] = r'$\overline{V^\ast U}$'
-data['VS']['pow_k_clim'] = [-0.3, 0.3]
-data['VS']['pow_om_clim'] = [-0.1, 0.1]
-data['VS']['pow_c_clim'] = [-1e-3, 1e-3]
-data['VS']['log'] = False
-data['VS']['units'] = r'PSU m s$^{-1}$'
-data['VS']['cmap'] = get_cmap('posneg')
-data['VS']['title'] = r'$\overline{V^\ast S}$'
+if data.has_key('VS'):
+    data['VS']['pow_k_clim'] = [-0.3, 0.3]
+    data['VS']['pow_om_clim'] = [-0.1, 0.1]
+    data['VS']['pow_c_clim'] = [-1e-3, 1e-3]
+    data['VS']['log'] = False
+    data['VS']['units'] = r'PSU m s$^{-1}$'
+    data['VS']['cmap'] = get_cmap('posneg')
+    data['VS']['title'] = r'$\overline{V^\ast S}$'
 
 dk_norm = 1e3
 dom_norm = 1e5
@@ -150,18 +155,19 @@ for dname, d in data.iteritems():
     plot(Kobs/(2*pi), clat, 'k-', Kdef/(2*pi) , clat, 'k--', Krhines/(2*pi), lat, 'k:')
     clim(d['pow_k_clim'])
     #xticks(ktick, lens)
-    xlim([0,1e-4])
+    
     ylim([-60,50])
     grid()
-    title(d['title'] + r"$(\kappa)$")
+    title(d['title'] + r"$(k/2\pi)$")
     #xlabel(r'$2 \pi / k$ (km)')
     #xlabel(r'wavelength (km)')
-    xlim([0,2e-5])
-    xlabel(r'$\kappa / (2\pi)$ (cpm)')
+    xlim([0,1.2e-5])
+    xticks(arange(0,11,2)*1e-6, arange(0,11,2))
+    xlabel('inv. wvlngth. (cycles / 1000 km)')
     ylabel('lat')
     #legend([r'$L_{eddy}$',r'$L_d$'], loc='upper right')
     #legend([r'$\kappa_{eddy}/5$',r'$\kappa_d/5$',r'$\kappa_{Rh}/5$'], loc='upper right')
-    legend([r'$\kappa_{eddy}$',r'$\kappa_d$',r'$\kappa_{Rh}$'], loc='upper right')
+    legend([r'$K_{eddy}/2\pi$',r'$K_d/2\pi$',r'$K_{\beta}/2\pi$'], loc='upper right')
     cb=colorbar(orientation='horizontal', extendrect=True)
     cb.ax.set_title(r'%s / 10$^{-3}$ m$^{-1}$' % d['units'],
         {'fontsize': rcParams['axes.labelsize'],
@@ -170,15 +176,17 @@ for dname, d in data.iteritems():
     setp(cb.ax.get_xticklabels()[::2], visible=False)
     
     subplot(132)
-    pcolormesh(om, lat_om, pow_om, cmap=d['cmap'], rasterized=True)
+    pcolormesh(om*month/(2*pi), lat_om, pow_om, cmap=d['cmap'], rasterized=True)
     clim(d['pow_om_clim'])
-    xticks(omtick,days)
+    #xticks(omtick,days)
     #xlim([ -(25*day/(2*pi))**-1, (60*day/(2*pi))**-1])
     ylim([-60,50])
+    xlim([-2,1])
+    xticks([-2,-1,0,1])
     grid()
-    title(d['title'] + r"$(\omega)$")
+    title(d['title'] + r"$(\omega/2\pi)$")
     #xlabel(r'$2 \pi / \omega$ (days)')
-    xlabel(r'frequency (days)')
+    xlabel(r'frequency (cycles / month)')
     #ylabel('lat')
     cb=colorbar(orientation='horizontal', extendrect=True)
     cb.ax.set_title(r'%s / 10$^{-5}$ s$^{-1}$' % d['units'],
@@ -194,6 +202,7 @@ for dname, d in data.iteritems():
     plot(-cdat['c_dudley'], clat, 'k-', cdat['c_doppler'], clat, 'k--')
     ylim([-60,50])
     xlim([-0.5,0.2])
+    xticks([-0.4, -0.2, 0., 0.2])
     grid()
     title(d['title'] + r'$(c)$')
     xlabel(r'$c$ (m/s)')

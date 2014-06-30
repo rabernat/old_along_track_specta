@@ -123,7 +123,7 @@ def spectral_plot(SST,SSH_V):
     
     savefig_dummy('../figures/SAT_%s/individual_spectra/SST_SST_wavefreq_spectra_%g.pdf' % (secname, int(round(SST.lat))) )
     
-plot_js = arange(79,s.Ny,40)
+plot_js = arange(39,s.Ny,40)
 #plot_js = array([])
 
 sstmask = zeros(s.Ny,bool)
