@@ -93,6 +93,21 @@ Om = 7.292e-5
 L = 6.371e6
 Beta = 2*Om*cos(pi*lat/180.)/L
 
+Kdef = rdat['r_rossby']**-1
+# obs scale
+#Kobs = ((2*rdat['r_dudley'] )/ (2*pi))**-1
+#Kobs = 0.5*(rdat['r_dudley'])**-1
+Kobs = (rdat['r_dudley']*sqrt(2))**-1
+# for Rhines scale
+
+#L_rhines = (interp(lat, EKEdat['lat'], u_rms)/Beta)**0.5
+#Krhines = (L_rhines/ (2*pi))**-1
+Krhines = sqrt( Beta / (2*interp(lat, EKEdat['lat'], u_rms)) )
+
+L_eddy = interp(lat, clat, 2*pi/Kobs)
+L_ros = interp(lat, clat, 2*pi/Kdef)
+L_rhines =  2*pi/Krhines
+
 leg = [r'$\overline{|V|^2}$',r'$\overline{|\Theta|^2}$',r'$\overline{V\Theta}$']
 
 
@@ -104,8 +119,8 @@ ax1=subplot(311)
 plot( lat, 2*pi*M1['SAT']['V']['k']**-1 / 1e3, 'b-',
       lat, 2*pi*M1['SAT']['T']['k']**-1 / 1e3, 'g-',
       lat, 2*pi*M1['SAT']['VT']['k']**-1 / 1e3, 'r-',
-      clat, rdat['r_dudley'] / 1e3, 'k-',
-      clat, rdat['r_rossby'] / 1e3, 'k--',
+      lat, L_eddy / 1e3, 'k-',
+      lat, L_ros / 1e3, 'k--',
       lat, 2*pi*M1['POP']['V']['k']**-1 / 1e3, 'b--',
       lat, 2*pi*M1['POP']['T']['k']**-1 / 1e3, 'g--',
       lat, 2*pi*M1['POP']['VT']['k']**-1 / 1e3, 'r--')
@@ -114,25 +129,22 @@ ylabel(r'wavelength (km)')
 xlim([-60,50])
 ylim([0,2000])
 legend(leg + [r'$L_{eddy}$', r'$L_{d}$'], loc='upper left')
-title(r'$M_1^\kappa$')
+title(r'$2 \pi / M_1^k$')
 grid()
 ax2=subplot(312)
-plot( lat, M2['SAT']['V']['k']**0.5 / (2*pi) * 1e3, 'b-',
-      lat, M2['SAT']['T']['k']**0.5 / (2*pi) * 1e3, 'g-',
-      lat, M2['SAT']['VT']['k']**0.5 / (2*pi) * 1e3, 'r-',
-      lat, M2['POP']['V']['k']**0.5 / (2*pi) * 1e3, 'b--',
-      lat, M2['POP']['T']['k']**0.5 / (2*pi) * 1e3, 'g--',
-      lat, M2['POP']['VT']['k']**0.5 / (2*pi) * 1e3, 'r--', )
+plot( lat, M2['SAT']['V']['k']**0.5 / (2*pi) * 1e6, 'b-',
+      lat, M2['SAT']['T']['k']**0.5 / (2*pi) * 1e6, 'g-',
+      lat, M2['SAT']['VT']['k']**0.5 / (2*pi) * 1e6, 'r-',
+      lat, M2['POP']['V']['k']**0.5 / (2*pi) * 1e6, 'b--',
+      lat, M2['POP']['T']['k']**0.5 / (2*pi) * 1e6, 'g--',
+      lat, M2['POP']['VT']['k']**0.5 / (2*pi) * 1e6, 'r--', )
 #xlabel('latitude')
-ylabel(r'spectral width (cycles / km)')
+ylabel(r'width (cycles / 1000 km)')
 xlim([-60,50])
 #ylim([0,1000])
-title(r'$\sqrt{M_2^\kappa}$')
+title(r'$\sqrt{M_2^k} / 2 \pi$')
 grid()
 # ratio between M1[k] and L_eddy
-L_eddy = 2*interp(lat, clat, rdat['r_dudley'])
-L_ros = interp(lat, clat, rdat['r_rossby'])
-L_rhines = (interp(lat, EKEdat['lat'], u_rms)/Beta)**0.5
 
 subplot(313)
 plot( lat, 2*pi*M1['SAT']['VT']['k']**-1 / L_eddy, 'k-',
@@ -142,9 +154,11 @@ plot( lat, 2*pi*M1['SAT']['VT']['k']**-1 / L_eddy, 'k-',
       lat, 2*pi*M1['POP']['VT']['k']**-1 / L_ros, 'c--',
       lat, 2*pi*M1['POP']['VT']['k']**-1 / L_rhines, 'm--',)
 grid()
-xlim([-60,50]); ylim([0,20])
+xlim([-60,50]); ylim([0,4])
 xlabel('lat');
-legend([r'$\gamma / L_{eddy}$', r'$\gamma / L_{d}$', r'$\gamma / L_{Rh}$'],
+legend([r'$K_{eddy}/M_1^k(\overline{V\Theta})$',
+        r'$K_{d}/M_1^k(\overline{V\Theta})$',
+        r'$K_{\beta}/M_1^k(\overline{V\Theta})$'],
         loc='upper center')
 title('Ratio Between Length Scales')
 

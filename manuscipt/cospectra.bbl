@@ -83,10 +83,6 @@ Ferrari, R. and M.~Nikurashin, 2010: Suppression of eddy diffusivity across
   jets in the {Southern Ocean}. \textit{J. Phys. Oceanogr.}, \textbf{40},
   1501--1519.
 
-\bibitem[{Forget(2010)}]{Forget2010}
-Forget, G., 2010: Mapping ocean observations in a dynamical framework: A
-  2004--06 ocean atlas. \textit{J. Phys. Oceanogr.}, \textbf{40}, 1201--1221.
-
 \bibitem[{Fu and Ferrari(2008)}]{FuFerrari2008}
 Fu, L.~L. and R.~Ferrari, 2008: Observing oceanic submesoscale processes from
   space. \textit{EOS}, \textbf{89}, 488--489.
@@ -212,6 +208,10 @@ Roemmich, D. and J.~Gilson, 2001: ddy transport of heat and thermocline waters
 \bibitem[{Small et~al.(2008)}]{SmallEtAl2008}
 Small, R., et~al., 2008: Air--sea interaction over ocean fronts and eddies.
   \textit{Dynamics of Atmospheres and Oceans}, \textbf{45~(3)}, 274--319.
+
+\bibitem[{Smith(2007)}]{Smith2007}
+Smith, K.~S., 2007: The geography of linear baroclinic instability in the
+  earth's oceans. \textit{J. Marine Res.}, \textbf{65}, 655--683.
 
 \bibitem[{Smith and Marshall(2009)}]{SmithMarshall2009}
 Smith, K.~S. and J.~Marshall, 2009: Evidence for enhanced eddy mixing at
