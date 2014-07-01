@@ -1,4 +1,4 @@
-\begin{thebibliography}{50}
+\begin{thebibliography}{52}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
@@ -78,14 +78,20 @@ Contreras, R.~F., 2002: Long-term observations of tropical instability waves.
 Dong, C., J.~C. McWilliams, Y.~Liu, and D.~Chen, 2014: Global heat and salt
   transports by eddy movement. \textit{Nature Comm.}, \textbf{5~(3294)}.
 
+\bibitem[{Ducet et~al.(2000)Ducet, {Le Traon}, and Reverdin}]{DucetEtAl2000}
+Ducet, N., P.~Y. {Le Traon}, and G.~Reverdin, 2000: Global high-resolution
+  mapping of ocean circulation from {TOPEX/Poseidon} and {ERS}-1 and -2.
+  \textit{J. Geophys. Res.}, \textbf{105~(CH)}, 19,477--19,498.
+
 \bibitem[{Ferrari and Nikurashin(2010)}]{FerrariNikurashin2010}
 Ferrari, R. and M.~Nikurashin, 2010: Suppression of eddy diffusivity across
   jets in the {Southern Ocean}. \textit{J. Phys. Oceanogr.}, \textbf{40},
   1501--1519.
 
-\bibitem[{Fu and Ferrari(2008)}]{FuFerrari2008}
-Fu, L.~L. and R.~Ferrari, 2008: Observing oceanic submesoscale processes from
-  space. \textit{EOS}, \textbf{89}, 488--489.
+\bibitem[{Fu and Fu(2011)}]{XuFu2011}
+Fu, Y. and L.~Fu, 2011: Global variability of the wavenumber spectrum of
+  oceanic mesoscale turbulence. \textit{J. Phys. Oceanogr.}, \textbf{41},
+  802--809.
 
 \bibitem[{Hill et~al.(2000)Hill, Robinson, and Cipollini}]{HillEtAl2000}
 Hill, K.~L., I.~S. Robinson, and P.~Cipollini, 2000: Propagation
@@ -250,6 +256,10 @@ Visbeck, M., J.~Marshall, and T.~Haine, 1997: Specification of eddy transfer
 \bibitem[{Volkov et~al.(2008)Volkov, Lee, and Fu}]{VolkovEtAl2008}
 Volkov, D., T.~Lee, and L.~Fu, 2008: Eddy-induced meridional heat transport in
   the ocean. \textit{Geophys. Res. Lett.}, \textbf{35}, L20\,601.
+
+\bibitem[{Wortham and Wunsch(2014)}]{WorthamWunsch2014}
+Wortham, C. and C.~Wunsch, 2014: A multidimensional spectral description of
+  ocean variability. \textit{J. Phys. Oceanogr.}, \textbf{44}, 944--966.
 
 \bibitem[{Wunsch(2005)}]{Wunsch2005}
 Wunsch, C., 2005: The total meridional heat flux and its oceanic and
