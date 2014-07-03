@@ -57,7 +57,7 @@ LINE 90: nothing to do with the paper\'85 but it's odd that AVISO seems to be ju
 \
 LINE 90-97: I assume the 50km roughly comes out of the discussion in Chelton et al. (2011) appendix A.3. \'a0I think 50km is reasonable for a single number, but you should add that "features smaller than about 2degx2deg are significantly attenuated by the AVISO processing." \'a0You mention that the "SSH signal displays very little power at such short wavelengths", but this is due, in part, to the artificial very steep spectral rolloff imposed by the AVISO processing. \'a0I say in part because the SSH spectrum is red in this range anyway, but with a spectral slope around -4 not -10. \'a0Saying that the filtering of small scales from SSH is unimportant because you don't see any heat flux at those scales is circular because the filtered SSH is used to compute the heat flux. \'a0Is there an independent source to claim that the "heat flux is dominated by larger scales"? \'a0I'm probably channelling Carl here! \'a0I think the end of the paragraph (lines 93-97) are a good finish: "Without higher resolution altimetry, it's hard to say how important the unresolved scales are to the heat flux, but the 1/10deg POP model makes it look like they're not that important." \'a0I just don't like the part "The SSH signal displays very little power at such short wavelengths (see Fig. 2), and the heat flux is dominated by larger scales. While it is expected that the largest eddies make the dominant contribution to the eddy flux," without some independent justification.\
 
-\i This is a good point about the circular logic. In fact, the fact that the flux is dominated by large scales is a well-accepted idea in turbulence, based on mixing-length ideas, and also on the shape of the spectrum.
+\i This is a good point about the circular logic. In fact, the fact that the flux is dominated by large scales is a well-accepted idea in turbulence, based on mixing-length ideas, and also on the shape of the spectrum. Larichev and Held (1995) is a good citation for this.
 \i0 \
 \
 \
@@ -113,16 +113,16 @@ LINE 238: conclusion\
 LINE 302: capitalize CCSM in reference\
 FIG 1: The figure captions use km, m and days, s. \'a0Do you want to pick one? \'a0Units of temperature are Kelvin which is sensible, but still possibly confusing. \'a0I'd mention it somewhere in the text. \'a0For middle panel, x-axis is period, not frequency.\
 
-\i I agree that the units were confusing. So bad that I actually confused myself! I have fixed part of problem (the axes), but have not touched the color scale units. I feel that those units are pretty arbitrary.
+\i I agree that the units were confusing. So bad that I actually confused myself! I have fixed part of problem (the axes), but have not touched the color scale units. I feel that those units are pretty arbitrary. Plus it is a pain! ;)
 \i0 \
 \
 For the colormaps, you are plotting the log of the spectrum, and the colorbar is in log(spectrum units). \'a0I think a nicer way to do it is to plot the quantity itself, but with a logarithmically scaled colorbar. \'a0For example\
 	im = plt.imshow(spectrum, extent=[k[0], k[-1], w[0], w[-1]], cmap=cm.Spectral_r, norm=mpl.colors.LogNorm())\
 	cbar = plt.colorbar(im, format=mpl.ticker.LogFormatterMathtext())\
 
-\i TRY THIS
+\i Nice idea, but I didn\'92t do it.\
+
 \i0 \
-\
 To make this look right with latex fonts and all, I had to add a bit of code before the figures:\
 	from matplotlib import colors, ticker, cm, rc \
 	# control fonts \
@@ -139,10 +139,12 @@ To make this look right with latex fonts and all, I had to add a bit of code bef
 \i0 \
 \
 FIG 7: Caption doesn't mention bottom panel or define \\gamma. \'a0In the middle panel (spectral width), all three quantities have a larger bandwidth in POP than in the satellite observations. \'a0This is worrying. \'a0Earlier, you suggest that the eddy heat transport is dominated by the large eddies. \'a0But here it looks like POP has heat transport at smaller mean scales (top panel red lines differ by about a factor of 2 at 30S) and spread over a wider wavenumber range (middle panel red lines differ by about a factor of 3 at 30S). \'a0More broadly, I think the paper could make better use of the POP results. How can POP be used to reinforce the satellite results? \'a0More on this below.\
-FIG 8: lower panel label y-axis "spectral width (m s^-1)". \'a0\
 
-\i All fixed / changed
+\i This whole section is changed, with more nuanced discussion.\
+
 \i0 \
+FIG 8: lower panel label y-axis "spectral width (m s^-1)". \'a0\
+\
 \
 Originally, I wanted to work on improving the spectral analysis, but I think it would realistically take more than a week, and doubt it would change the results drastically. \'a0If you were looking for narrow spectral peaks, the details would matter a lot. \'a0\
 \

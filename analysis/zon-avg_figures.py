@@ -139,7 +139,7 @@ plot( lat, M2['SAT']['V']['k']**0.5 / (2*pi) * 1e6, 'b-',
       lat, M2['POP']['T']['k']**0.5 / (2*pi) * 1e6, 'g--',
       lat, M2['POP']['VT']['k']**0.5 / (2*pi) * 1e6, 'r--', )
 #xlabel('latitude')
-ylabel(r'width (cycles / 1000 km)')
+ylabel(r'spectral width (cycles / 1000 km)')
 xlim([-60,50])
 #ylim([0,1000])
 title(r'$\sqrt{M_2^k} / 2 \pi$')
@@ -190,7 +190,7 @@ plot( lat, M2['SAT']['V']['c']**0.5, 'b-',
       lat, M2['POP']['T']['c']**0.5, 'g--',
       lat, M2['POP']['VT']['c']**0.5, 'r--' )
 xlabel('latitude')
-ylabel(r'phase speed (m s$^{-1}$)')
+ylabel(r'spectral width (m s$^{-1}$)')
 xlim([-60,50])
 title(r'$\sqrt{M_2^c}$')
 grid()
