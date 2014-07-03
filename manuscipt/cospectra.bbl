@@ -1,4 +1,4 @@
-\begin{thebibliography}{52}
+\begin{thebibliography}{60}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
@@ -7,6 +7,10 @@
   \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
   \urlstyle{rm}\Url}\fi
 \providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem[{Abernathey and Cessi(2014)}]{AbernatheyCessi2014}
+Abernathey, R. and P.~Cessi, 2014: Topographic enhancement of eddy efficiency
+  in baroclinic equilibration. \textit{J. Phys. Oceanogr.}
 
 \bibitem[{Abernathey et~al.(2010)Abernathey, Marshall, Shuckburgh, and
   Mazloff}]{AbernatheyEtAl2010}
@@ -18,6 +22,12 @@ Abernathey, R., J.~Marshall, E.~Shuckburgh, and M.~Mazloff, 2010: Enhancement
 Abernathey, R. and J.~C. Marshall, 2013: Global surface eddy diffusivities
   derived from satellite altimetry. \textit{J. Geophys. Res.}, \textbf{118},
   901--916.
+
+\bibitem[{Arbic and Flierl(2004)}]{ArbicFlierl2004b}
+Arbic, B.~K. and G.~R. Flierl, 2004: Baroclinically unstable geostrophic
+  turbulence in the limits of strong and weak bottom ekman friction:
+  Application to midocean eddies. \textit{J. Phys. Oceanogr.}, \textbf{34},
+  2257--2274.
 
 \bibitem[{Bryan et~al.(2010)Bryan, Tomas, Dennis, Chelton, Loeb, and
   McClean}]{BryanEtAl2010}
@@ -93,6 +103,11 @@ Fu, Y. and L.~Fu, 2011: Global variability of the wavenumber spectrum of
   oceanic mesoscale turbulence. \textit{J. Phys. Oceanogr.}, \textbf{41},
   802--809.
 
+\bibitem[{Held and Larichev(1996)}]{HeldLarichev1996}
+Held, I.~M. and V.~D. Larichev, 1996: A scaling theory for horizontally
+  homogeneous, baroclinically unstable flow on a beta plane. \textit{J. Atmos.
+  Sci.}, \textbf{53~(7)}, 946--953.
+
 \bibitem[{Hill et~al.(2000)Hill, Robinson, and Cipollini}]{HillEtAl2000}
 Hill, K.~L., I.~S. Robinson, and P.~Cipollini, 2000: Propagation
   characteristics of extratropical planetary waves observed in the atsr global
@@ -151,11 +166,21 @@ Lagerloef, G., G.~Mitchum, R.~Lukas, and P.~Niiler, 1999: Tropical {P}acific
   near-surface currents estimated from altimeter, wind and drifter data.
   \textit{J. Geophys. Res.}, \textbf{104}, 313--23.
 
+\bibitem[{Larichev and Held(1995)}]{LarichevHeld1995}
+Larichev, V.~D. and I.~M. Held, 1995: Eddy amplitudes and fluxes in a
+  homogeneous model of fully developed baroclinic instability. \textit{J.
+  Atmos. Sci.}, \textbf{25}, 2285--2297.
+
 \bibitem[{Lee et~al.(2012)Lee, Lagerloef, Gierach, Kao, Yueh, and
   Dohan}]{LeeEtAl2012}
 Lee, T., G.~Lagerloef, M.~M. Gierach, H.-Y. Kao, S.~Yueh, and K.~Dohan, 2012:
   Aquarius reveals salinity struture of tropical instability waves.
   \textit{Geophys. Res. Lett.}, \textbf{39}, L12\,610.
+
+\bibitem[{Maltrud and Vallis(1991)}]{MaltrudVallis1991}
+Maltrud, M.~E. and G.~K. Vallis, 1991: Energy spectra and coherent structures
+  in forced two-dimensional and beta-plane turbulence. \textit{J. Fluid Mech.},
+  \textbf{228}, 321--342.
 
 \bibitem[{Marshall et~al.(2006)Marshall, Shuckburgh, Jones, and
   Hill}]{MarshallEtAl2006}
@@ -191,6 +216,11 @@ Polito, P.~S., J.~P. Ryand, W.~T. Liu, and F.~P. Chavez, 2001: Oceanic and
 Prandtl, L., 1925: Bericht untersuchungen zur ausgebildeten turbulenz.
   \textit{Zs. angew. Math. Mech.}, \textbf{5}, 136--139.
 
+\bibitem[{Qiu and Chen(2005)}]{QiuEtAl2005}
+Qiu, B. and S.~Chen, 2005: Eddy-induced heat transport in the subtropical
+  {North Pacific} from {Argo}, {TMI}, and altimetry measurements. \textit{J.
+  Phys. Oceanogr.}, \textbf{35}, 458--473.
+
 \bibitem[{Randel and Held(1991)}]{RandelHeld1991}
 Randel, W.~J. and I.~M. Held, 1991: Phase speed spectra of transient eddy
   fluxes and critical layer absorption. \textit{J. Atmos. Sci.}, \textbf{48},
@@ -211,6 +241,11 @@ Roemmich, D. and J.~Gilson, 2001: ddy transport of heat and thermocline waters
   in the {North Pacific}: a key to interannual/decadal climate variability?
   \textit{J. Phys. Oceanogr.}, \textbf{31}, 675--687.
 
+\bibitem[{Scott and Wang(2005)}]{ScottWang2005}
+Scott, R.~B. and F.~Wang, 2005: Direct evidence of an oceanic inverse kinetic
+  energy cascade from satellite altimetry. \textit{J. Phys. Oceanogr.},
+  \textbf{35}, 1650--1666.
+
 \bibitem[{Small et~al.(2008)}]{SmallEtAl2008}
 Small, R., et~al., 2008: Air--sea interaction over ocean fronts and eddies.
   \textit{Dynamics of Atmospheres and Oceans}, \textbf{45~(3)}, 274--319.
@@ -223,6 +258,11 @@ Smith, K.~S., 2007: The geography of linear baroclinic instability in the
 Smith, K.~S. and J.~Marshall, 2009: Evidence for enhanced eddy mixing at
   mid-depth in the {Southern Ocean}. \textit{J. Phys. Oceanogr.}, \textbf{39},
   50--69.
+
+\bibitem[{Stammer(1997)}]{Stammer1997}
+Stammer, D., 1997: Global characteristics of ocean variability estimated from
+  regional {TOPEX/ POSEIDON} altimeter measurements. \textit{J. Phys.
+  Oceanogr.}, \textbf{27}, 1743--1769.
 
 \bibitem[{Stammer(1998)}]{Stammer1998}
 Stammer, D., 1998: On eddy characteristics, eddy transports, and mean flow
