@@ -57,6 +57,19 @@ for n in range(Nt):
         power_spectrum[vname][n] = (
             bincount(Ridx, weights=real(Qf*conj(Qf)).ravel())[:-1] )
         
+idx_winter = mod(T-2,12)<1
+idx_summer = mod(T-8,12)<1
 
+for vname in varnames.keys():
+    power_spectrum[vname + '_winter'] = (
+        power_spectrum[vname][idx_winter].mean(axis=0))
+    power_spectrum[vname + '_summer'] = (
+        power_spectrum[vname][idx_summer].mean(axis=0))
+
+figure()
+loglog(K[1:], power_spectrum['V_summer'][1:] + power_spectrum['U_summer'][1:])
+loglog(K[1:], power_spectrum['V_winter'][1:] + power_spectrum['U_winter'][1:])
+loglog(K[10:130], 1e17*K[10:130]**-3, 'k-')
+loglog(K[10:130], 1e25*K[10:130]**-(5/3.), 'k--')
 
     
