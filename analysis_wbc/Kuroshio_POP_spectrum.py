@@ -56,7 +56,8 @@ for n in range(Nt):
         # isoptropic power spectrum
         power_spectrum[vname][n] = (
             bincount(Ridx, weights=real(Qf*conj(Qf)).ravel())[:-1] )
-        
+
+T = arange(Nt)/365.*12.        
 idx_winter = mod(T-2,12)<1
 idx_summer = mod(T-8,12)<1
 
@@ -67,9 +68,9 @@ for vname in varnames.keys():
         power_spectrum[vname][idx_summer].mean(axis=0))
 
 figure()
-loglog(K[1:], power_spectrum['V_summer'][1:] + power_spectrum['U_summer'][1:])
-loglog(K[1:], power_spectrum['V_winter'][1:] + power_spectrum['U_winter'][1:])
-loglog(K[10:130], 1e17*K[10:130]**-3, 'k-')
-loglog(K[10:130], 1e25*K[10:130]**-(5/3.), 'k--')
+loglog(K[1:]*1e3, power_spectrum['V_summer'][1:] + power_spectrum['U_summer'][1:])
+loglog(K[1:]*1e3, power_spectrum['V_winter'][1:] + power_spectrum['U_winter'][1:])
+#loglog(K[10:130], 1e17*K[10:130]**-3, 'k-')
+#loglog(K[10:130], 1e25*K[10:130]**-(5/3.), 'k--')
 
     
