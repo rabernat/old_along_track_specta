@@ -52,10 +52,13 @@ years = arange(46,51)
 nmonths = 12
 monthdays = [31,28,31,30,31,30,31,31,30,31,30,31]
 
-varnames = ['U', 'V', 'T', 'S', 'H']
-ncvnames = {'U':'U1_1', 'V':'V1_1', 'T':'SST', 'S':'SSS', 'H':'HMXL_2'}
-ncvscale = {'U':0.01, 'V':0.01, 'T':1., 'S':1000., 'H':0.01}
-nctgrid =  {'U': False, 'V': False, 'T': True, 'S':True, 'H':True }
+varnames = ['U', 'V', 'T', 'S', 'SSH', 'Hml']
+ncvnames = {'U':'U1_1', 'V':'V1_1', 'T':'SST',
+            'S':'SSS','SSH': 'SSH_2', 'Hml':'HMXL_2'}
+ncvscale = {'U':0.01, 'V':0.01, 'T':1.,
+            'S':1000., 'SSH': 0.01, 'Hml':0.01}
+nctgrid =  {'U': False, 'V': False, 'T': True,
+            'S':True, 'SSH': True, 'Hml':True }
 
 # set up output file for writing
 f = netcdf.netcdf_file(os.path.join(output_dir, 'Kuroshio_Ext.nc'), 'w', version=2)# mmap=False)

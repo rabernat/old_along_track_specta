@@ -73,4 +73,8 @@ loglog(K[1:]*1e3, power_spectrum['V_winter'][1:] + power_spectrum['U_winter'][1:
 #loglog(K[10:130], 1e17*K[10:130]**-3, 'k-')
 #loglog(K[10:130], 1e25*K[10:130]**-(5/3.), 'k--')
 
+figure()
+loglog(K[1:]*1e3, (K[1:]**-2)*(power_spectrum['V_summer'] + power_spectrum['U_summer'])[1:])
+loglog(K[1:]*1e3, (K[1:]**-2)*(power_spectrum['V_winter'] + power_spectrum['U_winter'])[1:])
+
     
