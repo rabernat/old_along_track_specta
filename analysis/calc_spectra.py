@@ -84,10 +84,12 @@ ktick = (1000. * lens.astype('f4') / 2 / pi)**-1
 
 rcParams['font.size'] = 8
 rcParams['legend.fontsize'] = 'small'
-rcParams['axes.formatter.limits'] = [-2, 2]
-def spectral_plot(SST,SSH_V):
-    fig=figure(figsize=(6.5,7.5))
+month = (24*60*60*30)
 
+def spectral_plot(SST,SSH_V):
+    
+    rcParams['axes.formatter.limits'] = [-2, 2]
+    fig=figure(figsize=(6.5,7.5))
     subplot(311)
     pcolormesh(SSH_V.om, SSH_V.k,
         log10(gaussian_filter(real(SSH_V.ft_data*conj(SSH_V.ft_data)),2).T),
@@ -127,6 +129,30 @@ def spectral_plot(SST,SSH_V):
     fig.tight_layout()
     
     savefig_dummy('../figures/SAT_%s/individual_spectra/SST_SSH_wavefreq_spectra_%g.pdf' % (secname, int(round(SST.lat))) )
+    
+    rcParams['axes.formatter.limits'] = [-5, 5]
+    fig = figure(figsize=(6.5,5.))
+    
+    subplot(121)
+    pcolormesh(s.lon, SSH_V.t/month, SSH_V.ts_data_filtered,
+            cmap='RdBu_r', rasterized=True)
+    clim([-0.5,0.5])
+    xlabel('lon'); ylabel('time (months)')
+    title('Meridional Velocity Anomaly')
+    colorbar(orientation='horizontal')
+    
+    subplot(122)
+    pcolormesh(s.lon, SST.t/month, SST.ts_data_filtered,
+        cmap='RdBu_r', rasterized=True)
+    clim([-3,3])
+    xlabel('lon'); ylabel('time (months)')
+    title('SST Anomaly')
+    colorbar(orientation='horizontal')
+    
+    fig.tight_layout()
+    savefig_dummy('../figures/SAT_%s/individual_spectra/SST_SSH_hov_%g.pdf' % (secname, int(round(SST.lat))) )
+    close('all')
+    
     
 plot_js = arange(39,s.Ny,40)
 #plot_js = array([])
