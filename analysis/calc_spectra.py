@@ -1,5 +1,5 @@
 from pylab import *
-import mycolors
+#import mycolors
 import sector_analyzer
 import os
 import h5py
@@ -89,7 +89,9 @@ def spectral_plot(SST,SSH_V):
     fig=figure(figsize=(6.5,7.5))
 
     subplot(311)
-    pcolormesh(SSH_V.om, SSH_V.k, log10(real(SSH_V.ft_data*conj(SSH_V.ft_data)).T), rasterized=True)
+    pcolormesh(SSH_V.om, SSH_V.k,
+        log10(gaussian_filter(real(SSH_V.ft_data*conj(SSH_V.ft_data)),2).T),
+        rasterized=True)
     clim([-9,-5])
     xticks(omtick,days)
     yticks(ktick,lens)
@@ -99,7 +101,9 @@ def spectral_plot(SST,SSH_V):
     colorbar()
     
     subplot(312)
-    pcolormesh(SST.om, SST.k, log10(real(SST.ft_data*conj(SST.ft_data)).T), rasterized=True)
+    pcolormesh(SST.om, SST.k,
+        log10(gaussian_filter(real(SST.ft_data*conj(SST.ft_data)),2).T),
+        rasterized=True)
     xticks(omtick,days)
     yticks(ktick,lens)
     ylim([0,6.5e-5]); xlim(array([-1,1])*5e-6)
@@ -109,19 +113,20 @@ def spectral_plot(SST,SSH_V):
     colorbar()
     
     subplot(313)
-    pcolormesh(SST.om, SST.k, real(SSH_V.ft_data*conj(SST.ft_data)).T, 
+    pcolormesh(SST.om, SST.k,
+        gaussian_filter(real(SSH_V.ft_data*conj(SST.ft_data)),2).T, 
         cmap=get_cmap('bwr'), rasterized=True)
     xticks(omtick,days)
     yticks(ktick,lens)
     ylim([0,6.5e-5]); xlim(array([-1,1])*5e-6)
-    clim(array([-1,1])*1e-5)
+    clim(array([-1,1])*2e-5)
     xlabel(r'$2 \pi / \omega$ (days)'); ylabel(r'$2 \pi / \kappa)$ (km)')
     title(r'Re$(V \Theta^\ast)$ (K m s$^{-1}$)')
     colorbar()
     
     fig.tight_layout()
     
-    savefig_dummy('../figures/SAT_%s/individual_spectra/SST_SST_wavefreq_spectra_%g.pdf' % (secname, int(round(SST.lat))) )
+    savefig_dummy('../figures/SAT_%s/individual_spectra/SST_SSH_wavefreq_spectra_%g.pdf' % (secname, int(round(SST.lat))) )
     
 plot_js = arange(39,s.Ny,40)
 #plot_js = array([])
@@ -184,58 +189,6 @@ for v in data.keys():
             pow_c=data[v]['pow_c'].filled(0.))
 np.savez('%s_zon-avg.npz' % prefix, lat=s.lat, **za_data)
     
-
-mask = (sstmask | sshmask)
-MHT = rho0*cp*s.L*interp(s.lat,mld_lat,mld) * ma.masked_array(
-            za_data['VpTp'], mask) 
-DY = (s.lat[1] - s.lat[0])*110e3
-# 2nd order centered difference
-MHT_smooth = MHT.filled(0.)
-MHT_smooth[mask] = interp(s.lat[mask],s.lat[~mask],MHT[~mask])
-MHT_smooth = gaussian_filter1d(MHT_smooth,1.5)
-heating_rate = -hstack([0, (MHT_smooth[2:] - MHT_smooth[:-2]), 0]) / s.L / (2*DY)
-
-Tbar = za_data['Tbar']
-dTbar_dy = hstack([0, Tbar[2:] - Tbar[:-2] ,0]) / (2*DY)
-K = ma.masked_array(-za_data['VpTp']/dTbar_dy, abs(dTbar_dy) < 1e-6)
-
- 
-close('all')
-
-# mht
-figure(figsize=(6.5,5.5))
-subplot(211)
-plot(s.lat, MHT,'k',linewidth=2)
-grid(); xlim([-60,50]); ylim(array([-1,1])*1.3e13)
-xlabel('lat'); ylabel(r'MHT (W)')
-title('Meridional Heat Transport')
-
-# heating
-subplot(212)
-plot(s.lat, ma.masked_array(heating_rate, mask), 'k', linewidth=2)
-grid(); xlim([-60,50]); ylim([-15,15])
-xlabel('lat'); ylabel(r'Q (W m$^{-2}$)')
-title('Heating Rate')
-tight_layout()
-
-savefig_dummy('../figures/%s/MHT_and_heating.pdf' % secname)
-
-figure(figsize=(6.5,2.25))
-plot(s.lat, K,'k',linewidth=2)
-grid(); xlim([-60,50]); ylim(array([0,5000]))
-xlabel('lat'); ylabel(r'K (m$^2$ s$^{-1}$)')
-title('Meridional Eddy Diffusivity')
-tight_layout()
-savefig_dummy('../figures/%s/diffusivity.pdf' % secname)
-
-
-# output Tbar for advection/diffusion calc
-Tbar_fine = tile( interp(arange(-80,80,0.1)+0.5, s.lat, za_data['Tbar'])[:,newaxis],[1,500] )
-#Tbar_fine.astype(dtype('>f4')).tofile('../data/PACE_SST.bin')
-dTdy = (za_data['Tbar'][2:]-za_data['Tbar'][:-2]) / (2*DY)
-
-alpha_c = - data['VT']['pow_c']/(data['V']['pow_c']**0.5 * data['T']['pow_c']**0.5)
-
 
 
 
