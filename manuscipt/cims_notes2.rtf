@@ -1,6 +1,6 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf400
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf200
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\froman\fcharset0 Times-Roman;}
-{\colortbl;\red255\green255\blue255;}
+{\colortbl;\red255\green255\blue255;\red255\green39\blue18;}
 {\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat323\levelspace360\levelindent0{\*\levelmarker \{none\}.}{\leveltext\leveltemplateid1\'01.;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
 {\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \margl1440\margr1440\vieww21500\viewh11320\viewkind0
@@ -20,50 +20,121 @@ In the version I read before, section 4 defined the spectral moments, then said 
 \
 LINE 12: "Because of their RELATIVELY small spatial scales\'85" or "Because of their small spatial scale relative to the atmosphere\'85" Calling ocean eddy heat flux scales "small" here might appear to contradict statements later.  Just make it relative.\
 \
+\cf2 Ok\cf0 \
+\
 LINE 35: 
 \i\fs30 What other papers though? \
 
 \i0\fs28 I would add Hughes and Williams (JGR 2010) and Richman, Wunsch, and Hogg (Reviews of Geophysics and Space Physics 1977) and possibly Stammer (JPO 1997).  There are others, but this set reasonably represents the history (RWH1977 summarize broadband nature of mesoscale variability from MODE), early satellite observations (Stammer1997), and more recent synthesis attempts (HW2010 and WW2014).  Let me know if you can't find the Richman et al. paper easily and I'll send a copy.\
 \
+\cf2 Ok\cf0 \
+\
 LINE 63: "\'85 it allows us TO probe\'85"\
+\
+\cf2 Ok\cf0 \
 \
 LINE 94-110: 
 \fs30 I think the discussion of the resolved scales is much improved.  \
 \
+
+\fs28 \cf2 Good!
+\fs30 \cf0 \
+\
 LINE 95: "\'85smoothing applied during the grid ding procedure\'85" No "is"\
+\
+
+\fs28 \cf2 Ok
+\fs30 \cf0 \
 \
 LINE 99: Xu and Fu (2011, 2012) (not Fu and Fu) estimated spectral slopes from along-track altimetry and don't mention the gridded product, so probably not the best reference here.  Their problem was with noise (and how to remove it), not with the AVISO filtering.  Given that the impact of AVISO on small scales is established, I don't think you need a citation to say that mesoscale spectral slopes from AVISO won't be accurate.  If you do, Chelton (2011) Fig. A3 shows it.\
 \
+
+\fs28 \cf2 Ok
+\fs30 \cf0 \
+\
 LINE 104: "\'85 could potentially be explored by using along-track satellite or in situ data, but we do not take that route here."\
 \
+
+\fs28 \cf2 Ok
+\fs30 \cf0 \
+\
 LINE 109: AVISO all caps.\
+\
+
+\fs28 \cf2 Ok
+\fs30 \cf0 \
 \
 LINE 119: I wouldn't worry about it now, but did you compare subsampling vs. 7-day averages for the SST data?  The AVISO product is more appropriately thought of as a 7-day average than a snapshot every 7th day.  Also, AVISO all caps.\
 \
 EQ 10: Should be M_1^k\
 \
+
+\fs28 \cf2 Ok
+\fs30 \cf0 \
+\
 LINE 256: for the mask, I think the numerator should be the absolute value.  That is, abs(int(cross-spectrum)) / int(abs(cross-spectrum))<0.9.  That's done in zon-avg_figures.py line 61.\
+\
+
+\fs28 \cf2 Ok
+\fs30 \cf0 \
 \
 LINE 263-264: Rewrite first sentence.  "At all latitudes, the peak of the eddy heat flux V\\Theta(k) is at wavelengths of 250km or greater (Fig. 8)."\
 \
+
+\fs28 \cf2 Ok, but I say \'93first moment\'94 instead of peak. They are not the same thing.
+\fs30 \cf0 \
+\
 LINE 273-274: Is this last sentence (conclusions at odds with Killworth et al. 2004) necessary?  By my reading, the Killworth et al. paper argued that horizontal advection dominated the chlorophyl signal, relative to vertical pumping of chlorophyl or nutrients.  It wasn't really about long linear Rossby waves vs mesoscale eddies.  Sure, eddies are more likely to produce strong upwelling, but they can still produce horizontal advection.  Seems like you're drawing an unnecessary (or non-existent) distinction.\
+\
+
+\fs28 \cf2 Agreed
+\fs30 \cf0 \
 \
 LINE 278: cite Xu and Fu (2012) instead of 2011.  I think the 2011 paper was a mistake and should be ignored.  2012 is essentially a correction.  Also, note name in bibliography.\
 \
+
+\fs28 \cf2 Ok
+\fs30 \cf0 \
+\
 LINE 285: "\'85the magnitude of the shift is much SMALLER\'85"\
+\
+
+\fs28 \cf2 Ok
+\fs30 \cf0 \
 \
 LINE 286-288: rewrite last sentence.  "This indicates that the first moment of V\\Theta(k) is primarily determined by the mesoscale peak in V^2(k), and only weakly affected by higher wavenumbers where the energy typically falls off as a power law in k."\
 \
+
+\fs28 \cf2 Ok
+\fs30 \cf0 \
+\
 LINE 289-290: rewrite second sentence.  "In general, the first moments of the eddy heat transport M_1^c(V\\Theta) tracks M_c^c(V^2) in both the model and data, especially poleward of about 10deg latitude."\
+
+\fs28 \cf2 \
+Ok
+\fs30 \cf0 \
 \
 LINE 292: Saying c_R~c_eddy here is a bit of a stretch.  Saying c_R=c_eddy at 10deg implies huge error bars and makes everything else meaningless.  Either limit the statement about c_R to 20deg or take it out.  \
 \
+
+\fs28 \cf2 Ok, made it more restrictive
+\fs30 \cf0 \
+\
 LINE 295: "Nevertheless, the heat flux and energy spectral moments are consistent with tropical instability waves, which propagate at speeds of 0.3-0.4 m s^-1 (see also citations)."\
+
+\fs28 \cf2 Ok
+\fs30 \cf0 \
 \
 LINE 299: Keep "second moment" phrase together and remove "it is clear".  "In the phase speed second moments, the temperature variance\'85" \
+
+\fs28 \cf2 Ok
+\fs30 \cf0 \
 \
 LINE 307: "\'85higher in THE model THAN IN data."  "In contrast TO the wavenumber spectra\'85"\
- \
+
+\fs28 \cf2 Ok\
+
+\fs30 \cf0 \
 FIGURES: The dashed line samples in the legend only shows one dash\'85 makes it hard to tell solid from dashed.  You can change the length of the sample line with this code:\
 \pard\pardeftab720
 
