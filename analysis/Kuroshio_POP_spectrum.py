@@ -50,7 +50,7 @@ for n in range(Nt):
         Q = nc.variables[ncvname][n].copy() / (dk*dl)
         # remove mean and window
         Q -= Q.mean()
-        Q += window
+        Q *= window
         # fourier transform
         Qf = fftshift(fft2(Q))
         # isoptropic power spectrum
